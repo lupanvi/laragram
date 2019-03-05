@@ -1,0 +1,140 @@
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+html, body {
+    background-color: #fafafa;
+    color: #636b6f;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 200;
+    height: 100vh;
+    margin: 0;    
+}
+
+.navbar-brand{
+    font-size:1.7rem;
+}
+
+
+.form-control{
+
+    background-color: #fafafa;
+    font-size:0.8rem;
+}
+
+.img-fluid{
+    width: 100%;
+}
+
+.post{
+
+    background-color: #fff;
+    margin-bottom:2rem;
+
+    .username, .likes{
+        font-weight: bold;
+    }
+
+    .avatar{
+        width:35px;
+        height: 35px;             
+        
+    }
+
+    .social i{
+        font-size: 20px;                        
+        
+    }    
+    
+}
+
+.comment {
+    .user{
+        font-weight: bold;
+    }
+}
+
+footer{
+
+    background-color: #fff;    
+
+    .fa-plus-square, .fa-home{
+        font-size:2rem;
+        cursor: pointer;
+    }
+
+    input{        
+        display: none;        
+    }
+
+    .home a{
+        color:#636b6f;
+    }
+}
+
+.fixed-bottom{
+    z-index:800;
+}
+
+.upload-modal{
+
+    .header a{
+    
+        font-weight: bold;
+        padding:10px;
+        font-size:1.1rem;
+
+    }
+
+    .main-image{                    
+          background-position: center center;
+          background-size: cover;
+          background-repeat: no-repeat;
+          height: 340px;
+    }
+
+    .filters{
+
+        overflow-x: auto;  
+        height: 210px;
+        padding: 30px 10px;
+        white-space: nowrap;      
+
+        .filter{
+
+              width: 100px;
+              display: inline-block;
+              margin: 0 3px;
+         
+              .image {
+                cursor: pointer;
+                width: 100px;
+                height: 100px;
+                background-size: cover;
+                background-position: center center;
+              }
+        }
+
+        h3{
+            font-size: 1rem;
+            text-align: center;
+        }
+
+    }
+
+    .description-container{        
+
+        height: 210px;        
+
+        textarea{
+            height: 120px;
+        }
+    }
+
+}
