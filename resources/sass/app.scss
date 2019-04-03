@@ -138,3 +138,33 @@ footer{
     }
 
 }
+
+.special-label-holder{
+
+    position: relative;
+
+    input{
+        padding: 1.375rem 0.75rem 0.75rem 0.75rem;
+    }
+
+    label, input:placeholder-shown ~ label{
+        color: #999;
+        font-size: 12px;
+        height: 36px;
+        left: 12px;
+        line-height: 36px;
+        overflow: hidden;
+        pointer-events: none;
+        position: absolute;        
+        top: 0;        
+        transition: 0.2s ease all; 
+        -moz-transition: 0.2s ease all; 
+        -webkit-transition: 0.2s ease all;
+    }
+
+
+    input:focus ~ label, input:not(:placeholder-shown) ~ label     {       
+       top: -10px;
+       font-size: 10px;
+    }
+}

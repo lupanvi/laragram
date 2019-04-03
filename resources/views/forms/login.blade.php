@@ -1,7 +1,7 @@
 
 <div class="login">
     <div class="row">
-        <div class="offset-md-4 col-md-4 border text-center p-5 bg-white">            
+        <div class="offset-md-4 col-md-4 border p-5 bg-white">            
 
             <h1 class="">Laragram</h1>
                 
@@ -12,13 +12,18 @@
                 <div class="form-group row">                    
 
                     <div class="col-md-12">
-                        <input 
-                            placeholder="Email" 
-                            id="email" 
-                            type="email" 
-                            class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" 
-                            name="email" 
-                            value="{{ old('email') }}" required autofocus>
+                        <div class="special-label-holder">
+                            <input 
+                                placeholder=" " 
+                                id="email" 
+                                type="email" 
+                                class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" 
+                                name="email" 
+                                value="{{ old('email') }}" required>
+
+                                <label for="email">Email</label>
+
+                        </div>    
 
                         @if ($errors->has('email'))
                             <span class="invalid-feedback" role="alert">
@@ -31,13 +36,17 @@
                 <div class="form-group row">                    
 
                     <div class="col-md-12">
-                        <input 
-                            placeholder="Contraseña" 
-                            id="password" 
-                            type="password" 
-                            class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" 
-                            name="password" 
-                            required>
+                          <div class="special-label-holder">
+                            <input 
+                                placeholder=" " 
+                                id="password" 
+                                type="password" 
+                                class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" 
+                                name="password" 
+                                required>
+
+                            <label for="email">Contraseña</label>    
+                          </div>      
 
                         @if ($errors->has('password'))
                             <span class="invalid-feedback" role="alert">
