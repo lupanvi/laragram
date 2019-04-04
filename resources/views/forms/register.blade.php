@@ -1,5 +1,3 @@
-<register inline-template>
-
     <div class="register-holder">
 
         <div class="row">
@@ -136,4 +134,3 @@
         </div>
 
     </div>
-</register>
