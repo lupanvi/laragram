@@ -6,9 +6,9 @@
 
             <div class="{{ $clases }} bg-white border mt-2 pr-5 pl-5 pt-2 pb-0">
                 
-                <h1>Laragram</h1>
+                <h1 class="text-center">Laragram</h1>
 
-                <h3>Registrate para ver fotos y videos de tus amigos</h3>      
+                <h3 class="text-center">Registrate para ver fotos y videos de tus amigos</h3>      
                     
                 <form method="POST" action="{{ route('register') }}">
                     @csrf
@@ -107,7 +107,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 text-center">
                             <button type="submit" class="btn btn-primary">
                                 Registrarse
                             </button>
@@ -115,7 +115,7 @@
                     </div>
 
                      <div class="form-group row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 text-center">
                                 <p>
                                     Al registrarte, aceptas nuestras Condiciones, la Política de datos y la Política de cookies.
                                 </p>

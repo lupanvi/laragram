@@ -3,7 +3,7 @@
     <div class="row">
         <div class="offset-md-4 col-md-4 border p-5 bg-white">            
 
-            <h1 class="">Laragram</h1>
+            <h1 class="text-center">Laragram</h1>
                 
             <form method="POST" action="{{ route('login') }}">
 
@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <div class="col-md-6 offset-md-3">
+                    <div class="col-md-12 text-center">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
@@ -69,7 +69,7 @@
                 </div>
 
                 <div class="form-group row mt-0">
-                    <div class="col-md-12">
+                    <div class="col-md-12 text-center">
                         <button type="submit" class="btn btn-primary">
                             Entrar
                         </button>
