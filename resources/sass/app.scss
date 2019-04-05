@@ -147,7 +147,7 @@ footer{
         padding: 1.375rem 0.75rem 0.75rem 0.75rem;
     }
 
-    label, input:placeholder-shown ~ label{
+    label{
         color: #999;
         font-size: 12px;
         height: 36px;
@@ -162,8 +162,7 @@ footer{
         -webkit-transition: 0.2s ease all;
     }
 
-
-    input:focus ~ label, input:not(:placeholder-shown) ~ label     {       
+    input:focus ~ label, input:not(:placeholder-shown) ~ label {       
        top: -10px;
        font-size: 10px;
     }
