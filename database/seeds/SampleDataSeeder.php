@@ -15,13 +15,13 @@ class SampleDataSeeder extends Seeder
     {
          factory(User::class)->create(
                 [
-                    'name' => 'Luis',                    
-                    'email' => 'test@hotmail.com',
+                    'name' => 'Demo',                    
+                    'email' => 'demo@gmail.com',
                     'password' => bcrypt('123456')
                 ]
             );
 
-         factory(Post::class,10)->create();
+         factory(Post::class,5)->create();
 
     }
 }

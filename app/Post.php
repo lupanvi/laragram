@@ -16,7 +16,7 @@ class Post extends Model
     public function getImagePathAttribute($image)
     {        
 
-        return ($image ? asset('storage/'.$image) : asset('images/img_forest.jpg') );
+        return (strpos($image, 'picsum') ? $image : asset('storage/'.$image) );
     }
 
 }
