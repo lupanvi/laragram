@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="likes ml-2">
-                    <span>{{ likes }}</span> me gusta
+                    <span>{{ likes }}</span> likes
                 </div>
                 
                 <div class="d-flex ml-2">

@@ -9,14 +9,14 @@
 	                    <div class="header d-flex justify-content-between align-items-center">
 
 	                        <div>
-	                            <a href="#" @click.prevent="$modal.hide('upload-modal');">Cancelar</a>
+	                            <a href="#" @click.prevent="$modal.hide('upload-modal');">Cancel</a>
 	                        </div>
 	                        <div>
 	                            <h1>Laragram</h1>
 	                        </div>
 	                        <div>                            
-	                            <a href="#" v-if="step === 1" @click="step = 2 ">Siguiente</a>
-	                            <a href="#" v-if="step === 2" @click="share">Compartir</a>
+	                            <a href="#" v-if="step === 1" @click="step = 2 ">Next</a>
+	                            <a href="#" v-if="step === 2" @click="share">Share</a>
 	                        </div>
 
 	                    </div> 

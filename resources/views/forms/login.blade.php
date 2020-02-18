@@ -45,7 +45,7 @@
                                 name="password" 
                                 required>
 
-                            <label for="email">Contraseña</label>    
+                            <label for="email">Password</label>    
                           </div>      
 
                         @if ($errors->has('password'))
@@ -62,7 +62,7 @@
                             <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
                             <label class="form-check-label" for="remember">
-                                Recordarme
+                                Remember me
                             </label>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                 <div class="form-group row mt-0">
                     <div class="col-md-12 text-center">
                         <button type="submit" class="btn btn-primary">
-                            Entrar
+                            Log In
                         </button>
 
                   
@@ -86,7 +86,7 @@
    <div class="row mt-4">
     <div class="offset-md-4 col-md-4 bg-white border text-center">
         <p class="m-3">
-            ¿No tienes una cuenta? <a href="{{ route('register') }}">Registrate</a>
+            Don't have an account? <a href="{{ route('register') }}">Sign Up</a>
         </p>
     </div>
     </div>

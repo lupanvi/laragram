@@ -3,7 +3,7 @@
         <div v-for="post in posts" :key="post.id">
             <post :post="post"></post>
         </div>         
-        <div v-if="posts.length == 0">No hay publicaciones</div>        
+        <div v-if="posts.length == 0">There are no images</div>        
     </div>           
 </template>
 <script>

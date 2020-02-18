@@ -6,7 +6,8 @@
                 
                 <h1 class="text-center">Laragram</h1>
 
-                <h3 class="text-center">Registrate para ver fotos y videos de tus amigos</h3>      
+                <h3 class="text-center">Sign up to see photos and videos from your friends.
+</h3>      
                     
                 <form method="POST" action="{{ route('register') }}">
                     @csrf
@@ -26,7 +27,7 @@
                                     name="name" 
                                     value="{{ old('name') }}" required>
 
-                                 <label for="name">Nombre</label>     
+                                 <label for="name">Name</label>     
 
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback" role="alert">
@@ -76,7 +77,7 @@
                                     class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" 
                                     name="password" required >
 
-                                 <label for="password" >Contraseña</label>   
+                                 <label for="password" >Password</label>   
 
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback" role="alert">
@@ -99,7 +100,7 @@
                                     class="form-control" 
                                     name="password_confirmation" required>
 
-                                <label for="password-confirm" >Confirme contraseña</label>
+                                <label for="password-confirm" >Confirm password</label>
                             </div>        
                         </div>
                     </div>
@@ -107,7 +108,7 @@
                     <div class="form-group row">
                         <div class="col-md-12 text-center">
                             <button type="submit" class="btn btn-primary">
-                                Registrarse
+                                Register
                             </button>
                         </div>
                     </div>
@@ -115,7 +116,8 @@
                      <div class="form-group row">
                             <div class="col-md-12 text-center">
                                 <p>
-                                    Al registrarte, aceptas nuestras Condiciones, la Política de datos y la Política de cookies.
+                                    By signing up, you agree to our Terms , Data Policy and Cookies Policy.
+
                                 </p>
                             </div>
                         </div>
