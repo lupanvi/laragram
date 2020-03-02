@@ -1818,13 +1818,30 @@ __webpack_require__.r(__webpack_exports__);
   props: ['post'],
   data: function data() {
     return {
+      id: this.post.id,
       avatarPath: this.post.user.avatar_path,
       userName: this.post.user.name,
       imagePath: this.post.image_path,
-      likes: this.post.likes,
       description: this.post.description,
-      filter: this.post.filter
+      filter: this.post.filter,
+      liked: this.post.liked,
+      likes_count: this.post.likesCount
     };
+  },
+  methods: {
+    toggle: function toggle() {
+      this.liked ? this.dislike() : this.like();
+    },
+    like: function like() {
+      axios.post("/posts/".concat(this.id, "/likes"));
+      this.liked = true;
+      this.likes_count++;
+    },
+    dislike: function dislike() {
+      axios.post("/posts/".concat(this.id, "/dislike"));
+      this.liked = false;
+      this.likes_count--;
+    }
   }
 });
 
@@ -1865,6 +1882,7 @@ __webpack_require__.r(__webpack_exports__);
 
     axios.get('/posts').then(function (_ref) {
       var data = _ref.data;
+      console.log(data);
       _this.posts = data;
     });
     _event_bus_js__WEBPACK_IMPORTED_MODULE_1__["default"].$on('addNewPost', function (evt) {
@@ -37126,11 +37144,17 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _vm._m(0),
+    _c("div", { staticClass: "social m-2" }, [
+      _c("i", {
+        staticClass: "fas fa-heart",
+        class: _vm.liked ? "liked" : "",
+        on: { click: _vm.toggle }
+      })
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "likes ml-2" }, [
-      _c("span", [_vm._v(_vm._s(_vm.likes))]),
-      _vm._v(" me gusta\n                ")
+      _c("span", { domProps: { textContent: _vm._s(_vm.likes_count) } }),
+      _vm._v(" likes\n                ")
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "d-flex ml-2" }, [
@@ -37148,16 +37172,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "social m-2" }, [
-      _c("i", { staticClass: "far fa-heart" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -37193,7 +37208,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _vm.posts.length == 0
-        ? _c("div", [_vm._v("No hay publicaciones")])
+        ? _c("div", [_vm._v("There are no images")])
         : _vm._e()
     ],
     2
@@ -37299,7 +37314,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("Cancelar")]
+                        [_vm._v("Cancel")]
                       )
                     ]),
                     _vm._v(" "),
@@ -37317,7 +37332,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("Siguiente")]
+                            [_vm._v("Next")]
                           )
                         : _vm._e(),
                       _vm._v(" "),
@@ -37325,7 +37340,7 @@ var render = function() {
                         ? _c(
                             "a",
                             { attrs: { href: "#" }, on: { click: _vm.share } },
-                            [_vm._v("Compartir")]
+                            [_vm._v("Share")]
                           )
                         : _vm._e()
                     ])

@@ -35,4 +35,12 @@ class PostsController extends Controller
 
         return $post;
     }
+
+    public function like(Post $post){
+        $post->like();
+    }
+
+    public function dislike(Post $post){
+        $post->dislike();
+    }
 }

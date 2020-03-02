@@ -24,6 +24,7 @@ export default {
     created(){
         
         axios.get('/posts').then(({data})=>{
+            console.log(data);
             this.posts = data;            
         });
 

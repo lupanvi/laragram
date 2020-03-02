@@ -37,7 +37,6 @@ $factory->define(App\Post::class, function (Faker $faker) {
     	}, 
         'image_path' => $faker->picsumUrl(),    
         'filter' => $filters[$filter_key],
-        'description' => $faker->paragraph,
-        'likes' => 10
+        'description' => $faker->paragraph        
     ];
 });

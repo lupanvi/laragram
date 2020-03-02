@@ -48,7 +48,8 @@ html, body {
     }
 
     .social i{
-        font-size: 20px;                        
+        font-size: 20px; 
+        cursor: pointer;                       
         
     }    
     
@@ -166,4 +167,8 @@ footer{
        top: -10px;
        font-size: 10px;
     }
+}
+
+.liked{
+    color: red;
 }

@@ -16,5 +16,8 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@home');
-Route::get('posts','PostsController@index');
-Route::post('posts','PostsController@store');
+Route::get('/posts','PostsController@index');
+Route::post('/posts','PostsController@store');
+Route::post('/posts/{post}/likes','PostsController@like');
+Route::post('/posts/{post}/dislike','PostsController@dislike');
+
