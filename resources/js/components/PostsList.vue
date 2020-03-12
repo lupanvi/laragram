@@ -29,8 +29,12 @@ export default {
             this.posts.unshift(evt.newPost);
         });
 
-        EventBus.$on('refresh', evt => {            
-            this.getPosts();
+        EventBus.$on('removePost', evt => {            
+            this.posts.splice(evt.id, 1);            
+        });
+
+        EventBus.$on('refresh', evt => {
+            this.getPosts();            
         });
 
     },

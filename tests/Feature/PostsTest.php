@@ -11,20 +11,16 @@ use App\Post;
 
 class PostsTest extends TestCase
 {
-	use RefreshDatabase;
-
- 
-
+	use RefreshDatabase; 
+   
     /** @test */
-    function a_post_requires_a_valid_image(){
 
-        $this->signIn();
+    function guests_may_not_create_posts()
+    {     
 
-        $this->json('POST', '/posts' , [
-            'image_path' => 'not-an-image'
-        ])->assertStatus(422);
+        $this->post('/posts')->assertStatus(302)->assertRedirect('/login');
+    } 
 
-    }
 
     /** @test */
     function a_user_can_create_a_post()
@@ -48,6 +44,17 @@ class PostsTest extends TestCase
 
     }
 
+     /** @test */
+    function a_post_requires_a_valid_image(){
+
+        $this->signIn();
+
+        $this->json('POST', '/posts' , [
+            'image_path' => 'not-an-image'
+        ])->assertStatus(422);
+
+    }
+
     /** @test */
     function a_user_can_edit_a_post(){
 
@@ -59,4 +66,46 @@ class PostsTest extends TestCase
         $this->assertDatabaseHas('posts', $attributes);
 
     }
+
+    /** @test */
+    function a_user_can_not_edit_others_posts(){
+
+        $user = $this->signIn();
+        $post = factory(Post::class)->create();
+
+        $this->patchJson($post->path(), $attributes = ['description'=>'edited'] )
+             ->assertStatus(403);        
+
+        $this->assertDatabaseMissing('posts', $attributes);
+
+    }
+
+    /** @test */
+    function unauthorized_users_may_not_delete_posts(){        
+
+        $post = factory(Post::class)->create();
+
+        $this->delete($post->path())->assertRedirect('/login');
+
+        $this->signIn();
+        $this->delete($post->path())->assertStatus(403);
+
+    }
+
+    /** @test */
+    function a_user_can_delete_their_own_post(){
+
+        $this->signIn();
+        $post = factory(Post::class)->create(['user_id'=>auth()->id()]);        
+
+        $response = $this->deleteJson($post->path());
+
+        $response->assertStatus(204);
+
+        $this->assertDatabaseMissing('posts', ['id' => $post->id]);        
+        $this->assertEquals(0, Post::count());
+
+    }
+
+
 }

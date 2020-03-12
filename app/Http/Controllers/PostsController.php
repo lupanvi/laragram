@@ -2,12 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Post;
+use Illuminate\Support\Facades\Storage;
 
 class PostsController extends Controller
 {
-    
+
+    /**
+     * Create a new PostsController instance.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *     
+     * @return mixed
+     */    
     public function index(){
     	
     	if (request()->expectsJson()) {            
@@ -16,6 +31,11 @@ class PostsController extends Controller
 
     }
 
+    /**
+    * Store a newly created resource in storage.
+    *     
+    * @return mixed
+    */
     public function store(){
 
     	request()->validate([
@@ -36,10 +56,38 @@ class PostsController extends Controller
         return $post;
     }
 
+    /**
+    * Update the given post.
+    *     
+    * @param Post $post
+    */
     public function update(Post $post){
 
-        $post->update(['description' => request('description')]);
+        $this->authorize('update', $post);
 
+        $post->update(['description' => request('description')]);        
+
+    }
+
+    /**
+    * Delete the given post.
+    *     
+    * @param Post $post
+    */
+    public function destroy(Post $post){
+
+        $this->authorize('update', $post);                
+
+        if ( Storage::disk('public')->exists($post->getOriginal('image_path')) ){
+
+            Storage::disk('public')->delete($post->getOriginal('image_path'));
+
+        }
+
+        $post->delete();
+        
+        return response([], 204);        
+        
     }
     
 }

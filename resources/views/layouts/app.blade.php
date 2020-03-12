@@ -113,7 +113,8 @@ navigation') }}">
             </footer>        
         
         <upload-modal></upload-modal>                           
-        <edit-modal></edit-modal>                           
+        <edit-modal></edit-modal>
+        <more-options-modal></more-options-modal>
 
 </div>
         

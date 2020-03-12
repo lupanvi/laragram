@@ -9,6 +9,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class LikesTest extends TestCase
 {
 	use RefreshDatabase;
+
+    /** @test */
+    function guests_may_not_likes_posts()
+    {     
+
+        $this->post('/posts/1/likes')->assertStatus(302)->assertRedirect('/login');
+    }
 	
     /** @test */
     function a_user_can_like_a_post()

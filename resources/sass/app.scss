@@ -164,11 +164,37 @@ footer{
     }
 
     input:focus ~ label, input:not(:placeholder-shown) ~ label {       
-       top: -10px;
+          top: -10px;
        font-size: 10px;
     }
 }
 
 .liked{
     color: red;
+}
+
+.more-options-modal{
+
+    button{
+        font-weight: bold;
+        padding: 4px 8px;
+        border-bottom: 0;
+        border-left: 0;
+        border-right: 0;
+        border-top: 1px solid #dbdbdb;  
+        min-height: 48px;
+        vertical-align: middle;   
+        background-color: transparent;   
+    }
+
+    button:first-child{
+        border-bottom: 1px solid #dbdbdb;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+    button:last-of-type {
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
 }

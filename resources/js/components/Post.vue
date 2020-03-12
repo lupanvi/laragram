@@ -101,8 +101,8 @@
                 this.likes_count--;                
             },
 
-            moreOptions(){
-                this.$modal.show('edit-modal', {post: this.post});                
+            moreOptions(){             
+                this.$modal.show('more-options-modal', {post: this.post});                
             }
         }
 	}

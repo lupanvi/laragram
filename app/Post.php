@@ -3,13 +3,19 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Gate;
 
 class Post extends Model
 {
 	 
     protected $guarded = [];    
     
-    protected $appends = ['liked', 'likesCount'];
+    protected $appends = ['liked', 'likesCount', 'can_update'];    
+
+    public function getCanUpdateAttribute()
+    {
+        return Gate::allows('update', $this);        
+    }
 
     public function user(){
     	return $this->belongsTo(User::class, 'user_id');

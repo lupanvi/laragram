@@ -59,13 +59,11 @@
 
 			edit(){	                          
 
-				axios.patch('/posts/'+this.post.id, {'description':this.post.description}).then(()=>{					
-					
-					EventBus.$emit('refresh');		
-					
-					this.$modal.hide('edit-modal',{description: this.post.description});
-
+				axios.patch('/posts/'+this.post.id, {'description':this.post.description}).then(()=>{										
+					EventBus.$emit('refresh');											
 				});				
+
+                this.$modal.hide('edit-modal',{description: this.post.description});
 				
 			}
 
