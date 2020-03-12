@@ -1,6 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
+use Illuminate\Http\UploadedFile;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,7 @@ $factory->define(App\User::class, function (Faker $faker) {
 $factory->define(App\Post::class, function (Faker $faker) {
     
     $faker->addProvider(new \Mmo\Faker\PicsumProvider($faker)); 
+
     $filters = array('normal', 'clarendon','gingham', 'moon', 'lark', 'reyes', 'juno', 'slumber', 'aden', 'perpetua','mayfair', 'rise', 'hudson','valencia','xpro2','willow', 'lofi', 'inkwell', 'nashville' );
     $filter_key = array_rand($filters);
     

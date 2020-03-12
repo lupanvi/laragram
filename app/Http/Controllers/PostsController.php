@@ -20,7 +20,8 @@ class PostsController extends Controller
 
     	request()->validate([
             'image_path' => ['required', 'image']            
-        ]);        
+        ]); 
+
         //se usa load() en vez de with() porque ya se ejecuto get() o all() con el create()
         //with se usa antes del get(), all()
         //los dos cumplen la misma funcion solo que load() ejecuta despues
@@ -28,19 +29,17 @@ class PostsController extends Controller
             'user_id' => auth()->id(),
             'image_path' => request()->file('image_path')->store('posts', 'public'),  
             'description' => request('description'),
-            'filter' => request('filter'),
-            'likes' => 0
+            'filter' => request('filter')            
 
         ])->load('user');    
 
         return $post;
     }
 
-    public function like(Post $post){
-        $post->like();
-    }
+    public function update(Post $post){
 
-    public function dislike(Post $post){
-        $post->dislike();
+        $post->update(['description' => request('description')]);
+
     }
+    
 }

@@ -1,57 +1,64 @@
 <template>
 
-	<div class="post">                                        
+	<div class="post">                                                 
             
-              <div class="header_post d-flex align-items-center">
-                    <div class="m-2 avatar">                        
-                        
+              <div class="header_post d-flex align-items-center justify-content-between">
+
+                    <div class="d-flex align-items-center ">
+                        <div class="m-2 avatar">     
                             <img 
-                        	   :src="avatarPath"
-                        	   class="img-fluid rounded-circle" 
-                            />                        
+                            	   :src="avatarPath"
+                            	   class="img-fluid rounded-circle" 
+                                />                                                
+                        </div>
                         
-                    </div>
+                        <div class="username">
+                            {{ userName }}
+                        </div>
+                    </div>                    
                     
-                    <div class="username">
-                        {{ userName }}
-                    </div>
-                        
-                    
+                    <button type="button" class="more_options mr-2" @click.prevent="moreOptions">...</button>                                                                                        
                 </div>                        
+
                 <div class="image">
 
                     <figure :class="filter">
                         <img :src="imagePath" class="img-fluid" />
                     </figure>
 
-                </div>                       
-
-                <div class="social m-2">                
-                    <i class="fas fa-heart" :class="liked ? 'liked' : ''" @click="toggle"></i>
-                </div>
-
-                <div class="likes ml-2">
-                    <span v-text="likes_count"></span> likes
-                </div>
+                    <div class="info">
                 
-                <div class="d-flex ml-2">
-                    <div class="username pr-1">                            
-                        {{ userName }}
+                        <div class="social m-2">                
+                            <i class="fas fa-heart" :class="liked ? 'liked' : ''" @click="toggle"></i>
+                        </div>
+
+                        <div class="likes ml-2">
+                            <span v-text="likes_count"></span> likes
+                        </div>
+                        
+                        <div class="d-flex ml-2">
+                            <div class="username pr-1">                            
+                                {{ userName }}
+                            </div>
+
+                            <div class="description">
+                                <p v-text="description"></p>
+                            </div>    
+                        </div>
                     </div>
 
-                    <div class="description">
-                        <p>{{ description }}</p>
-                    </div>    
-                </div>
-                
+                </div>                                            
 
 
             </div>
 	
 </template>
 <script>
+
+    import EventBus from '../event-bus.js';
+
 	export default{
-		props:['post'],
+		props:['post'],       
 
 		data(){
 			return {
@@ -62,9 +69,17 @@
                 description: this.post.description,
                 filter:this.post.filter,
                 liked: this.post.liked,
-                likes_count : this.post.likesCount
+                likes_count : this.post.likesCount                
 			};
-		},
+		}, 
+
+        watch:{
+
+            post(val){
+                this.description = val.description;
+            }
+
+        },      
        
 
         methods:{
@@ -84,6 +99,10 @@
                 axios.post(`/posts/${this.id}/dislike`);
                 this.liked = false;
                 this.likes_count--;                
+            },
+
+            moreOptions(){
+                this.$modal.show('edit-modal', {post: this.post});                
             }
         }
 	}

@@ -23,15 +23,25 @@ export default {
 
     created(){
         
-        axios.get('/posts').then(({data})=>{
-            console.log(data);
-            this.posts = data;            
-        });
+        this.getPosts();
 
         EventBus.$on('addNewPost', evt => {
             this.posts.unshift(evt.newPost);
         });
 
+        EventBus.$on('refresh', evt => {            
+            this.getPosts();
+        });
+
+    },
+
+    methods:{
+
+        getPosts(){
+            axios.get('/posts').then(({data})=>{            
+                this.posts = data;            
+            });
+        }
     }
 
 }

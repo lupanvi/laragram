@@ -84,7 +84,7 @@ navigation') }}">
 
             <main class="py-4">             
                 <div class="container">
-                    @yield('content')
+                    @yield('content')                     
                 </div>            
             </main>
 
@@ -113,6 +113,7 @@ navigation') }}">
             </footer>        
         
         <upload-modal></upload-modal>                           
+        <edit-modal></edit-modal>                           
 
 </div>
         
