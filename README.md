@@ -20,6 +20,7 @@
 git clone https://github.com/lupanvi/laragram.git
 cd laragram
 composer install && npm install
+php artisan key:generate
 php artisan migrate --seed
 npm run dev
 ```
