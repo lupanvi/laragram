@@ -1,6 +1,6 @@
 <template>
 	<div class="upload-modal">
-	    <modal name="upload-modal" :adaptive="true" width="100%" height="100%" @before-open="beforeOpen">          
+	            
 	        <div class="container">           
 
 	            <div class="row justify-content-center">
@@ -9,14 +9,14 @@
 	                    <div class="header d-flex justify-content-between align-items-center">
 
 	                        <div>
-	                            <a href="#" @click.prevent="$modal.hide('upload-modal');">Cancel</a>
+	                            <a href="#" @click.prevent="close">Cancel</a>
 	                        </div>
 	                        <div>
 	                            <h1>Laragram</h1>
 	                        </div>
 	                        <div>                            
-	                            <a href="#" v-if="step === 1" @click="step = 2 ">Next</a>
-	                            <a href="#" v-if="step === 2" @click="share">Share</a>
+	                            <a href="#" v-if="step === 1" @click.prevent="step = 2 ">Next</a>
+	                            <a href="#" v-if="step === 2" @click.prevent="share">Share</a>
 	                        </div>
 
 	                    </div> 
@@ -46,11 +46,13 @@
 	                        
 	                    </div>
 
+	                    <div class="mt-2" v-if="feedback">
+                        	<div class="text-danger text-center" v-text="feedback"></div>
+                    	</div>
+
 	                </div>
 	            </div>
-	        </div>
-
-	    </modal>
+	        </div>	   
 
 	</div>	
 </template>
@@ -59,7 +61,7 @@
 	import filters from "../filters";	
 	import EventBus from '../event-bus.js';
 
-	export default{		
+	export default{				
 
 		data(){
 			return {
@@ -68,24 +70,24 @@
 				selectedFilter: 'normal',				
 				description:'',
 				image:'',
-				imageFile:''				
+				imageFile:'',
+				feedback:''				
 			}
 		},
 
-		methods:{
+		created(){
 
-			beforeOpen(event){
+			EventBus.$on('loaded', evt => {				
+				this.image = evt.src;
+				this.imageFile = evt.file;	
+        	});		
+			this.reset();		
+		},
 
-				this.reset();
-				this.image = event.params.image;
-				this.imageFile = event.params.imageFile;				
-
-			},
+		methods:{			
 
 			selectFilter(filter_name){
-
-				this.selectedFilter = filter_name;	
-				
+				this.selectedFilter = filter_name;					
 			},		
 
 			reset(){
@@ -95,20 +97,25 @@
 				document.querySelector("#file").value = "";
 			},
 
+			close(){
+				this.image = this.imageFile = '';				
+				this.$router.push('/');
+			},
+
 			share(){
 
 				let data = new FormData();
 
                 data.append('image_path', this.imageFile);                
                 data.append('filter', this.selectedFilter);                
-                data.append('description', this.description);                              
-
-				axios.post('posts', data).then(({data})=>{					
-					
+                data.append('description', this.description);  
+                
+				axios.post('/posts', data).then(({data})=>{										
 					EventBus.$emit('addNewPost', { newPost : data } );		
-					this.reset();		
-					this.$modal.hide('upload-modal');
-
+					this.reset();	
+					this.close();						
+				}).catch( error =>{
+					this.feedback = error.response.data.message;
 				});				
 				
 			}

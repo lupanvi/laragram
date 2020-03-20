@@ -10,8 +10,15 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <script>
+        window.App = {!! json_encode([             
+            'signedIn' => Auth::check()
+        ]) !!};
+    </script>
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -25,7 +32,11 @@
 <body>
     <div id="app">
         <div class="container pb-2">
-            @yield('content')
+            <div class="row justify-content-center">
+                <div class="col-lg-8">                     
+                    <router-view></router-view>
+                </div>
+            </div>
         </div>
     </div>
 </body>

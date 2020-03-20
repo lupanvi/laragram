@@ -1,43 +1,53 @@
  <template>
    <div class="add_images">
+    <form method="POST" action="posts/create">
       <input 
+          accept="image/*"
           type="file"
           name="file"
           id="file" 
           @change="imageSelect"          
        />
-        <label for="file">
-          <i class="far fa-plus-square"></i>    
-        </label>
+      <label for="file">
+        <i class="far fa-plus-square"></i>    
+      </label>
+    </form>
   </div> 
 </template>
 <script>
 
+import EventBus from '../event-bus.js';
+
   export default{
     data(){
-      return {        
-        image: '',
-        imageFile: ''        
+      return {                
       };      
     },   
 
     methods:{     
 
-      imageSelect(e){               
+      imageSelect(e){
+
           const files = e.target.files || e.dataTransfer.files;
           if (!files.length) return;
-          this.imageFile = files[0];
-          this.createImage();          
+          
+          this.createImage(files[0]);                     
+
+          
       },    
 
-      createImage(){
+      createImage(file){
 
-          const reader = new FileReader();
-          reader.readAsDataURL(this.imageFile);
-          reader.onload = e => {       
-            this.image = e.target.result;            
-            this.$modal.show('upload-modal',{image:this.image, imageFile:this.imageFile});
+          let reader = new FileReader();
+          reader.readAsDataURL(file);
+
+          reader.onload = e => {
+              let src = e.target.result;
+              EventBus.$emit('loaded', { src, file });
           };                    
+        
+          this.$router.push({ name: 'posts.create' });
+
       }                 
 
     }

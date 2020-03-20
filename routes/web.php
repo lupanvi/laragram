@@ -14,8 +14,18 @@
 
 Auth::routes();
 
+//Route::get('/', 'HomeController@index');
+Route::get('/posts','PostsController@index');
+Route::post('/posts','PostsController@store');
+Route::patch('/posts/{post}','PostsController@update');
+Route::delete('/posts/{post}','PostsController@destroy');
+Route::post('/posts/{post}/likes','LikesController@store');
+Route::post('/posts/{post}/dislike','LikesController@destroy');
 
-Route::get('/', 'HomeController@index');
+Route::get('/{any}', 'HomeController@index')->where('any', '.*');
+
+
+/*Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@home');
 Route::get('/posts','PostsController@index');
 Route::post('/posts','PostsController@store');
@@ -23,5 +33,4 @@ Route::patch('/posts/{post}','PostsController@update');
 Route::delete('/posts/{post}','PostsController@destroy');
 
 Route::post('/posts/{post}/likes','LikesController@store');
-Route::post('/posts/{post}/dislike','LikesController@destroy');
-
+Route::post('/posts/{post}/dislike','LikesController@destroy');*/
