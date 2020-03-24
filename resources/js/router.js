@@ -23,14 +23,16 @@ const router = new VueRouter({
     	name: 'register' 
     },
     { 
-    	path: '/posts/{:id}/edit', 
+    	path: '/posts/edit', 
     	component: EditPost, 
-    	name: 'posts.edit' 
+    	name: 'posts.edit',
+      props: true 
     },
     { 
     	path: '/posts/create', 
     	component: NewPost, 
-    	name: 'posts.create'    	
+    	name: 'posts.create',
+      props: true
     }
   ]
 });

@@ -1,5 +1,5 @@
 <template>	
-    <modal class="edit-modal" name="edit-modal" :adaptive="true" width="100%" height="100%" @before-open="beforeOpen">
+    <div class="edit-post">
         <div class="container">           
 
             <div class="row justify-content-center">
@@ -7,7 +7,7 @@
 
                     <div class="header d-flex justify-content-between align-items-center">
                         <div>
-                            <a href="#" @click.prevent="$modal.hide('edit-modal');">X</a>
+                            <a href="#" @click.prevent="close">X</a>
                         </div>
                         <div>
                             <h1>Edit information</h1>
@@ -19,14 +19,14 @@
                     </div> 
 
                     <div class="main-image"
-                         :class="post.filter"
-                         :style="{ backgroundImage: 'url(' + post.image_path + ')' }">
+                         :class="editPost.filter"
+                         :style="{ backgroundImage: 'url(' + editPost.image_path + ')' }">
                          	
                     </div>                                               
 
                     <div class="description-container">
 
-                        <textarea v-model="post.description" class="form-control" placeholder="Escribe una descripcion">
+                        <textarea v-model="editPost.description" class="form-control" placeholder="Escribe una descripcion">
                             
                         </textarea>
                         
@@ -36,36 +36,40 @@
             </div>
         </div>
 
-    </modal>
+    </div>
 	
 </template>
 <script>
 	
 	import EventBus from '../event-bus.js';
 
-	export default{		
+	export default{	
+
+        props:['post'],	
 
 		data(){
 			return {
-				post: {}
+                editPost: this.post                
 			}
 		},
 
-		methods:{
-
-			beforeOpen(event){					
-				this.post = event.params.post;				
-			},           				
+		methods:{			
 
 			edit(){	                          
 
-				axios.patch('/posts/'+this.post.id, {'description':this.post.description}).then(()=>{										
-					EventBus.$emit('refresh');											
-				});				
-
-                this.$modal.hide('edit-modal',{description: this.post.description});
+				axios
+                    .patch('/posts/'+this.editPost.id, {'description':this.editPost.description})
+                    .then(()=>{	                    												   
+                       this.close();
+				    });				                
 				
-			}
+			},
+
+            close(){
+                this.editPost = {}                
+                //this.$router.push('/');
+                this.$router.go(-1);
+            }
 
 		}
 

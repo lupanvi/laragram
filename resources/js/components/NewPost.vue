@@ -1,5 +1,5 @@
 <template>
-	<div class="upload-modal">
+	<div class="new-post">
 	            
 	        <div class="container">           
 
@@ -23,7 +23,7 @@
 
 	                    <div class="main-image"
 	                         :class="selectedFilter"
-	                         :style="{ backgroundImage: 'url(' + image + ')' }"></div>    
+	                         :style="{ backgroundImage: 'url(' + imageSrc + ')' }"></div>    
 
 	                    <div class="filters d-flex" v-if="step === 1">
 
@@ -32,7 +32,7 @@
 	                            <div class="image" 
 	                                 :class="filter.name"                                
 	                                @click="selectFilter(filter.name)"
-	                                :style="{ backgroundImage: 'url(' + image + ')' }"
+	                                :style="{ backgroundImage: 'url(' + imageSrc + ')' }"
 	                                
 	                             ></div>                            
 	                        </div>
@@ -58,10 +58,12 @@
 </template>
 <script>
 
-	import filters from "../filters";	
-	import EventBus from '../event-bus.js';
+	import filters from "../filters";
+	import EventBus from '../event-bus.js';		
 
-	export default{				
+	export default{	
+
+		props:['image','imageFile'],
 
 		data(){
 			return {
@@ -69,18 +71,14 @@
 				filters,
 				selectedFilter: 'normal',				
 				description:'',
-				image:'',
-				imageFile:'',
+				imageSrc: this.image,
+				imageData: this.imageFile,
 				feedback:''				
 			}
 		},
 
 		created(){
-
-			EventBus.$on('loaded', evt => {				
-				this.image = evt.src;
-				this.imageFile = evt.file;	
-        	});		
+			
 			this.reset();		
 		},
 
@@ -98,7 +96,7 @@
 			},
 
 			close(){
-				this.image = this.imageFile = '';				
+				this.imageSrc = this.imageData = '';				
 				this.$router.push('/');
 			},
 
@@ -106,14 +104,16 @@
 
 				let data = new FormData();
 
-                data.append('image_path', this.imageFile);                
+                data.append('image_path', this.imageData);                
                 data.append('filter', this.selectedFilter);                
                 data.append('description', this.description);  
                 
-				axios.post('/posts', data).then(({data})=>{										
-					EventBus.$emit('addNewPost', { newPost : data } );		
+				axios.post('/posts', data).then( ({data}) => {					
+
+					//EventBus.$emit('addNewPost', { newPost : data } );		
 					this.reset();	
-					this.close();						
+					this.close();
+
 				}).catch( error =>{
 					this.feedback = error.response.data.message;
 				});				

@@ -37,8 +37,7 @@
 
 </head>
 <body>
-    <div id="app">        
-            
+    <div id="app">                    
         
             <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
                 <div class="container">
@@ -51,11 +50,7 @@ navigation') }}">
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <!-- Left Side Of Navbar -->
-                        <ul class="navbar-nav mr-auto">
-
-                        </ul>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">                   
 
                         <!-- Right Side Of Navbar -->
                         <ul class="navbar-nav ml-auto">
@@ -84,7 +79,7 @@ navigation') }}">
                 </div>
             </nav>
 
-            <main class="py-4">             
+            <main>             
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-8">    
@@ -116,14 +111,9 @@ navigation') }}">
 
                 </div>
                 
-            </footer>        
+            </footer>                        
         
-        
-        <edit-modal></edit-modal>
         <more-options-modal></more-options-modal>
-
-</div>
-        
-
+</div>        
 </body>
 </html>

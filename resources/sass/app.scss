@@ -42,7 +42,7 @@ html, body {
     }
 
     .avatar{
-        width:35px;
+        width: 35px;
         height: 35px;             
         
     }
@@ -83,7 +83,19 @@ footer{
     z-index:800;
 }
 
-.upload-modal, .edit-modal, .post{
+.post{
+
+}
+
+.new-post, .edit-post{
+
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background: #fafafa;
+    z-index: 999;
 
     .header a{
     

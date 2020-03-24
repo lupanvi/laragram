@@ -42,9 +42,6 @@ class PostsController extends Controller
             'image_path' => ['required', 'image']            
         ]); 
 
-        //se usa load() en vez de with() porque ya se ejecuto get() o all() con el create()
-        //with se usa antes del get(), all()
-        //los dos cumplen la misma funcion solo que load() ejecuta despues
         $post = Post::create([
             'user_id' => auth()->id(),
             'image_path' => request()->file('image_path')->store('posts', 'public'),  

@@ -16,8 +16,6 @@
 </template>
 <script>
 
-import EventBus from '../event-bus.js';
-
   export default{
     data(){
       return {                
@@ -29,24 +27,20 @@ import EventBus from '../event-bus.js';
       imageSelect(e){
 
           const files = e.target.files || e.dataTransfer.files;
-          if (!files.length) return;
-          
+          if (!files.length) return;          
           this.createImage(files[0]);                     
-
           
       },    
 
-      createImage(file){
+      createImage(imageFile){
 
           let reader = new FileReader();
-          reader.readAsDataURL(file);
+          reader.readAsDataURL(imageFile);
 
           reader.onload = e => {
-              let src = e.target.result;
-              EventBus.$emit('loaded', { src, file });
-          };                    
-        
-          this.$router.push({ name: 'posts.create' });
+              let image = e.target.result;              
+              this.$router.push({ name: 'posts.create', params: { image, imageFile } });
+          };                                      
 
       }                 
 

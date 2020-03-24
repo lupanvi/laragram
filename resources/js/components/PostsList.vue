@@ -23,19 +23,11 @@ export default {
 
     created(){
         
-        this.getPosts();
+        this.getPosts();        
 
-        EventBus.$on('addNewPost', evt => {
-            this.posts.unshift(evt.newPost);
-        });
-
-        EventBus.$on('removePost', evt => {            
-            this.posts.splice(evt.id, 1);            
-        });
-
-        EventBus.$on('refresh', evt => {
-            this.getPosts();            
-        });
+        EventBus.$on('removePost', evt => {  
+            this.getPosts();                         
+        });        
 
     },
 
