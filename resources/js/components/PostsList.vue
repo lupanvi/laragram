@@ -1,17 +1,19 @@
 <template>    
     <div class="posts">        
         <div v-for="post in posts" :key="post.id">
-            <post :post="post"></post>
+            <posts-item :post="post"></posts-item>
         </div>         
         <div v-if="posts.length == 0">There are no images</div>        
     </div>           
 </template>
 <script>
 
-import Post from './Post'; 
+import PostsItem from './PostsItem'; 
 import EventBus from '../event-bus.js';   
 
-export default {    
+export default {  
+
+    name: 'PostsList',
 
     data(){
         return {
@@ -19,15 +21,13 @@ export default {
         }
     },
 
-    components:{Post},
+    components:{ PostsItem },
 
     created(){
         
-        this.getPosts();        
+        this.getPosts()      
 
-        EventBus.$on('removePost', evt => {  
-            this.getPosts();                         
-        });        
+        EventBus.$on('removePost', this.removePosts)       
 
     },
 
@@ -37,7 +37,15 @@ export default {
             axios.get('/posts').then(({data})=>{            
                 this.posts = data;            
             });
+        },
+
+        removePosts(postId){
+            this.posts = this.posts.filter((post)=>{
+                return post.id !== postId
+            });
         }
+
+
     }
 
 }

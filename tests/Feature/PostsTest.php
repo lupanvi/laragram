@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use App\Post;
+use App\Comment;
+use App\User;
 
 class PostsTest extends TestCase
 {
@@ -15,11 +17,17 @@ class PostsTest extends TestCase
    
     /** @test */
 
-    function guests_may_not_create_posts()
+    function guest_cannot_manage_projects()
     {     
 
-        $this->post('/posts')->assertStatus(302)->assertRedirect('/login');
+        $post = factory(Post::class)->create();
+
+        $this->get('/posts')->assertRedirect('login');   
+
+        $this->patch($post->path(), ['description'=>'edited'] )->assertRedirect('/login');                                     
+        $this->post('/posts', $post->toArray())->assertStatus(302)->assertRedirect('/login');
     } 
+
 
 
     /** @test */
@@ -44,7 +52,8 @@ class PostsTest extends TestCase
 
     }
 
-     /** @test */
+
+    /** @test */
     function a_post_requires_a_valid_image(){
 
         $this->signIn();
@@ -53,6 +62,54 @@ class PostsTest extends TestCase
             'image_path' => 'not-an-image'
         ])->assertStatus(422);
 
+    }
+
+
+    /** @test */
+    function a_post_can_load_two_comments_in_home_page(){
+
+        $this->signIn();
+        
+        $post = factory(Post::class)->create();           
+
+        $comment1 = factory(Comment::class)->create([
+            'post_id'=>$post->id            
+        ]);
+        $comment2 = factory(Comment::class)->create([
+            'post_id'=>$post->id            
+        ]);                        
+
+        $response = $this->getJson('/posts')->json();        
+
+        $this->assertEquals(2, count($response[0]['comments']));        
+        $this->assertEquals($comment1->body, $response[0]['comments'][0]['body']);
+        $this->assertEquals($comment2->body, $response[0]['comments'][1]['body']);        
+
+    }
+
+    /** @test */
+    function a_post_can_load_two_comments_with_their_owners_in_home_page(){
+
+        $this->signIn();
+        
+        $post = factory(Post::class)->create();   
+        $user1 = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+
+        $comment1 = factory(Comment::class)->create([
+            'post_id'=>$post->id, 
+            'user_id'=>$user1->id
+        ]);
+        $comment2 = factory(Comment::class)->create([
+            'post_id'=>$post->id, 
+            'user_id'=>$user2->id
+        ]);                        
+
+        $response = $this->getJson('/posts')->json();        
+
+        $this->assertEquals(2, count($response[0]['comments']));        
+        $this->assertEquals($comment1->owner->id, $response[0]['comments'][0]['owner']['id']);
+        $this->assertEquals($comment2->owner->id, $response[0]['comments'][1]['owner']['id']);               
     }
 
     /** @test */
@@ -107,5 +164,21 @@ class PostsTest extends TestCase
 
     }
 
+    /** @test */
+    function a_user_can_delete_their_own_post_with_its_comments(){
+
+        $this->signIn();
+        $post = factory(Post::class)->create(['user_id'=>auth()->id()]);        
+        $comment1 = factory(Comment::class)->create([ 'post_id'=>$post->id ]);
+        $comment2 = factory(Comment::class)->create([ 'post_id'=>$post->id ]);
+
+        $response = $this->deleteJson($post->path());
+
+        $response->assertStatus(204);                
+
+        $this->assertDatabaseMissing('comments', ['id' => $comment1->id]);        
+        $this->assertDatabaseMissing('comments', ['id' => $comment2->id]);        
+        
+    }
 
 }

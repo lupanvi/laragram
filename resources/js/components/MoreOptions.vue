@@ -41,7 +41,7 @@
                 axios.delete('/posts/'+this.post.id)
                      .then(()=>{  
 
-                        EventBus.$emit('removePost');                        
+                        EventBus.$emit('removePost', this.post.id);                        
 
                 }); 
                 

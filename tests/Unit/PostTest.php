@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Post;
 
 class PostTest extends TestCase
 {
@@ -18,6 +19,6 @@ class PostTest extends TestCase
 
         $this->assertEquals('/posts/'.$post->id, $post->path());
 
-    }    
+    }       
 
 }

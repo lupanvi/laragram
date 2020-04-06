@@ -45,7 +45,14 @@
 
 	export default{	
 
-        props:['post'],	
+        name: 'PostsEdit',
+
+        props:{
+            post:{
+                type: Object,
+                required: true
+            }
+        },        
 
 		data(){
 			return {
@@ -66,9 +73,8 @@
 			},
 
             close(){
-                this.editPost = {}                
-                //this.$router.push('/');
-                this.$router.go(-1);
+                this.editPost = {}                                
+                this.$router.go('/');
             }
 
 		}

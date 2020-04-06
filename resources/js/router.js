@@ -1,16 +1,16 @@
 import VueRouter from 'vue-router';
-import Posts from './components/PostsList';
+import PostsList from './components/PostsList';
 import Login from './components/Login';
 import Register from './components/Register';
-import EditPost from './components/EditPost';
-import NewPost from './components/NewPost';
+import PostsEdit from './components/PostsEdit';
+import PostsAddNew from './components/PostsAddNew';
 
 const router = new VueRouter({
   mode: 'history',
   routes: [
   	{ path: '/', 
   		beforeEnter: requireLogin,
-  		component: Posts 		
+  		component: PostsList 		
   	},    
     { 
     	path: '/login', 
@@ -24,13 +24,13 @@ const router = new VueRouter({
     },
     { 
     	path: '/posts/edit', 
-    	component: EditPost, 
+    	component: PostsEdit, 
     	name: 'posts.edit',
       props: true 
     },
     { 
     	path: '/posts/create', 
-    	component: NewPost, 
+    	component: PostsAddNew, 
     	name: 'posts.create',
       props: true
     }

@@ -86,10 +86,9 @@
 <script>
 
 import VueRouter from 'vue-router';
-//import routes from '../routes';
-//Vue.use(VueRouter);*/
 
 export default {
+    name: 'Login',
     data() {
         return {
             form: { email: "", password: "", remember: false },
@@ -97,7 +96,7 @@ export default {
             loading: false
         };
     },
-    //router: new VueRouter(routes),
+
     methods: {
         login() {
             this.loading = true;

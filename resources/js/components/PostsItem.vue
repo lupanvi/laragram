@@ -24,31 +24,42 @@
 
                     <figure :class="filter">
                         <img :src="imagePath" class="img-fluid" />
-                    </figure>
+                    </figure>                    
 
+                </div>       
+
+                <div class="details pl-3 pr-3">
                     <div class="info">
-                
-                        <div class="social m-2">                
+                    
+                        <div class="social">                
                             <i class="fas fa-heart" :class="liked ? 'liked' : ''" @click="toggle"></i>
                         </div>
 
-                        <div class="likes ml-2">
+                        <div class="likes">
                             <span v-text="likes_count"></span> likes
-                        </div>
+                        </div>                        
                         
-                        <div class="d-flex ml-2">
-                            <div class="username pr-1">                            
-                                {{ userName }}
-                            </div>
+                        <div class="description">
+                            <p>
+                                <span class="username pr-1">{{ userName }}</span>
+                                <span v-if="readMoreButton">
+                                    {{ descriptionSummary }}...
+                                    <a href="#" @click.prevent="readMore">more</a>
+                                </span>
+                                <span v-else>
+                                    {{ description }}
+                                </span>                                
+                            </p>
+                        </div>    
+                        
+                    </div> 
 
-                            <div class="description">
-                                <p v-text="description"></p>
-                            </div>    
-                        </div>
-                    </div>
-
-                </div>                                            
-
+                    <comments-list 
+                        :comments="comments" 
+                        :ago="ago" 
+                        :path="path">                            
+                    </comments-list>
+                </div>
 
             </div>
 	
@@ -56,9 +67,27 @@
 <script>
 
     import EventBus from '../event-bus.js';
+    import CommentsList from './CommentsList';
+    import moment from 'moment';
 
 	export default{
-		props:['post'],       
+        name: 'PostsItem',        
+		props: {
+            post: {
+                type: Object,
+                required: true
+            }
+        },        
+
+        components:{ CommentsList }, 
+
+        computed: {
+
+            ago(){
+                return moment(this.post.created_at).fromNow();
+            }
+
+        },     
 
 		data(){
 			return {
@@ -69,18 +98,22 @@
                 description: this.post.description,
                 filter:this.post.filter,
                 liked: this.post.liked,
-                likes_count : this.post.likesCount                
+                likes_count : this.post.likesCount,
+                readMoreButton : false,
+                descriptionSummary: '',
+                comments: this.post.comments,
+                path: this.post.path                
 			};
-		}, 
+		},
 
-        watch:{
+        created(){
 
-            post(val){
-                this.description = val.description;
+            if (this.description.length > 120){
+                this.descriptionSummary = this.post.description.substring(0,120);
+                this.readMoreButton = true;
             }
 
-        },      
-       
+        },                                 
 
         methods:{
             toggle(){
@@ -103,7 +136,20 @@
 
             moreOptions(){             
                 this.$modal.show('more-options-modal', {post: this.post});                
+            },
+
+            readMore(){
+                this.readMoreButton = false;                
             }
         }
 	}
 </script>
+<style scoped>
+
+.more_options{
+    background: transparent;
+    font-size: 1.5rem;
+    border: none;
+}
+    
+</style>

@@ -40,8 +40,10 @@
 
 	                    <div class="description-container d-flex justify-content-center align-items-center" v-if="step === 2">
 
-	                        <textarea v-model="description" class="form-control" placeholder="Escribe una descripcion">
-	                            
+	                        <textarea 
+	                        	v-model="description" 
+	                        	class="form-control" 
+	                        	placeholder="Write a description">	
 	                        </textarea>
 	                        
 	                    </div>
@@ -63,7 +65,18 @@
 
 	export default{	
 
-		props:['image','imageFile'],
+		name: 'PostsAddNew',
+
+		props:{
+			image: {
+				type: String,
+				required: true
+			},
+			imageFile: {
+				type: Object,
+				required: true
+			}
+		},		
 
 		data(){
 			return {
@@ -109,8 +122,7 @@
                 data.append('description', this.description);  
                 
 				axios.post('/posts', data).then( ({data}) => {					
-
-					//EventBus.$emit('addNewPost', { newPost : data } );		
+					
 					this.reset();	
 					this.close();
 

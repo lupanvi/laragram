@@ -148,6 +148,8 @@
 
 <script>
 export default {
+    name:'Register',
+
     data() {
         return {
             form: {
@@ -171,8 +173,7 @@ export default {
                 .then(({data: {redirect}}) => {
                     location.assign(redirect);
                 })
-                .catch(error => {
-                	console.log(error);
+                .catch(error => {                	
                     this.errors = error.response.data.errors;
                     this.loading = false;
                     this.feedback = error.response.data.message;

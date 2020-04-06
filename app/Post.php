@@ -4,13 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
+use App\Comment;
 
 class Post extends Model
 {
 	 
     protected $guarded = [];    
     
-    protected $appends = ['liked', 'likesCount', 'can_update'];    
+    protected $appends = ['liked', 'likesCount', 'can_update','comments','path'];    
 
     public function getCanUpdateAttribute()
     {
@@ -21,14 +22,45 @@ class Post extends Model
     	return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
+
+    public function getCommentsAttribute(){
+        return $this->comments();
+    }
+
+    public function getCommentsCountAttribute(){
+        return $this->comments()->count();
+    }
+
+    /**
+     * Determine the image path to the post.
+     *
+     * @return string
+     */
+
     public function getImagePathAttribute($image)
     {        
 
         return (strpos($image, 'picsum') ? $image : asset('storage/'.$image) );
     }
 
+    /**
+     * Determine the path to the post.
+     *
+     * @return string
+     */
+
     public function path(){
     	return "/posts/{$this->id}";
+    }
+
+    /**
+     * Fetch the path to the post as a property.
+     */
+    public function getPathAttribute(){
+        return $this->path();
     }
 
     /**
