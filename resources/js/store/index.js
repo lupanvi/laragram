@@ -1,5 +1,6 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
+import router from '../router';
 
 Vue.use(Vuex)
 
@@ -24,7 +25,7 @@ export default new Vuex.Store({
 		fetchPosts({commit}){			
 
 			axios.get('/posts').then(({data})=>{            
-				commit('setPosts', data);                
+				commit('SET_POSTS', data);                
             });		
 
 		},
@@ -33,13 +34,22 @@ export default new Vuex.Store({
 			axios.delete('/posts/'+ postId).then(()=>{
 				commit('REMOVE_POST', postId );
             }); 
+		},
+
+		editPost({commit}, post){
+			axios
+                .patch('/posts/'+post.id, {'description': post.description})
+                .then(()=>{
+                   router.push('/');	                    												   
+                   commit('EDIT_POST', post );
+			    });
 		}
 
 	},
 
 	mutations:{
 
-		setPosts(state, posts){			
+		SET_POSTS(state, posts){			
 			state.posts = posts;
 		},
 
@@ -47,7 +57,11 @@ export default new Vuex.Store({
             this.state.posts = this.state.posts.filter((post)=>{
                 return post.id !== postId
             });
-        }
+        }/*,
+
+        EDIT_POST(state, post){
+
+        }*/
 
 	}
 

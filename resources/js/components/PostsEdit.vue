@@ -19,14 +19,14 @@
                     </div> 
 
                     <div class="main-image"
-                         :class="editPost.filter"
-                         :style="{ backgroundImage: 'url(' + editPost.image_path + ')' }">
+                         :class="postEdit.filter"
+                         :style="{ backgroundImage: 'url(' + postEdit.image_path + ')' }">
                          	
                     </div>                                               
 
                     <div class="description-container">
 
-                        <textarea v-model="editPost.description" class="form-control" placeholder="Escribe una descripcion">
+                        <textarea v-model="postEdit.description" class="form-control" placeholder="Write a description">
                             
                         </textarea>
                         
@@ -41,7 +41,7 @@
 </template>
 <script>
 	
-	import EventBus from '../event-bus.js';
+	import {mapActions} from 'vuex';
 
 	export default{	
 
@@ -56,26 +56,24 @@
 
 		data(){
 			return {
-                editPost: this.post                
+                postEdit: this.post                
 			}
 		},
 
-		methods:{			
+		methods:{
 
-			edit(){	                          
+            ...mapActions(['editPost']),			
 
-				axios
-                    .patch('/posts/'+this.editPost.id, {'description':this.editPost.description})
-                    .then(()=>{	                    												   
-                       this.close();
-				    });				                
+			edit(){
+
+                this.editPost({
+                    id: this.postEdit.id, 
+                    description: this.postEdit.description
+                });	
+
+                this.postEdit = {} 
 				
-			},
-
-            close(){
-                this.editPost = {}                                
-                this.$router.push('/');
-            }
+			}
 
 		}
 
