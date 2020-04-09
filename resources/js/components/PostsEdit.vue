@@ -74,7 +74,7 @@
 
             close(){
                 this.editPost = {}                                
-                this.$router.go('/');
+                this.$router.push('/');
             }
 
 		}
