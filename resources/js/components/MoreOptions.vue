@@ -14,7 +14,8 @@
 </template>
 <script>	
 
-	import EventBus from '../event-bus.js';  	
+	//import EventBus from '../event-bus.js'; 
+	import {mapActions} from 'vuex';
 
 	export default{        
 
@@ -26,6 +27,8 @@
 
 		methods:{
 
+			...mapActions(['removePost']),
+
 			beforeOpen(event){					
 				this.post = event.params.post;				
 			},           				
@@ -36,15 +39,9 @@
                  this.$router.push({ name: 'posts.edit', params: {post: this.post}  });   		                     				
 			},
 
-            destroy(){                           
-
-                axios.delete('/posts/'+this.post.id)
-                     .then(()=>{  
-
-                        EventBus.$emit('removePost', this.post.id);                        
-
-                }); 
-                
+            destroy(){                                           
+                     	
+				this.removePost(this.post.id);                                                
                 this.$modal.hide('more-options-modal');
                 
             }

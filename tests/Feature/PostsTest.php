@@ -65,52 +65,7 @@ class PostsTest extends TestCase
     }
 
 
-    /** @test */
-    function a_post_can_load_two_comments_in_home_page(){
-
-        $this->signIn();
-        
-        $post = factory(Post::class)->create();           
-
-        $comment1 = factory(Comment::class)->create([
-            'post_id'=>$post->id            
-        ]);
-        $comment2 = factory(Comment::class)->create([
-            'post_id'=>$post->id            
-        ]);                        
-
-        $response = $this->getJson('/posts')->json();        
-
-        $this->assertEquals(2, count($response[0]['comments']));        
-        $this->assertEquals($comment1->body, $response[0]['comments'][0]['body']);
-        $this->assertEquals($comment2->body, $response[0]['comments'][1]['body']);        
-
-    }
-
-    /** @test */
-    function a_post_can_load_two_comments_with_their_owners_in_home_page(){
-
-        $this->signIn();
-        
-        $post = factory(Post::class)->create();   
-        $user1 = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
-
-        $comment1 = factory(Comment::class)->create([
-            'post_id'=>$post->id, 
-            'user_id'=>$user1->id
-        ]);
-        $comment2 = factory(Comment::class)->create([
-            'post_id'=>$post->id, 
-            'user_id'=>$user2->id
-        ]);                        
-
-        $response = $this->getJson('/posts')->json();        
-
-        $this->assertEquals(2, count($response[0]['comments']));        
-        $this->assertEquals($comment1->owner->id, $response[0]['comments'][0]['owner']['id']);
-        $this->assertEquals($comment2->owner->id, $response[0]['comments'][1]['owner']['id']);               
-    }
+    
 
     /** @test */
     function a_user_can_edit_a_post(){

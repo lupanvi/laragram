@@ -4,6 +4,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import PostsEdit from './components/PostsEdit';
 import PostsAddNew from './components/PostsAddNew';
+import CommentsList from './components/CommentsList';
 
 const router = new VueRouter({
   mode: 'history',
@@ -33,7 +34,14 @@ const router = new VueRouter({
     	component: PostsAddNew, 
     	name: 'posts.create',
       props: true
+    },
+    {
+      path:'/posts/:id/comments',
+      component: CommentsList,
+      name:'comments.index',
+      props: true
     }
+
   ]
 });
 

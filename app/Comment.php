@@ -8,7 +8,8 @@ use App\User;
 
 class Comment extends Model
 {
-    protected $guarded = [];  
+    
+    protected $guarded = [];      
 
     public function post(){
     	return $this->belongsTo(Post::class);
@@ -20,6 +21,6 @@ class Comment extends Model
 
     public function owner(){
     	return $this->belongsTo(User::class, 'user_id');
-    }
+    }    
 
 }
