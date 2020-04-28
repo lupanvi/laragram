@@ -36,27 +36,9 @@ p{
     width: 100%;
 }
 
-.post{
-
-    background-color: #fff;
-    margin-bottom:2rem;
-
-    .username, .likes{
-        font-weight: bold;
-    }
-
-    .avatar{
-        width: 35px;
-        height: 35px;             
-        
-    }
-
-    .social i{
-        font-size: 20px; 
-        cursor: pointer;                       
-        
-    }    
-    
+.avatar{
+    width: 35px;
+    height: 35px;
 }
 
 .comment {
@@ -87,11 +69,15 @@ footer{
     z-index:800;
 }
 
-.post{
-
+.loading i{
+    font-size: 3rem;
 }
 
-.new-post, .edit-post{
+.return i{
+    font-size: 2rem;
+}
+
+.new-post, .edit-post, .comments{
 
     position: fixed;
     left: 0;
@@ -101,10 +87,13 @@ footer{
     background: #fafafa;
     z-index: 999;
 
+    .header{
+        padding: 1rem;
+    }
+
     .header a{
     
-        font-weight: bold;
-        padding:10px;
+        font-weight: bold;        
         font-size:1.1rem;
 
     }

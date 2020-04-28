@@ -4,7 +4,7 @@
             
               <div class="header_post d-flex align-items-center justify-content-between">
 
-                    <div class="d-flex align-items-center ">
+                    <div class="d-flex align-items-center">
                         <div class="m-2 avatar">     
                             <img 
                             	   :src="avatarPath"
@@ -33,10 +33,13 @@
                     
                         <div class="social">                
                             <i class="fas fa-heart" :class="liked ? 'liked' : ''" @click="toggle"></i>
+
+                            <i class="far fa-comment" @click.prevent="showAllcomments"></i>
+
                         </div>
 
                         <div class="likes">
-                            <span v-text="likes_count"></span> likes
+                            <span v-text="likesCount"></span> likes
                         </div>                        
                         
                         <div class="description">
@@ -52,13 +55,17 @@
                             </p>
                         </div>    
                         
-                    </div> 
+                    </div>
 
-                    <comments-list 
-                        :comments="comments" 
-                        :ago="ago" 
-                        :path="path">                            
-                    </comments-list>
+                    <div>
+                        <a class="all_comments_link" v-if="showAllCommentsLink" @click.prevent="showAllcomments" href="#">See {{ commentsCount }} comments</a>
+                    </div>
+                    
+
+                    <div class="time_ago mb-2">
+                        {{ ago }}
+                    </div>
+
                 </div>
 
             </div>
@@ -66,8 +73,6 @@
 </template>
 <script>
 
-    import EventBus from '../event-bus.js';
-    import CommentsList from './CommentsList';
     import moment from 'moment';
 
 	export default{
@@ -77,20 +82,10 @@
                 type: Object,
                 required: true
             }
-        },        
+        },                
 
-        components:{ CommentsList }, 
-
-        computed: {
-
-            ago(){
-                return moment(this.post.created_at).fromNow();
-            }
-
-        },     
-
-		data(){
-			return {
+        data(){
+            return {
                 id:this.post.id,
                 avatarPath: this.post.user.avatar_path,
                 userName:this.post.user.name,
@@ -98,13 +93,25 @@
                 description: this.post.description,
                 filter:this.post.filter,
                 liked: this.post.liked,
-                likes_count : this.post.likesCount,
+                likesCount : this.post.likesCount,
                 readMoreButton : false,
                 descriptionSummary: '',
-                comments: this.post.comments,
-                path: this.post.path                
-			};
-		},
+                commentsCount: this.post.commentsCount,
+                path: this.post.path                               
+            };
+        },
+
+        computed: {
+
+            ago(){
+                return moment(this.post.created_at).fromNow();
+            },                       
+
+            showAllCommentsLink(){
+                return this.commentsCount > 2 ? true: false
+            }
+
+        },     
 
         created(){
 
@@ -122,34 +129,66 @@
 
             like(){
 
-                axios.post(`/posts/${this.id}/likes`);
+                axios.post(`${this.path}/likes`);
                 this.liked = true;
-                this.likes_count++;
+                this.likesCount++;
 
             },
 
             dislike(){
-                axios.post(`/posts/${this.id}/dislike`);
+                axios.post(`${this.path}/dislike`);
                 this.liked = false;
-                this.likes_count--;                
+                this.likesCount--;                
             },
 
-            moreOptions(){             
+            moreOptions(){
                 this.$modal.show('more-options-modal', {post: this.post});                
             },
 
             readMore(){
                 this.readMoreButton = false;                
+            },
+
+            showAllcomments(){
+                this.$router.push({
+                    name:'comments.index', 
+                    params: { id: this.id }
+                });
             }
         }
 	}
 </script>
 <style scoped>
 
+.post{
+    background-color: #fff;
+    margin-bottom:2rem;          
+}
+
+.username, .likes{
+    font-weight: bold;
+}
+
+.social i{
+    font-size: 20px; 
+    cursor: pointer;                       
+    
+}    
+
 .more_options{
     background: transparent;
     font-size: 1.5rem;
-    border: none;
+    border: none;    
 }
+
+.time_ago{
+    color: #8e8e8e;
+    font-size: 0.8rem;
+} 
+
+.all_comments_link{
+    color: #8e8e8e;
+}
+
     
 </style>

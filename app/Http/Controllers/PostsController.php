@@ -27,9 +27,7 @@ class PostsController extends Controller
     	
     	if (request()->expectsJson()) {  
 
-             return Post::with('user')->with(['comments.owner' => function($query){
-                  $query->limit(2);
-             }])->latest()->get();
+             return Post::with('user')->latest()->get();
              
         }
 

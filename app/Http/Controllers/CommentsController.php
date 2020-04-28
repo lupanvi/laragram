@@ -18,7 +18,16 @@ class CommentsController extends Controller
 
     public function index(Post $post){
 
-    	return $post->comments()->get();
+        $comments = $post->comments()->with('owner')->get();
+
+        if (request()->wantsJson()){
+
+            return [
+                'post'=> $post->load('user'),
+                'comments'=> $comments
+            ];    
+
+        }        
 
     }
 

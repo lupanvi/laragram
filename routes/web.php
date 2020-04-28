@@ -22,6 +22,7 @@ Route::post('/posts/{post}/likes','LikesController@store');
 Route::post('/posts/{post}/dislike','LikesController@destroy');
 
 Route::post('/posts/{post}/comments','CommentsController@store');
-Route::get('/posts/{post}/comments','CommentsController@index');
+Route::get('/posts/{post}/comments/all','CommentsController@index');
+
 
 Route::get('/{any}', 'HomeController@index')->where('any', '.*');

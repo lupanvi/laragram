@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Gate;
 use App\Comment;
 
 class Post extends Model
-{
+{    
 	 
     protected $guarded = [];    
     
-    protected $appends = ['liked', 'likesCount', 'can_update','comments','path'];    
+    protected $appends = ['liked', 'likesCount', 'can_update','path', 'commentsCount'];    
 
     public function getCanUpdateAttribute()
     {
@@ -24,10 +24,6 @@ class Post extends Model
 
     public function comments(){
         return $this->hasMany(Comment::class);
-    }
-
-    public function getCommentsAttribute(){
-        return $this->comments();
     }
 
     public function getCommentsCountAttribute(){

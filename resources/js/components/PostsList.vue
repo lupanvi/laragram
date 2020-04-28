@@ -1,5 +1,6 @@
 <template>    
-    <div class="posts">        
+    <div class="posts">       
+
         <div v-for="post in postsList" :key="post.id">
             <posts-item :post="post"></posts-item>
         </div>         
@@ -8,8 +9,7 @@
 </template>
 <script>
 
-import PostsItem from './PostsItem'; 
-import EventBus from '../event-bus.js'; 
+import PostsItem from './PostsItem';
 import {mapGetters, mapActions} from 'vuex';
 
 export default {  

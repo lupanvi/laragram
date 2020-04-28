@@ -29,10 +29,11 @@ class CommentsTest extends TestCase
         $post = factory(Post::class)->create();
         $comment = factory(Comment::class)->raw();
 
-        $this->post($post->path() . '/comments', $comment);
+        $response = $this->post($post->path() . '/comments', $comment)->json();
 
-        $this->assertDatabaseHas('comments', ['body' => $comment['body']] );
+        $this->assertDatabaseHas('comments', ['body' => $comment['body']] );        
         $this->assertEquals(1, $post->fresh()->comments_count);
+        $this->assertEquals($response['body'], $comment['body']);   
     }
 
     /** @test */
@@ -47,18 +48,32 @@ class CommentsTest extends TestCase
              ->assertSessionHasErrors('body');
     }
 
+
     /** @test */
-    function a_post_can_have_comments()
-    {     
+    function a_post_can_have_comments_and_load_their_owners(){
 
-        $this->signIn();        
-        $post = factory(Post::class)->create();
-        $comment = factory(Comment::class)->raw();        
+        $this->signIn();
+        
+        $post = factory(Post::class)->create(['user_id'=>auth()->id()]);
 
-        $this->post($post->path() . '/comments', $comment);                
+        $comment1 = factory(Comment::class)->create([
+            'post_id'=>$post->id,
+            'body'=> 'body text'
+        ]);
 
-        $response = $this->getJson($post->path().'/comments')->json();
-        $this->assertEquals($response[0]['body'], $comment['body']);    
+        $comment2 = factory(Comment::class)->create([
+            'post_id'=>$post->id,
+            'body'=> 'body text 2'
+        ]);                        
+
+        $response = $this->getJson($post->path() .'/comments/all')->json();            
+
+        $this->assertEquals(auth()->id(), $response['post']['user']['id']);
+        $this->assertEquals(2, count($response['comments']));   
+        $this->assertEquals('body text', $response['comments'][0]['body']);        
+        $this->assertEquals('body text 2', $response['comments'][1]['body']);        
+        $this->assertEquals($comment1->owner->id, $response['comments'][0]['owner']['id']);
+        $this->assertEquals($comment2->owner->id, $response['comments'][1]['owner']['id']);
         
     }
 

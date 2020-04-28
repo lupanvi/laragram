@@ -40,8 +40,7 @@ export default new Vuex.Store({
 			axios
                 .patch('/posts/'+post.id, {'description': post.description})
                 .then(()=>{
-                   router.push('/');	                    												   
-                   commit('EDIT_POST', post );
+                   router.push('/');	                    												                      
 			    });
 		}
 
@@ -57,11 +56,7 @@ export default new Vuex.Store({
             this.state.posts = this.state.posts.filter((post)=>{
                 return post.id !== postId
             });
-        }/*,
-
-        EDIT_POST(state, post){
-
-        }*/
+        }
 
 	}
 
