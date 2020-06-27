@@ -1,5 +1,5 @@
 <template>
-	<div class="new-comment d-flex justify-content-between align-items-center">
+	<div class="new-comment d-flex justify-content-between align-items-center p-2 mb-3">
 		<textarea autocomplete="off" class="body flex-grow-1" type="text" v-model="body" placeholder="Add a comment..." />
 		<button class="publish font-weight-bold" :disabled="disabled" type="button" @click="addComment">Publish</button>
 	</div>
@@ -29,7 +29,8 @@
 
 		methods:{
 			addComment(){
-				axios.post(this.path+'/comments', {body: this.body})
+				
+				axios.post(this.path+'/comments', {body: this.body})				     
 					 .then(({data})=>{
 					 	this.$emit('addComment', data);
 					 	this.body = '';
@@ -58,8 +59,10 @@
 .publish{
 	border: none;
     color: #0095f6;	            
-    background-color: transparent;    
+    background-color: transparent;
+    outline:none;    
 }
+
 .publish[disabled]{
 	opacity:.3;
 	pointer-events: none;

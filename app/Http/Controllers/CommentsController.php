@@ -17,12 +17,15 @@ class CommentsController extends Controller
     }
 
     public function index(Post $post){
-
-        $comments = $post->comments()->with('owner')->get();
+        
+        $comments = Comment::where('post_id',$post->id)
+                            ->take(10)
+                            ->with('owner')
+                            ->get();
 
         if (request()->wantsJson()){
 
-            return [
+            return [                
                 'post'=> $post->load('user'),
                 'comments'=> $comments
             ];    
