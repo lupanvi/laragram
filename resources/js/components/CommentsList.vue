@@ -10,7 +10,7 @@
 
                 	<div v-else class="d-flex flex-column vh-100">
 
-						<div class="header d-flex align-items-center">
+						<div class="header d-flex align-items-center border-bottom">
 							<a class="mr-4 return" href="#" @click.prevent="$router.push('/')">
 								<i class="fas fa-arrow-left"></i>
 							</a>
@@ -21,7 +21,7 @@
 							<div class="box">
 
 								 <div class="user d-flex mb-2">
-						            <div class="m-2 avatar">     
+						            <div class="mb-2 ml-2 mr-2 mt-1 avatar">     
 						                <img
 						                	   :src="post.user.avatar_path"
 						                	   class="img-fluid rounded-circle" 

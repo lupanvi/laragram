@@ -1,5 +1,5 @@
 <template>
-	<div class="new-comment d-flex justify-content-between align-items-center p-2 mb-3">
+	<div class="new-comment d-flex justify-content-between align-items-center p-3 mb-3 border-top">
 		<textarea autocomplete="off" class="body flex-grow-1" type="text" v-model="body" placeholder="Add a comment..." />
 		<button class="publish font-weight-bold" :disabled="disabled" type="button" @click="addComment">Publish</button>
 	</div>
@@ -41,19 +41,18 @@
 	}
 </script>
 <style scoped>
-.new-comment{
-	border-top: 1px solid #efefef;
-	min-height: 56px;	
+.new-comment{	
+	/*min-height: 56px;	*/
 }
 
 .body{
 	height: 18px;
-	max-height: 80px;
+	/*max-height: 80px;*/
 	border: none;
 	outline: 0;
 	padding: 0;
 	resize: none;
-	line-height: 18px;	
+	line-height: 18px;
 	overflow: hidden;
 }
 .publish{

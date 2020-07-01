@@ -2,7 +2,7 @@
 	<div class="comment">
 
 		<div class="d-flex">
-            <div class="m-2 avatar">     
+            <div class="mb-2 ml-2 mr-2 mt-1 avatar">     
                 <img 
                 	   :src="comment.owner.avatar_path"
                 	   class="img-fluid rounded-circle" 
