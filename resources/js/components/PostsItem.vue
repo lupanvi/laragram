@@ -58,7 +58,7 @@
                     </div>
 
                     <div>
-                        <a class="all_comments_link" v-if="showAllCommentsLink" @click.prevent="showAllcomments" href="#">See {{ commentsCount }} comments</a>
+                        <a class="all_comments_link" v-if="commentsCount" @click.prevent="showAllcomments" href="#">See {{ commentsCount }} comments</a>
                     </div>
                     
 
@@ -105,11 +105,7 @@
 
             ago(){
                 return moment(this.post.created_at).fromNow();
-            },                       
-
-            showAllCommentsLink(){
-                return this.commentsCount > 2 ? true: false
-            }
+            }            
 
         },     
 
