@@ -65,8 +65,6 @@ class PostsTest extends TestCase
     }
 
 
-
-
     /** @test */
     function a_user_can_edit_a_post(){
 
@@ -126,8 +124,8 @@ class PostsTest extends TestCase
 
         $this->signIn();
         $post = factory(Post::class)->create(['user_id'=>auth()->id()]);        
-        $comment1 = factory(Comment::class)->create([ 'post_id'=>$post->id ]);
-        $comment2 = factory(Comment::class)->create([ 'post_id'=>$post->id ]);
+        $comment1 = factory(Comment::class)->create(['post_id'=>$post->id]);
+        $comment2 = factory(Comment::class)->create(['post_id'=>$post->id]);
 
         $response = $this->deleteJson($post->path());
 
