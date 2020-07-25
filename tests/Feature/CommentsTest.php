@@ -50,7 +50,7 @@ class CommentsTest extends TestCase
 
 
     /** @test */
-    function a_post_can_have_comments_and_load_their_owners(){
+    function a_post_can_have_comments_from_their_owners(){
 
         $this->signIn();
         

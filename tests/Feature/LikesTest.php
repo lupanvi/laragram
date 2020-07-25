@@ -11,7 +11,7 @@ class LikesTest extends TestCase
 	use RefreshDatabase;
 
     /** @test */
-    function guests_may_not_likes_posts()
+    function guests_may_not_like_posts()
     {     
 
         $this->post('/posts/1/likes')->assertStatus(302)->assertRedirect('/login');

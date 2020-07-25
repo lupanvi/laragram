@@ -17,7 +17,7 @@ class PostsTest extends TestCase
    
     /** @test */
 
-    function guest_cannot_manage_projects()
+    function guest_cannot_view_posts()
     {     
 
         $post = factory(Post::class)->create();
@@ -65,13 +65,15 @@ class PostsTest extends TestCase
     }
 
 
-    
+
 
     /** @test */
     function a_user_can_edit_a_post(){
 
         $user = $this->signIn();
         $post = factory(Post::class)->create(['user_id'=>$user->id]);
+
+        $this->getJson($post->path(), $attributes = ['description'=>'hello'] );        
 
         $this->patchJson($post->path(), $attributes = ['description'=>'edited'] );        
 

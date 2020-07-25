@@ -14,20 +14,20 @@ class CommentTest extends TestCase
     use RefreshDatabase;
     
     /** @test */
-    function it_belongs_to_a_post()
+    function comment_belongs_to_a_post()
     {
         $comment = factory(Comment::class)->create();
         $this->assertInstanceOf(Post::class, $comment->post);
     }
     /** @test */
-    function it_has_a_path()
+    function comment_has_a_path()
     {
         $comment = factory(Comment::class)->create();
         $this->assertEquals("/posts/{$comment->post->id}/comments/{$comment->id}", $comment->path());
     }
     
     /** @test */
-    function it_belongs_to_a_owner()
+    function comment_belongs_to_a_owner()
     {        
         $comment = factory(Comment::class)->create();        
         $this->assertInstanceOf(User::class, $comment->owner);
