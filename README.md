@@ -38,6 +38,8 @@ Next, boot up a server and visit your laragram app.
 
 ### Running tests
 
-```php artisan config:cache
+```
+php artisan config:cache
 php artisan config:clear
-phpunit```
+phpunit
+```
