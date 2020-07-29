@@ -32,4 +32,4 @@ jobs:
           browser: chrome
           headless: true
           spec: cypress/integration/laragram/laragram.spec.js
-          wait-on: 'http://localhost:8000'
+          wait-on: 'http://127.0.0.1:8000'
