@@ -1,4 +1,4 @@
-name: Laravel Unit Tests
+name: Continuous Integration Laravel
 on:
   push:
     branches:
