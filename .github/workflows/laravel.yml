@@ -1,6 +1,6 @@
 name: Continuous Integration Laravel
 on:
-  push:
+  commit:
     branches:
     - master
     - development
