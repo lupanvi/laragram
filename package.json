@@ -10,6 +10,7 @@
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod": "npm run production",
         "test": "phpunit",
+        "start": "php artisan serve",
         "cypress:run": "cypress run",
         "test:chrome": "cypress run --browser chrome",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
@@ -19,6 +20,7 @@
         "bootstrap": "^4.3.1",
         "cross-env": "^5.2.1",
         "cypress": "^4.11.0",
+        "cypress-file-upload": "^4.0.7",
         "jquery": "^3.4",
         "laravel-mix": "^4.0.7",
         "lodash": "^4.17.13",
