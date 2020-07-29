@@ -21,4 +21,7 @@ jobs:
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         run: vendor/bin/phpunit
       - name: Cypress run
-        run: npm start & npx cypress run --spec cypress/integration/laragram/laragram.spec.js
+        uses: cypress-io/github-action@v2
+        with:
+          browser: chrome
+          headless: true
