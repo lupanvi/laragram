@@ -27,3 +27,9 @@ jobs:
       run: php artisan migrate
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       run: vendor/bin/phpunit
+    - name: Cypress.io
+      uses: cypress-io/github-action@v1.16.1
+        with: 
+          browser: chrome
+          start: npm start
+          wait-on: http://127.0.0.1:8000
