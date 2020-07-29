@@ -28,8 +28,10 @@ jobs:
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       run: vendor/bin/phpunit
     - name: Cypress.io
-      uses: cypress-io/github-action@v1.16.1
+      steps:
+        uses: actions/checkout@v1
+        uses: cypress-io/github-action@v1.16.1
         with: 
           browser: chrome
-          start: npm start
+          start: npm artisan serve
           wait-on: http://127.0.0.1:8000
