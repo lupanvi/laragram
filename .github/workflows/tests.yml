@@ -17,28 +17,28 @@ jobs:
           - 33306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: Copy ENV Laravel Configuration for CI
-        run: php -r "file_exists('.env') || copy('.env.production', '.env');"
-      - name: Install Dependencies (PHP vendors)
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist && npm install
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Copy ENV Laravel Configuration for CI
+      run: php -r "file_exists('.env') || copy('.env.production', '.env');"
+    - name: Install Dependencies (PHP vendors)
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist && npm install
 
-      - name: Generate key
-        run: php artisan key:generate
-      - name: Create schemas
-        run: php artisan migrate --seed
+    - name: Generate key
+      run: php artisan key:generate
+    - name: Create schemas
+      run: php artisan migrate --seed
 
-      - name: Build site
-        run: npm run dev
+    - name: Build site
+      run: npm run dev
 
-      - name: Execute unit tests via PHPUnit
-        run: vendor/bin/phpunit
+    - name: Execute unit tests via PHPUnit
+      run: vendor/bin/phpunit
 
-      - name: Cypress run
-        uses: cypress-io/github-action@v1
-        with:
-          start: npm start
-          spec: cypress/integration/laragram/laragram.spec.js
-          wait-on: 'http://localhost:8000'
-          config: baseUrl="http://localhost:8000"
+    - name: Cypress run
+      uses: cypress-io/github-action@v1
+      with:
+        start: npm start
+        spec: cypress/integration/laragram/laragram.spec.js
+        wait-on: 'http://localhost:8000'
+        config: baseUrl="http://localhost:8000"
