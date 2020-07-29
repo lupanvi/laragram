@@ -21,8 +21,5 @@ jobs:
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         run: vendor/bin/phpunit
       - name: Cypress run
+        start: npm start
         run: npx cypress run --spec cypress/integration/laragram/laragram.spec.js
-        with:
-          build: npm run dev
-          start: npm start
-          wait-on: http://localhost:8000
