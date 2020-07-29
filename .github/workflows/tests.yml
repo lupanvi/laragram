@@ -22,7 +22,7 @@ jobs:
     - name: Copy ENV Laravel Configuration for CI
       run: php -r "file_exists('.env') || copy('.env.production', '.env');"
     - name: Install Dependencies (PHP vendors)
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist && npm install
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist && npm ci
 
     - name: Generate key
       run: php artisan key:generate
