@@ -1,4 +1,4 @@
-name: E2E on Chrome
+name: Laragram tests
 on: [push]
 jobs:
   cypress-run:
@@ -9,7 +9,7 @@ jobs:
       - name: Copy ENV Laravel Configuration for CI
         run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
       - name: Install Dependencies (PHP vendors)
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist && npm install
       - name: Create DB
         run: |
           mkdir -p database
@@ -18,6 +18,8 @@ jobs:
         run: php artisan key:generate
       - name: Create schemas
         run: php artisan migrate
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        run: vendor/bin/phpunit
       - name: Cypress run
         run: npm run test:chrome
         continue-on-error: true
