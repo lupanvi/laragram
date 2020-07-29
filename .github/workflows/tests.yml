@@ -9,16 +9,9 @@ jobs:
     runs-on: ubuntu-16.04
     strategy:
       fail-fast: false
-      matrix:
-        containers: [1, 2, 3, 4, 5, 6]
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '10.x'
-          registry-url: 'https://registry.npmjs.org'
       - name: Copy ENV Laravel Configuration for CI
         run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
       - name: Install Dependencies (PHP vendors)
@@ -31,6 +24,11 @@ jobs:
         run: php artisan key:generate
       - name: Create schemas
         run: php artisan migrate --seed
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+          registry-url: 'https://registry.npmjs.org'
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         run: vendor/bin/phpunit
       - name: Cypress run
