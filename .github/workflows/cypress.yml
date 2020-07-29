@@ -10,6 +10,3 @@ jobs:
       - name: Cypress run
         run: npm run test:chrome
         continue-on-error: true
-        with:
-          start: npm start
-          wait-on: 'http://localhost:8000'
