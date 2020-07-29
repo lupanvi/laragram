@@ -29,9 +29,8 @@ jobs:
       run: vendor/bin/phpunit
     - name: Cypress.io
       steps:
-        uses: actions/checkout@v1
-        uses: cypress-io/github-action@v1.16.1
+      - uses: actions/checkout@v1
+      - uses: cypress-io/github-action@v1.16.1
         with: 
           browser: chrome
-          start: npm artisan serve
-          wait-on: http://127.0.0.1:8000
+          headless: true
