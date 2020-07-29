@@ -15,3 +15,4 @@ laragram.sublime-project
 laragram.sublime-workspace
 composer.lock
 yarn.lock
+package-lock.json
