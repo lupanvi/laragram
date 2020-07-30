@@ -39,4 +39,4 @@ jobs:
 
     - name: Cypress run
       run: |
-        npm run server:ci
+        npm run server:test
