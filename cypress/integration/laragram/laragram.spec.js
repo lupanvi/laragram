@@ -14,14 +14,14 @@ beforeEach(() => {
 
 describe('Home Page', () => {
   it('Visits the login page and logs in', () => {
-      cy.contains('Laravel')
+      cy.contains('Laravel').should('be.visible')
   })
 })
 
 describe('Feed Page', () => {
   it('Add photo to feed', () => {
-    cy.contains('Laravel')
-    cy.get('input[type="file"]')
+    cy.contains('Laravel').should('be.visible')
+    cy.get('input[type="file"]').invoke('show')
       .click({force: true})
       .attachFile(yourFixturePath)
       .click({force: true})
