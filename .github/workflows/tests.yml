@@ -40,3 +40,7 @@ jobs:
     - name: Cypress run
       run: |
         npm run server:test
+      with: 
+        config_file: cypress.json 
+      env:
+        CYPRESS_baseUrl: http://127.0.0.1:8000/
