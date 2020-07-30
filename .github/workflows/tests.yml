@@ -36,11 +36,11 @@ jobs:
       run: vendor/bin/phpunit
 
     - name: Cypress run
-      run: cypress-io/github-action@v1
+      uses: cypress-io/github-action@v1
       with:
         start: npm start
-        spec: cypress/integration/laragram/laragram.spec.js
         wait-on: 'http://localhost:8000'
         config_file: cypress.json
+        spec: cypress/integration/laragram/laragram.spec.js
       env:
         CYPRESS_baseUrl: http://localhost:8000
