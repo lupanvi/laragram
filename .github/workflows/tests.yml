@@ -66,6 +66,11 @@ jobs:
     - name: Execute unit tests via PHPUnit
       run: vendor/bin/phpunit
 
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+
     - name: Cypress run
       uses: cypress-io/github-action@v1
       with:
