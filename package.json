@@ -12,7 +12,8 @@
         "test": "phpunit",
         "start": "php artisan serve",
         "cypress:run": "cypress run",
-        "test:chrome": "cypress run --browser chrome",
+        "server:test": "start-test 8000 test:chrome",
+        "test:chrome": "npx cypress run --spec cypress/integration/laragram/laragram.spec.js",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
@@ -28,6 +29,7 @@
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
+        "start-server-and-test": "^1.11.2",
         "vue": "^2.5.17",
         "vue-template-compiler": "^2.6.2",
         "vue-test-utils": "^1.0.0-beta.11",

@@ -19,16 +19,7 @@ describe('Home Page', () => {
 })
 
 describe('Feed Page', () => {
-  it('Uploads a photo', () => {
-    cy.get('input[type="file"]')
-      .click({force: true})
-      .attachFile(yourFixturePath)
-      .click({force: true})
-  })
-})
-
-describe('Complete adding photo to feed', () => {
-  it('Shares photo', () => {
+  it('Add photo to feed', () => {
     cy.get('input[type="file"]')
       .click({force: true})
       .attachFile(yourFixturePath)

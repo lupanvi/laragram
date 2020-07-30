@@ -35,12 +35,5 @@ jobs:
     - name: Execute unit tests via PHPUnit
       run: vendor/bin/phpunit
 
-    - name: Start server
-      run: npm start &
-
     - name: Cypress run
-      uses: cypress-io/github-action@v1
-      with:
-        spec: cypress/integration/laragram/laragram.spec.js
-        wait-on: 'http://localhost:8000'
-        config: baseUrl="http://localhost:8000"
+      run: npm run server:test
