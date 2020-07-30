@@ -21,6 +21,7 @@ describe('Home Page', () => {
 
 describe('Feed Page', () => {
   it('Add photo to feed', () => {
+    cy.contains('Laravel')
     cy.get('input[type="file"]').invoke('show')
       .click({force: true})
       .attachFile(yourFixturePath)
