@@ -13,7 +13,8 @@
         "start": "php artisan serve",
         "cypress:run": "cypress run",
         "server:test": "start-test 8000 test:chrome",
-        "test:chrome": "npx cypress run --spec cypress/integration/laragram/laragram.spec.js",
+        "test:ci": "npx cypress run --spec cypress/integration/laragram/laragram.spec.js --env CYPRESS_BASE_URL=http://l27.0.0.1:8000",
+        "test:chrome": "npx cypress run --spec cypress/integration/laragram/laragram.spec.js --browser chrome",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
