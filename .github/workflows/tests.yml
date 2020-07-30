@@ -30,10 +30,13 @@ jobs:
       run: php artisan migrate --seed
 
     - name: Build site
-      run: npm run dev
+      run: |
+        npm run dev
 
     - name: Execute unit tests via PHPUnit
-      run: vendor/bin/phpunit
+      run: |
+        vendor/bin/phpunit
 
     - name: Cypress run
-      run: npm run server:test
+      run: |
+        npm run server:test
