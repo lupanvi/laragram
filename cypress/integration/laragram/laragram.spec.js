@@ -8,6 +8,7 @@ beforeEach(() => {
     .should('have.value', 'demo@gmail.com')
   cy.get('#password')
     .type('123456')
+    .should('have.value', '123456')
   cy.contains('Log In')
     .click()
 })
@@ -18,16 +19,17 @@ describe('Home Page', () => {
   })
 })
 
-describe('Feed Page', () => {
-  it('Add photo to feed', () => {
-    cy.get('input[type="file"]')
-      .click({force: true})
-      .attachFile(yourFixturePath)
-      .click({force: true})
-    cy.contains('Next').click()
-    cy.get('.description-container')
-      .type('hello, it is me')
-    cy.contains('Share').click()
-  })
-})
+// describe('Feed Page', () => {
+//   it('Add photo to feed', () => {
+//     cy.contains('Laravel')
+//     cy.get('input[type="file"]').invoke('show')
+//       .click({force: true})
+//       .attachFile(yourFixturePath)
+//       .click({force: true})
+//     cy.contains('Next').click()
+//     cy.get('.description-container')
+//       .type('hello, it is me')
+//     cy.contains('Share').click()
+//   })
+// })
 
