@@ -20,13 +20,14 @@ describe('Home Page', () => {
 
 describe('Feed Page', () => {
   it('Add photo to feed', () => {
+    cy.contains('Laravel')
     cy.get('input[type="file"]')
       .click({force: true})
       .attachFile(yourFixturePath)
       .click({force: true})
     cy.contains('Next').click()
     cy.get('.description-container')
-      .type('hello, it is me')
+      .type('hello, is it me you are looking for?')
     cy.contains('Share').click()
   })
 })
