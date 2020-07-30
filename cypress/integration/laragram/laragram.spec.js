@@ -19,17 +19,17 @@ describe('Home Page', () => {
   })
 })
 
-describe('Feed Page', () => {
-  it('Add photo to feed', () => {
-    cy.contains('Laravel')
-    cy.get('input[type="file"]').invoke('show')
-      .click({force: true})
-      .attachFile(yourFixturePath)
-      .click({force: true})
-    cy.contains('Next').click()
-    cy.get('.description-container')
-      .type('hello, it is me')
-    cy.contains('Share').click()
-  })
-})
+// describe('Feed Page', () => {
+//   it('Add photo to feed', () => {
+//     cy.contains('Laravel')
+//     cy.get('input[type="file"]').invoke('show')
+//       .click({force: true})
+//       .attachFile(yourFixturePath)
+//       .click({force: true})
+//     cy.contains('Next').click()
+//     cy.get('.description-container')
+//       .type('hello, it is me')
+//     cy.contains('Share').click()
+//   })
+// })
 
