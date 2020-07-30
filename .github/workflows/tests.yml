@@ -10,9 +10,9 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_ROOT_PASSWORD: forge
-          MYSQL_DATABASE: forge
-          DB_HOST: localhost
+          MYSQL_USER: forge
+          MYSQL_PASSWORD: forge
+          MYSQL_HOST: localhost
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -22,7 +22,7 @@ jobs:
       uses: actions/checkout@v1
 
     - name: Copy ENV Laravel Configuration for CI
-      run: php -r "file_exists('.env') || copy('.env.production', '.env');"
+      run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
 
     - name: Use Node.js
       uses: actions/setup-node@v1
@@ -34,8 +34,6 @@ jobs:
 
     - name: Generate key
       run: php artisan key:generate
-    - name: Create schemas
-      run: php artisan migrate --seed
 
     - name: Build site
       run: npm run dev
