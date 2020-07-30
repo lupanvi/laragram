@@ -21,6 +21,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
 
+    - name: Lint
+      uses: overtrue/phplint@master
+
     - name: Copy ENV Laravel Configuration for CI
       run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
 
