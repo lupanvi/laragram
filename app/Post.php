@@ -11,7 +11,7 @@ class Post extends Model
 	 
     protected $guarded = [];    
     
-    protected $appends = ['liked', 'likesCount', 'can_update','path', 'commentsCount'];    
+    protected $appends = ['liked', 'likesCount', 'can_update','path', 'commentsCount']; 
 
     public function getCanUpdateAttribute()
     {
@@ -128,8 +128,6 @@ class Post extends Model
         if ($this->likes()->where($attributes)->exists()) {            
             return $this->likes()->detach(auth()->id());
         }
-    }
-
-
+    }        
 
 }

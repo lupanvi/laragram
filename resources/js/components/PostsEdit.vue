@@ -19,17 +19,23 @@
                     </div> 
 
                     <div class="main-image"
-                         :class="postEdit.filter"
-                         :style="{ backgroundImage: 'url(' + postEdit.image_path + ')' }">
+                         :class="post.filter"
+                         :style="{ backgroundImage: 'url(' + post.image_path + ')' }">
                          	
                     </div>                                               
 
                     <div class="description-container">
 
-                        <textarea v-model="postEdit.description" class="form-control" placeholder="Write a description">
+                        <textarea v-model="post.description" class="form-control" placeholder="Write a description">
                             
                         </textarea>
                         
+                    </div>
+
+                    <div 
+                        v-if="feedback" 
+                        class="alert alert-danger p-1 m-1" 
+                        v-text="feedback">                        
                     </div>
 
                 </div>
@@ -39,41 +45,55 @@
     </div>
 	
 </template>
-<script>
-	
-	import {mapActions} from 'vuex';
+<script>	
+
+    import {mapGetters} from 'vuex';
+    import store from "../store";
 
 	export default{	
 
         name: 'PostsEdit',
 
-        props:{
-            post:{
-                type: Object,
-                required: true
-            }
-        },        
+        beforeRouteEnter(to, from, next) { 
+
+            store.dispatch('fetchPost', to.params.id);                        
+            return next();
+        },
+
+        beforeRouteLeave(to, from, next) {
+            store.dispatch('resetStatePost');
+            return next();
+        },
+
+        computed:{
+
+            ...mapGetters(['post'])                
+
+        },     
+
 
 		data(){
-			return {
-                postEdit: this.post                
+			return {                
+                feedback:''                
 			}
 		},
 
-		methods:{
+		methods:{            
 
-            ...mapActions(['editPost']),			
+			edit(){               
 
-			edit(){
-
-                this.editPost({
-                    id: this.postEdit.id, 
-                    description: this.postEdit.description
-                });	
-
-                this.postEdit = {} 
+                this.$store
+                    .dispatch('editPost')
+                    .then(()=>{                        
+                        this.$router.push('/');
+                    }).catch(({data})=>{
+                        this.feedback = data;
+                    });                                
 				
-			}
+			},
+            close(){
+                this.$router.push('/');
+            }
 
 		}
 

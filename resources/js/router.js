@@ -24,7 +24,7 @@ const router = new VueRouter({
     	name: 'register' 
     },
     { 
-    	path: '/posts/edit', 
+    	path: '/posts/edit/:id', 
     	component: PostsEdit, 
     	name: 'posts.edit',
       props: true 

@@ -14,6 +14,7 @@
 
 Auth::routes();
 
+Route::get('/posts/{post}','PostsController@show');
 Route::get('/posts','PostsController@index');
 Route::post('/posts','PostsController@store');
 Route::patch('/posts/{post}','PostsController@update');

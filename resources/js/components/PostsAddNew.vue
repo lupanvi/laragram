@@ -60,8 +60,7 @@
 </template>
 <script>
 
-	import filters from "../filters";
-	import EventBus from '../event-bus.js';		
+	import filters from "../filters";		
 
 	export default{	
 
@@ -73,7 +72,7 @@
 				required: true
 			},
 			imageFile: {
-				type: Object,
+				type: File,
 				required: true
 			}
 		},		
@@ -119,16 +118,17 @@
 
                 data.append('image_path', this.imageData);                
                 data.append('filter', this.selectedFilter);                
-                data.append('description', this.description);  
-                
-				axios.post('/posts', data).then( ({data}) => {					
-					
-					this.reset();	
-					this.close();
+                data.append('description', this.description);
 
-				}).catch( error =>{
-					this.feedback = error.response.data.message;
-				});				
+                this.$store
+                	.dispatch('addPost', data)
+                	.then(()=>{
+                		this.reset();
+                		this.close();  
+                	}).catch(error=>{
+
+                		this.feedback = error.response.data.message;
+                	});               
 				
 			}
 

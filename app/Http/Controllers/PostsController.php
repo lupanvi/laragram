@@ -38,18 +38,17 @@ class PostsController extends Controller
     *     
     * @return mixed
     */
-    public function store(){
+    public function store(){        
 
     	request()->validate([
-            'image_path' => ['required', 'image']            
+            'image_path' => ['required', 'image']
         ]); 
 
         $post = Post::create([
             'user_id' => auth()->id(),
             'image_path' => request()->file('image_path')->store('posts', 'public'),  
             'description' => request('description'),
-            'filter' => request('filter')            
-
+            'filter' => request('filter')
         ])->load('user');    
 
         return $post;
@@ -65,6 +64,8 @@ class PostsController extends Controller
         $this->authorize('update', $post);
 
         $post->update(['description' => request('description')]);        
+
+        return $post;
 
     }
 
@@ -87,6 +88,21 @@ class PostsController extends Controller
         
         return response([], 204);        
         
+    }
+
+    /**
+    * Retrieve the given post.
+    *     
+    * @param Post $post
+    */
+    public function show(Post $post){        
+
+        if (request()->expectsJson()) {  
+                     
+             return $post;
+             
+        }
+
     }
     
 }

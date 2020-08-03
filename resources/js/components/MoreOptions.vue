@@ -14,7 +14,7 @@
 </template>
 <script>	
 
-	//import EventBus from '../event-bus.js'; 
+	
 	import {mapActions} from 'vuex';
 
 	export default{        
@@ -35,8 +35,8 @@
 
 			edit(){	                          
 
-				 this.$modal.hide('more-options-modal'); 				 
-                 this.$router.push({ name: 'posts.edit', params: {post: this.post}  });   		                     				
+				 this.$modal.hide('more-options-modal'); 
+				 this.$router.push({ name: 'posts.edit', params: {id: this.post.id}  });   	
 			},
 
             destroy(){                                           

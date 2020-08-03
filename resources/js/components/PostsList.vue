@@ -11,6 +11,7 @@
 
 import PostsItem from './PostsItem';
 import {mapGetters, mapActions} from 'vuex';
+import store from "../store";
 
 export default {  
 
@@ -18,23 +19,15 @@ export default {
 
     components:{ PostsItem },
 
+    beforeRouteEnter(to, from, next) {
+       store.dispatch('fetchPosts');                        
+       return next();
+    },
+
     computed:{
 
         ...mapGetters(['postsList'])                
 
-    },
-
-    created(){                        
-        
-        this.fetchPosts();                
-
-    },
-
-    methods:{
-
-        ...mapActions(['fetchPosts'])       
-
     }
-
 }
 </script>
