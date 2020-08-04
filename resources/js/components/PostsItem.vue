@@ -32,7 +32,7 @@
                     <div class="info">
                     
                         <div class="social">                
-                            <i class="fas fa-heart" :class="post.liked ? 'post.liked' : ''" @click="toggle"></i>
+                            <i class="fas fa-heart" :class="post.liked ? 'liked' : ''" @click="toggle"></i>
 
                             <i class="far fa-comment" @click.prevent="showAllcomments"></i>
 

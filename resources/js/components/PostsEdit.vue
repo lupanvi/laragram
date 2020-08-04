@@ -3,7 +3,7 @@
         <div class="container">           
 
             <div class="row justify-content-center">
-                <div class="col-lg-6">  
+                <div class="col-lg-6">                                         
 
                     <div class="header d-flex justify-content-between align-items-center">
                         <div>
@@ -13,7 +13,7 @@
                             <h1>Edit information</h1>
                         </div>
                         <div>                            
-                            <a href="#" @click.prevent="edit">Save</a>                            
+                            <a class="btn" :class="inProgress ? 'disabled' : ''" href="#" @click.prevent="edit">Save</a>                            
                         </div>
 
                     </div> 
@@ -38,10 +38,12 @@
                         v-text="feedback">                        
                     </div>
 
+                     
+
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
 	
 </template>
@@ -74,19 +76,26 @@
 
 		data(){
 			return {                
-                feedback:''                
+                feedback:'',
+                inProgress: false
 			}
 		},
 
 		methods:{            
 
-			edit(){               
+			edit(){ 
+
+                this.inProgress = true;              
 
                 this.$store
                     .dispatch('editPost')
-                    .then(()=>{                        
+                    .then(()=>{
+
                         this.$router.push('/');
+                        this.inProgress = false;                        
+
                     }).catch(({data})=>{
+                        this.inProgress = false;
                         this.feedback = data;
                     });                                
 				

@@ -16,7 +16,7 @@
 	                        </div>
 	                        <div>                            
 	                            <a href="#" v-if="step === 1" @click.prevent="step = 2 ">Next</a>
-	                            <a href="#" v-if="step === 2" @click.prevent="share">Share</a>
+	                            <a class="btn" :class="inProgress ? 'disabled' : ''" href="#" v-if="step === 2" @click.prevent="share">Share</a>
 	                        </div>
 
 	                    </div> 
@@ -85,7 +85,8 @@
 				description:'',
 				imageSrc: this.image,
 				imageData: this.imageFile,
-				feedback:''				
+				feedback:'',
+				inProgress: false				
 			}
 		},
 
@@ -108,11 +109,13 @@
 			},
 
 			close(){
-				this.imageSrc = this.imageData = '';				
+				this.imageSrc = '';
+				this.imageData = '';				
 				this.$router.push('/');
 			},
 
 			share(){
+				this.inProgress = true;
 
 				let data = new FormData();
 
@@ -123,10 +126,11 @@
                 this.$store
                 	.dispatch('addPost', data)
                 	.then(()=>{
+                		this.inProgress = false;
                 		this.reset();
                 		this.close();  
                 	}).catch(error=>{
-
+                		this.inProgress = false;
                 		this.feedback = error.response.data.message;
                 	});               
 				

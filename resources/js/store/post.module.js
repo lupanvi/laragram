@@ -9,6 +9,7 @@ const initialState = {
 		image_path: ''
 	}
 
+
 };
 
 const state = { ...initialState };
@@ -40,6 +41,10 @@ const actions = {
 
 	resetStatePost({commit}){
 		commit('RESET_STATE');
+	},
+
+	fetchComments({}){
+
 	}
 	
 };

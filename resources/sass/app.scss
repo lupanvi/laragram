@@ -170,7 +170,7 @@ footer{
     }
 
     input:focus ~ label, input:not(:placeholder-shown) ~ label {       
-          top: -10px;
+       top: -10px;
        font-size: 10px;
     }
 }
@@ -203,4 +203,18 @@ footer{
         border-bottom-left-radius: 12px;
         border-bottom-right-radius: 12px;
     }
+}
+
+.btn{
+    color: #3490dc;
+}
+
+.btn:hover{
+    color: #1d68a7;
+    text-decoration: underline;    
+}
+
+.btn:focus, .btn.focus {
+    outline: none;
+    box-shadow: none;
 }

@@ -6,7 +6,7 @@ const state = {
 
 const getters = {
 
-	postsList(state, getters){			
+	postsList(state, getters){
 
 		return state.posts
 
