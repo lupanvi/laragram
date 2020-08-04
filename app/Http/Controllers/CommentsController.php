@@ -25,10 +25,7 @@ class CommentsController extends Controller
 
         if (request()->wantsJson()){
 
-            return [                
-                'post'=> $post->load('user'),
-                'comments'=> $comments
-            ];    
+            return $comments;    
 
         }        
 

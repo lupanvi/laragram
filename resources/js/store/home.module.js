@@ -43,7 +43,18 @@ const mutations = {
         state.posts = state.posts.filter((post)=>{
             return post.id !== postId
         });
-    }
+    },
+    UPDATE_POST_IN_LIST(state, data) {
+    state.posts = state.posts.map(post => {
+      if (post.id !== data.id) {
+        return post;
+      }
+     
+      post.liked = data.liked;
+      post.likesCount = data.likesCount;
+      return post;
+    });
+  }
 
 };
 

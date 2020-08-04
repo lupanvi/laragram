@@ -2,13 +2,9 @@
 	<div class="comments">
 		<div class="container">           
             <div class="row justify-content-center">
-                <div class="col-lg-8 mt-3">
+                <div class="col-lg-8 mt-3">                	
 
-                	<div v-if="loading" class="loading text-center">
-                		<i class="fas fa-circle-notch fa-spin"></i>
-                	</div> 
-
-                	<div v-else class="d-flex flex-column vh-100">
+                	<div class="d-flex flex-column vh-100">
 
 						<div class="header d-flex align-items-center border-bottom">
 							<a class="mr-4 return" href="#" @click.prevent="$router.push('/')">
@@ -53,7 +49,7 @@
 				        </div>
 
 
-						<comments-add-new :path="post.path" @addComment="add"></comments-add-new>
+						<comments-add-new :path="post.path" :id="post.id"></comments-add-new>
 
 					</div>
 
@@ -65,6 +61,8 @@
 
 <script>
 
+	import { mapGetters } from "vuex";
+	import store from "../store";
 	import CommentsAddNew from './CommentsAddNew';
 	import CommentsItem from './CommentsItem';
 	import moment from 'moment';
@@ -72,48 +70,26 @@
 	export default {	
 		name: 'CommentsList',
 
-		computed: {
+		beforeRouteEnter(to, from, next) {
+			Promise.all([
+			      store.dispatch('fetchPost', to.params.id),
+			      store.dispatch('fetchComments', to.params.id)
+			    ]).then(() => {
+			      next();			      
+			    });
+		},
+
+		computed: {			
 
 			ago(){
                 return moment(this.post.created_at).fromNow();
-        	}
+        	},
 
-		},		
+        	...mapGetters(["post", "comments"])
 
-		data(){
-			return {
-				comments: [],
-				post: {},
-				loading: true
-			}
-		},
+		},							
 
-		created(){			
-			 
-			 this.getComments();	
-			
-		},	
-
-		components: { CommentsAddNew, CommentsItem },		
-
-		methods:{
-
-			add(comment){
-				this.comments.unshift(comment);				
-			},
-			
-			getComments(){
-
-				axios.get('/posts/'+this.$route.params.id+'/comments/all')
-					 .then(({data}) => {
-					 	this.post = data.post;
-					 	this.comments = data.comments;					 	
-					 	this.loading = false;
-					 });
-
-			}			
-
-		}
+		components: { CommentsAddNew, CommentsItem }		
 
 		
 	}

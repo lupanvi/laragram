@@ -65,8 +65,7 @@ class Post extends Model
      * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
      */
     public function likes()
-    {
-        //return $this->belongsToMany(User::class,'post_user', 'post_id', 'user_id');
+    {        
         return $this->belongsToMany(User::class);
     }
 

@@ -11,6 +11,10 @@
 			path:{
 				type: String,
 				required: true
+			},
+			id:{
+				type: Number,
+				required: true
 			}
 		},
 		
@@ -29,13 +33,17 @@
 
 		methods:{
 			addComment(){
-				
-				axios.post(this.path+'/comments', {body: this.body})				     
-					 .then(({data})=>{
-					 	this.$emit('addComment', data);
-					 	this.body = '';
-					 });
-					 
+
+				this.$store
+					.dispatch('createComment', {
+													path: this.path,
+													postId: this.id, 
+													body: this.body 
+					})
+					.then(()=>{
+						this.body = '';
+					});
+					
 			}
 		}
 	}

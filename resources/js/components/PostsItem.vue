@@ -125,16 +125,13 @@
 
             like(){
 
-                axios.post(`${this.post.path}/likes`);
-                this.post.liked = true;
-                this.post.likesCount++;
-
+                this.$store.dispatch('addLike', this.post.path);                             
             },
 
             dislike(){
-                axios.post(`${this.post.path}/dislike`);
-                this.post.liked = false;
-                this.post.likesCount--;                
+
+                this.$store.dispatch('removeLike', this.post.path);                
+                
             },
 
             moreOptions(){
