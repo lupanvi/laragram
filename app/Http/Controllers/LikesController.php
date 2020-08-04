@@ -22,6 +22,7 @@ class LikesController extends Controller
     */
     public function store(Post $post){
         $post->like();
+        return $post;
     }
 
      /**
@@ -31,5 +32,6 @@ class LikesController extends Controller
     */
     public function destroy(Post $post){
         $post->dislike();
+        return $post;
     }
 }

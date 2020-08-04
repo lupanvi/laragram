@@ -67,13 +67,12 @@ class CommentsTest extends TestCase
         ]);                        
 
         $response = $this->getJson($post->path() .'/comments/all')->json();            
-
-        $this->assertEquals(auth()->id(), $response['post']['user']['id']);
-        $this->assertEquals(2, count($response['comments']));   
-        $this->assertEquals('body text', $response['comments'][0]['body']);        
-        $this->assertEquals('body text 2', $response['comments'][1]['body']);        
-        $this->assertEquals($comment1->owner->id, $response['comments'][0]['owner']['id']);
-        $this->assertEquals($comment2->owner->id, $response['comments'][1]['owner']['id']);
+        
+        $this->assertEquals(2, count($response));   
+        $this->assertEquals('body text', $response[0]['body']);        
+        $this->assertEquals('body text 2', $response[1]['body']);        
+        $this->assertEquals($comment1->owner->id, $response[0]['owner']['id']);
+        $this->assertEquals($comment2->owner->id, $response[1]['owner']['id']);
         
     }
 

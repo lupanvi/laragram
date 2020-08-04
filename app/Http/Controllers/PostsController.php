@@ -99,7 +99,7 @@ class PostsController extends Controller
 
         if (request()->expectsJson()) {  
                      
-             return $post;
+             return $post->load('user');
              
         }
 

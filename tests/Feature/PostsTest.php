@@ -136,4 +136,18 @@ class PostsTest extends TestCase
         
     }
 
+    /** @test*/
+    function a_user_can_see_a_given_post(){
+
+        $user = $this->signIn();
+        $post = factory(Post::class)->create();         
+
+        $response = $this->json('GET','/posts/'.$post->id )->json();   
+
+        $this->assertEquals($post->id, $response['id']);
+        $this->assertEquals($post->description, $response['description']);
+
+    }
+
+
 }

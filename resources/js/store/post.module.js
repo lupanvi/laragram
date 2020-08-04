@@ -6,9 +6,13 @@ const initialState = {
 		id:'',
 		description: '',
 		filter: '',
-		image_path: ''
-	}
+		image_path: '',
+		created_at:'',
+		path:'',		
+		user:{}
+	},
 
+	comments:[]	
 
 };
 
@@ -24,16 +28,11 @@ const actions = {
 		return axios.post('/posts', post);
 	},
 
-	fetchPost({commit}, id){
-		axios.get('/posts/'+id)
+	fetchPost({commit}, postId){
+		return axios.get('/posts/'+postId)
 			 .then(({data})=>{
 
-				commit('SET_POST', {
-					id: data.id,
-					description: data.description,
-					filter: data.filter,
-					image_path: data.image_path
-				});
+				commit('SET_POST', data);
 
 			 });		
 		
@@ -43,8 +42,41 @@ const actions = {
 		commit('RESET_STATE');
 	},
 
-	fetchComments({}){
+	fetchComments({commit}, postId){
 
+		return axios.get('/posts/' + postId + '/comments/all')
+					.then(({data}) => {					 
+					 	commit('SET_COMMENTS', data);					 						 						 	
+					});		
+
+	},
+
+	createComment({dispatch}, payload){
+		return axios.post(payload.path+'/comments', {body: payload.body})				     
+					 .then(({data})=>{
+					 	dispatch('fetchComments', payload.postId);					 	
+					 });
+	},
+
+	addLike({commit},postPath){
+		return axios.post(`${postPath}/likes`)
+					.then(({data})=>{
+
+						commit('UPDATE_POST_IN_LIST', data, { root: true });
+						commit('SET_POST',data);
+
+					});
+            
+	},
+
+	removeLike({commit}, postPath){
+		return axios.post(`${postPath}/dislike`)
+					.then(({data})=>{
+
+						commit('UPDATE_POST_IN_LIST', data, { root: true });
+						commit('SET_POST',data);
+
+					});
 	}
 	
 };
@@ -62,6 +94,10 @@ const mutations = {
 	      Vue.set(state, f, initialState[f]);
 	    }
 
+  	},
+
+  	SET_COMMENTS(state, comments){
+  		state.comments = comments;
   	}
 
 
@@ -70,6 +106,9 @@ const mutations = {
 const getters = {
 	post(state) {
     	return state.post;
+  	},
+  	comments(state){
+  		return state.comments;
   	}
 };
 
