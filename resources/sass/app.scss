@@ -205,16 +205,20 @@ footer{
     }
 }
 
-.btn{
-    color: #3490dc;
-}
+.new-post, .edit-post{
 
-.btn:hover{
-    color: #1d68a7;
-    text-decoration: underline;    
-}
+    .btn{
+        color: #3490dc;
+    }
 
-.btn:focus, .btn.focus {
-    outline: none;
-    box-shadow: none;
+    .btn:hover{
+        color: #1d68a7;
+        text-decoration: underline;    
+    }
+
+    .btn:focus, .btn.focus {
+        outline: none;
+        box-shadow: none;
+    }
+
 }

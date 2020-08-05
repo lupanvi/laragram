@@ -137,7 +137,7 @@
         <div class="row mt-4">
             <div class="offset-md-3 col-md-6 bg-white border text-center">
                 <p class="m-3">
-                    Tienes una cuenta? <router-link :to="{ name:'register' }">entrar</router-link>
+                    Tienes una cuenta? <router-link :to="{ name:'login' }">entrar</router-link>
                 </p>
             </div>
         </div>
