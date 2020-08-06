@@ -1,4 +1,3 @@
-import router from '../router';
 
 const state = { 
 	posts: []		
