@@ -51,6 +51,11 @@
 
     import {mapGetters} from 'vuex';
     import store from "../store";
+    import {         
+        FETCH_POST,
+        POST_RESET_STATE        
+    } from "../store/actions.type";
+
 
 	export default{	
 
@@ -58,12 +63,12 @@
 
         beforeRouteEnter(to, from, next) { 
 
-            store.dispatch('fetchPost', to.params.id);                        
+            store.dispatch(FETCH_POST, to.params.id);                        
             return next();
         },
 
         beforeRouteLeave(to, from, next) {
-            store.dispatch('resetStatePost');
+            store.dispatch(POST_RESET_STATE);
             return next();
         },
 

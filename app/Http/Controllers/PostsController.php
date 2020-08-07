@@ -25,7 +25,7 @@ class PostsController extends Controller
      */    
     public function index(){
     	
-    	if (request()->expectsJson()) {  
+    	if (request()->expectsJson()){
 
              return Post::with('user')->latest()->get();
              
