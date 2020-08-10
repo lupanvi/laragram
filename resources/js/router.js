@@ -5,13 +5,42 @@ import Register from './components/Register';
 import PostsEdit from './components/PostsEdit';
 import PostsAddNew from './components/PostsAddNew';
 import CommentsList from './components/CommentsList';
+import Dashboard from './components/Dashboard';
+import { mapGetters } from "vuex";
 
 const router = new VueRouter({
   mode: 'history',
   routes: [
-  	{ path: '/', 
-  		beforeEnter: requireLogin,
-  		component: PostsList 		
+  	{ path: '/',   		
+      beforeEnter: requireLogin,
+      component: Dashboard,
+      children : [
+        {
+          path: "",
+          name: "home",
+          component: PostsList
+        },
+
+        { 
+          path: '/posts/edit/:id', 
+          component: PostsEdit, 
+          name: 'posts.edit',
+          props: true 
+        },
+        { 
+          path: '/posts/create', 
+          component: PostsAddNew, 
+          name: 'posts.create',
+          props: true
+        },
+        {
+          path:'/posts/:id/comments',
+          component: CommentsList,
+          name:'comments.index',
+          props: true
+        }
+
+      ]	
   	},    
     { 
     	path: '/login', 
@@ -22,38 +51,20 @@ const router = new VueRouter({
     	path: '/register', 
     	component: Register, 
     	name: 'register' 
-    },
-    { 
-    	path: '/posts/edit/:id', 
-    	component: PostsEdit, 
-    	name: 'posts.edit',
-      props: true 
-    },
-    { 
-    	path: '/posts/create', 
-    	component: PostsAddNew, 
-    	name: 'posts.create',
-      props: true
-    },
-    {
-      path:'/posts/:id/comments',
-      component: CommentsList,
-      name:'comments.index',
-      props: true
-    }
+    }    
 
   ]
 });
 
-const requireLogin = () =>{
+const requireLogin = () =>{  
 
-	if (window.App.signedIn) {
+	if (mapGetters('isAuthenticated')) {
         next(true);
-    } else {
-        next({
-            name: 'login'            
-        })
-    }
+  } else {
+      next({
+          name: 'login'            
+      })
+  }
 
 }
 

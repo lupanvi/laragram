@@ -1,8 +1,7 @@
-import {LOGIN, LOGOUT, REGISTER} from "./actions.type";
+import {LOGIN, LOGOUT, REGISTER, CHECK_AUTH} from "./actions.type";
 import {SET_AUTH, PURGE_AUTH} from './mutations.type';
 
-const state = {
-  errors: null,
+const state = {  
   user: {},
   isAuthenticated: false
 };

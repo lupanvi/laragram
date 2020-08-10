@@ -102,9 +102,9 @@ export default {
             this.loading = true;
 
             this.$store
-                .dispatch(LOGIN)
-                .then(response => {
-                    this.$router.push('/');
+                .dispatch(LOGIN, this.form)
+                .then(response => { 
+                    this.$router.push('/');                                       
                 })
                 .catch(error=>{
                     this.feedback = error.response.data.message;

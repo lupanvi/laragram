@@ -24,13 +24,9 @@ class HomeController extends Controller
      * @return mixed
      */
     public function index()
-    {
-        
-        if (!Auth::check()){            
-            return redirect('login');
-        }
-        
-        return view('home');        
+    {        
+              
+        return view('layouts.home');        
     }
     
 

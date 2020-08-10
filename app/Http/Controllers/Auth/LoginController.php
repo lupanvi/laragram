@@ -39,6 +39,16 @@ class LoginController extends Controller
     }
 
     /**
+     * Show the application's login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showLoginForm()
+    {
+        return view('layouts.home');
+    }
+
+    /**
      * The user has been authenticated.
      *
      * @param  \Illuminate\Http\Request $request
@@ -48,7 +58,7 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         if ($request->wantsJson()) {
-            return $user;
+            return $user;            
             //return response()->json(['redirect' => $this->redirectTo], 200);
         }
 
