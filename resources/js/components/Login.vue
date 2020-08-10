@@ -5,7 +5,7 @@
 
                 <h1 class="text-center">Laragram</h1>
 
-                <form @submit.prevent="login" @keydown="feedback = ''">               
+                <form @submit.prevent="onSubmit" @keydown="feedback = ''">               
 
                     <div class="form-group row">                    
                         <div class="col-md-12">
@@ -85,7 +85,7 @@
 </template>
 <script>
 
-import VueRouter from 'vue-router';
+import {LOGIN} from '../store/actions.type.js';
 
 export default {
     name: 'Login',
@@ -98,23 +98,20 @@ export default {
     },
 
     methods: {
-        login() {
+        onSubmit() {
             this.loading = true;
 
-            axios
-                .post("/login", this.form, {
-                    headers:{
-                        'Content-Type':'application/json',
-                        'Accept':'application/json'
-                    }
+            this.$store
+                .dispatch(LOGIN)
+                .then(response => {
+                    this.$router.push('/');
                 })
-                .then(({data: {redirect}}) => {                    
-                    location.assign(redirect);
-                })
-                .catch(error => {
+                .catch(error=>{
                     this.feedback = error.response.data.message;
                     this.loading = false;
                 });
+
+        
         }
     }
 };

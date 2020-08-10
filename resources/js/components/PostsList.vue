@@ -1,11 +1,6 @@
 <template>    
-    <div class="posts"> 
-
-        <div v-if="isLoading" class="loading w-100 d-flex align-items-center justify-content-center">
-            <i class="fab fa-instagram"></i>
-        </div>      
-
-        <div v-else v-for="post in postsList" :key="post.id">
+    <div class="posts">           
+        <div v-for="post in postsList" :key="post.id">
             <posts-item :post="post"></posts-item>
         </div>         
         <div v-if="postsList.length == 0">There are no images</div>        
@@ -31,7 +26,7 @@ export default {
 
     computed:{
 
-        ...mapGetters(['postsList', 'isLoading'])                
+        ...mapGetters(['postsList'])                
 
     }
 }

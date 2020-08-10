@@ -1,22 +1,19 @@
 import { FETCH_POSTS, POST_DELETE } from "./actions.type";
-import { 
-  FETCH_START, 
-  FETCH_END, 
+import {   
+  SET_POSTS,
   UPDATE_POST_IN_LIST, 
   REMOVE_POST_IN_LIST 
 } from "./mutations.type";
 
 const state = {
-	posts: [],
-  isLoading: false  
+	posts: []  
 };
 
 const actions = {
 	
-	[FETCH_POSTS]({commit}){
-    commit(FETCH_START); 
+	[FETCH_POSTS]({commit}){    
 		axios.get('/posts').then(({data})=>{
-			commit(FETCH_END, data);                
+			commit(SET_POSTS, data);                
     }).catch(error => {
       throw new Error(error);
     });
@@ -30,15 +27,10 @@ const actions = {
 
 };
 
-const mutations = {
+const mutations = {  
 
-  [FETCH_START](state) {
-    state.isLoading = true;
-  },
-
-  [FETCH_END](state, posts) {
+  [SET_POSTS](state, posts) {
     state.posts = posts;    
-    state.isLoading = false;
   },
 
 	[REMOVE_POST_IN_LIST](state, postId){
@@ -64,9 +56,6 @@ const mutations = {
 const getters = {
   postsList(state){
     return state.posts
-  },
-  isLoading(state) {
-    return state.isLoading;
   }
 };
 
