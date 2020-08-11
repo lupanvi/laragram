@@ -1,5 +1,5 @@
 <template>
-<div>
+<div>	
 	<nav v-if="isAuthenticated" class="navbar navbar-expand-md navbar-light navbar-laravel">
 	    <div class="container">
 	        <a class="navbar-brand" href="$router.push('/')">
@@ -31,10 +31,14 @@
 	        </div>
 	    </div>
 	</nav>
+	<div v-else>
+		no hay login
+	</div>
 
 	 <div class="container pb-2">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">                                                              			<router-view></router-view>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <router-view></router-view>
 			 </div>
 	    </div>
 	</div>

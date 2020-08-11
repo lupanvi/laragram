@@ -67,5 +67,56 @@ const requireLogin = () =>{
   }
 
 }
+/*
+const router = new VueRouter({
+  mode: 'history',
+  routes: [
+    { path: '/', 
+      beforeEnter: requireLogin,
+      component: PostsList    
+    },    
+    { 
+      path: '/login', 
+      component: Login, 
+      name:'login' 
+    },
+    { 
+      path: '/register', 
+      component: Register, 
+      name: 'register' 
+    },
+    { 
+      path: '/posts/edit/:id', 
+      component: PostsEdit, 
+      name: 'posts.edit',
+      props: true 
+    },
+    { 
+      path: '/posts/create', 
+      component: PostsAddNew, 
+      name: 'posts.create',
+      props: true
+    },
+    {
+      path:'/posts/:id/comments',
+      component: CommentsList,
+      name:'comments.index',
+      props: true
+    }
+
+  ]
+});
+
+const requireLogin = () =>{
+
+  if (window.App.signedIn) {
+        next(true);
+    } else {
+        next({
+            name: 'login'            
+        })
+    }
+
+}*/
 
 export default router;
