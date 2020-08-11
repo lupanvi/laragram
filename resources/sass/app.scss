@@ -70,6 +70,15 @@ footer{
     z-index:800;
 }
 
+.loading{
+    position: fixed;
+    left: 0;
+    top: 0;    
+    height: 100vh;
+    background: #fafafa;
+    z-index: 9999;   
+}
+
 .loading i{
     font-size: 3rem;
 }

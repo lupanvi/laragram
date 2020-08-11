@@ -80,6 +80,7 @@
 <script>
 
     import moment from 'moment';
+    import { LIKE_ADD, LIKE_REMOVE } from "../store/actions.type";
 
 	export default{
         name: 'PostsItem',        
@@ -124,14 +125,11 @@
             },
 
             like(){
-
-                this.$store.dispatch('addLike', this.post.path);                             
+                this.$store.dispatch(LIKE_ADD, this.post.path);
             },
 
             dislike(){
-
-                this.$store.dispatch('removeLike', this.post.path);                
-                
+                this.$store.dispatch(LIKE_REMOVE, this.post.path);                                
             },
 
             moreOptions(){

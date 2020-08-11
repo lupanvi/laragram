@@ -60,7 +60,10 @@
 </template>
 <script>
 
-	import filters from "../filters";		
+	import filters from "../filters";
+	import { 		
+		POST_PUBLISH		
+	} from "../store/actions.type";		
 
 	export default{	
 
@@ -124,7 +127,7 @@
                 data.append('description', this.description);
 
                 this.$store
-                	.dispatch('addPost', data)
+                	.dispatch(POST_PUBLISH, data)
                 	.then(()=>{
                 		this.inProgress = false;
                 		this.reset();
