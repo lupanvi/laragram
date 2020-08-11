@@ -1,49 +1,45 @@
+import { FETCH_POSTS, POST_DELETE } from "./actions.type";
+import { 
+  SET_POSTS,  
+  UPDATE_POST_IN_LIST, 
+  REMOVE_POST_IN_LIST 
+} from "./mutations.type";
 
-const state = { 
-	posts: []		
+const state = {
+	posts: []  
 };
 
-const getters = {
-
-	postsList(state, getters){
-
-		return state.posts
-
-	}
-
-};
-
-const actions =  {
+const actions = {
 	
-	fetchPosts({commit}){			
-
-		axios.get('/posts').then(({data})=>{            
-			commit('SET_POSTS', data);                
-        });		
-
+	[FETCH_POSTS]({commit}){    
+		axios.get('/posts').then(({data})=>{
+			commit(SET_POSTS, data);                
+    }).catch(error => {
+      throw new Error(error);
+    });
 	},
 	
-	removePost({commit}, postId){
+	[POST_DELETE]({commit}, postId){
 		axios.delete('/posts/'+ postId).then(()=>{
-			commit('REMOVE_POST', postId );
-        }); 
+			commit(REMOVE_POST_IN_LIST, postId );
+    }); 
 	}	
-
 
 };
 
 const mutations = {
+ 
+  [SET_POSTS](state, posts) {
+    state.posts = posts;    
+  },
 
-	SET_POSTS(state, posts){			
-		state.posts = posts;
-	},
-
-	REMOVE_POST(state, postId){
+	[REMOVE_POST_IN_LIST](state, postId){
         state.posts = state.posts.filter((post)=>{
             return post.id !== postId
         });
-    },
-    UPDATE_POST_IN_LIST(state, data) {
+  },
+
+  [UPDATE_POST_IN_LIST](state, data){
     state.posts = state.posts.map(post => {
       if (post.id !== data.id) {
         return post;
@@ -55,6 +51,12 @@ const mutations = {
     });
   }
 
+};
+
+const getters = {
+  postsList(state){
+    return state.posts
+  }
 };
 
 export default {
