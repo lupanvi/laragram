@@ -1,5 +1,4 @@
-export const FETCH_END = "setPosts";
-export const FETCH_START = "setLoading";
+export const SET_POSTS = "setPosts";
 export const SET_POST = "setPost";
 export const SET_COMMENTS = "setComments";
 export const SET_ERROR = "setError";
