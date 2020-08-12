@@ -1,7 +1,10 @@
 <template>    
     <div class="posts">             
+        <div v-if="isLoading" class="loading w-100 d-flex align-items-center justify-content-center">
+            <i class="fab fa-instagram"></i>
+        </div>      
 
-        <div v-for="post in postsList" :key="post.id">
+        <div v-else v-for="post in postsList" :key="post.id">
             <posts-item :post="post"></posts-item>
         </div>         
         <div v-if="postsList.length == 0">There are no images</div>        
@@ -21,13 +24,13 @@ export default {
     components:{ PostsItem },
 
     beforeRouteEnter(to, from, next) {
-       store.dispatch(FETCH_POSTS);
+       store.dispatch(FETCH_POSTS);                        
        return next();
     },
 
     computed:{
 
-        ...mapGetters(['postsList'])                
+        ...mapGetters(['postsList', 'isLoading'])                
 
     }
 }
