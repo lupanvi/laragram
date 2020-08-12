@@ -1,6 +1,5 @@
 <template>    
-    <div class="posts">             
-
+    <div class="posts">                         
         <div v-for="post in postsList" :key="post.id">
             <posts-item :post="post"></posts-item>
         </div>         
@@ -21,7 +20,7 @@ export default {
     components:{ PostsItem },
 
     beforeRouteEnter(to, from, next) {
-       store.dispatch(FETCH_POSTS);
+       store.dispatch(FETCH_POSTS);                        
        return next();
     },
 
