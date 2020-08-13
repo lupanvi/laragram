@@ -20,14 +20,14 @@ const actions = {
 
   	return new Promise((resolve, reject) => {
       	axios
-      		.post("/login", credentials, {
+      		.post("/api/auth/login", credentials, {
 	            headers:{
 	                'Content-Type':'application/json',
 	                'Accept':'application/json'
 	            }
 	        })
 	        .then(({ data }) => {
-	          commit(SET_AUTH, data);
+	          commit(SET_AUTH, data);            
 	          resolve(data);
 	        })
 	        .catch(error => {
@@ -60,7 +60,9 @@ const actions = {
 const mutations = {  
   [SET_AUTH](state, user) {
     state.isAuthenticated = true;
-    state.user = user;    
+    state.user = user; 
+    let currentUser = Object.assign({}, state.user, {token: state.access_token});            
+    localStorage.setItem("user", JSON.stringify(currentUser));   
   },
   [PURGE_AUTH](state) {
     state.isAuthenticated = false;

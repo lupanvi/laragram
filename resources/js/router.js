@@ -5,15 +5,18 @@ import Register from './components/Register';
 import PostsEdit from './components/PostsEdit';
 import PostsAddNew from './components/PostsAddNew';
 import CommentsList from './components/CommentsList';
-import Dashboard from './components/Dashboard';
+import Main from './components/Main';
 import { mapGetters } from "vuex";
 
 const router = new VueRouter({
   mode: 'history',
   routes: [
   	{ path: '/',   		
-      beforeEnter: requireLogin,
-      component: Dashboard,
+      //beforeEnter: requireLogin,
+      component: Main,
+      meta: {
+            requiresAuth: true
+      },
       children : [
         {
           path: "",
