@@ -9,12 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <script>
-        window.App = {!! json_encode([             
-            'signedIn' => Auth::check()
-        ]) !!};
-    </script>
+  
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>

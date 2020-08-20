@@ -17,13 +17,13 @@ export default {
 
     name: 'PostsList',
 
-    components:{ PostsItem },
+    components:{ PostsItem }, 
 
     beforeRouteEnter(to, from, next) {
        store.dispatch(FETCH_POSTS);                        
        return next();
     },
-
+    
     computed:{
 
         ...mapGetters(['postsList'])                

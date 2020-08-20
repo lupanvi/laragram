@@ -66,14 +66,15 @@
 	import CommentsAddNew from './CommentsAddNew';
 	import CommentsItem from './CommentsItem';
 	import moment from 'moment';
+	import {FETCH_POST, FETCH_COMMENTS} from '../store/actions.type';
 
 	export default {	
 		name: 'CommentsList',
 
 		beforeRouteEnter(to, from, next) {
 			Promise.all([
-			      store.dispatch('fetchPost', to.params.id),
-			      store.dispatch('fetchComments', to.params.id)
+			      store.dispatch(FETCH_POST, to.params.id),
+			      store.dispatch(FETCH_COMMENTS, to.params.id)
 			    ]).then(() => {
 			      next();			      
 			    });

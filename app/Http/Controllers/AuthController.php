@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -16,26 +17,20 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
-    /**
-     * Get a JWT via given credentials.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function register(Request $request)
+    public function register()
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:6',
+        
+        request()->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
 
         $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-
+        $user->name = request('name');
+        $user->email = request('email');
+        $user->password = bcrypt(request('password'));
         $user->save();
-
         return response()->json(['user' => $user]);
     }
 
@@ -62,7 +57,13 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth('api')->user());
+        // Get some user from somewhere
+        $user = auth()->user();
+
+        // Get the token
+        $token = auth()->login($user);      
+
+        return $this->respondWithToken($token);
     }
 
     /**
@@ -72,7 +73,7 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        auth('api')->logout();
+        auth()->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
     }
@@ -84,7 +85,7 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        return $this->respondWithToken(auth('api')->refresh());
+        return $this->respondWithToken(auth()->refresh());
     }
 
     /**
@@ -97,14 +98,10 @@ class AuthController extends Controller
     protected function respondWithToken($token)
     {
         return response()->json([
+            'user'=>auth()->user(),
             'access_token' => $token,
-            'user' => $this->guard()->user(),
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
+            'expires_in' => auth()->factory()->getTTL() * 60
         ]);
-    }
-
-    public function guard(){
-        return \Auth::Guard('api');
     }
 }

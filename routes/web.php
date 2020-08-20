@@ -12,7 +12,7 @@
 */
 
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/posts/{post}','PostsController@show');
 Route::get('/posts','PostsController@index');

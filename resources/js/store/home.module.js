@@ -1,3 +1,5 @@
+import JwtService from '../jwt.service.js';
+import Vue from 'vue';
 import { FETCH_POSTS, POST_DELETE } from "./actions.type";
 import {   
   SET_POSTS,
@@ -12,6 +14,7 @@ const state = {
 const actions = {
 	
 	[FETCH_POSTS]({commit}){    
+          
 		axios.get('/posts').then(({data})=>{
 			commit(SET_POSTS, data);                
     }).catch(error => {

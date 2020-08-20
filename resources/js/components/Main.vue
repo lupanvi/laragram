@@ -2,7 +2,7 @@
 <div>	
 	<nav v-if="isAuthenticated" class="navbar navbar-expand-md navbar-light navbar-laravel">
 	    <div class="container">
-	        <a class="navbar-brand" href="$router.push('/')">
+	        <a class="navbar-brand" href="/">
 	            Laragram
 	        </a>
 	        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,7 +65,8 @@
 
 </template>
 <script>
-import { mapGetters } from "vuex";
+import {mapGetters} from 'vuex';
+import { LOGOUT } from "../store/actions.type";
 export default{
 	name:"Dashboard",
 	computed: {
@@ -73,12 +74,11 @@ export default{
   	},
   	methods:{
   		logout(){
-  			axios.post('logout').then(()=>{  				
-  				this.$router.push('/'); 
-  			});
+  			this.$store.dispatch(LOGOUT).then(()=>{
+  				this.$router.push('/login'); 
+  			});  			
   		}
   	}
-
 
 }
 </script>

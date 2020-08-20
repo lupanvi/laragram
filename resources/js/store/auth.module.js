@@ -1,32 +1,32 @@
+import Vue from 'vue';
 import {LOGIN, LOGOUT, REGISTER, CHECK_AUTH} from "./actions.type";
-import {SET_AUTH, PURGE_AUTH} from './mutations.type';
+import {SET_AUTH, PURGE_AUTH, SET_ERROR} from './mutations.type';
+import JwtService from "../jwt.service";
 
 const state = {  
   user: {},
-  isAuthenticated: false
+  isAuthenticated: !!JwtService.getToken(),    
+  errors: null
 };
 
 const getters = {
-  currentUser(state) {
-    return state.user;
+  
+  isAuthenticated(state){
+      return state.isAuthenticated;
   },
-  isAuthenticated(state) {
-    return state.isAuthenticated;
-  }
+  currentUser(state){
+      return state.user;
+  }  
+  
 };
 
 const actions = {
   [LOGIN]({commit}, credentials) {
 
   	return new Promise((resolve, reject) => {
-      	axios
-      		.post("/api/auth/login", credentials, {
-	            headers:{
-	                'Content-Type':'application/json',
-	                'Accept':'application/json'
-	            }
-	        })
-	        .then(({ data }) => {
+      	 axios
+      		.post("/api/auth/login", credentials)
+	        .then(({ data }) => {                        
 	          commit(SET_AUTH, data);            
 	          resolve(data);
 	        })
@@ -37,37 +37,74 @@ const actions = {
 
   },
 
-  [LOGOUT]({commit}) {
-    commit(PURGE_AUTH);
-  }
+  [CHECK_AUTH]({commit}) {    
+    if (JwtService.getToken()) {        
+        axios.defaults.headers.common["Authorization"] = `Bearer ${JwtService.getToken()}`;
+        axios.post('/api/auth/me')
+          .then(({data})=>{
+            
+            commit(SET_AUTH, data);
 
-  /*[REGISTER](context, credentials) {
+        }).catch(response=>{
+
+            commit(SET_ERROR, response.data.errors);
+
+        });
+          
+    } else {
+      commit(PURGE_AUTH);
+    }
+  },
+
+  [LOGOUT]({commit}) {
+
     return new Promise((resolve, reject) => {
-      ApiService.post("users", { user: credentials })
-        .then(({ data }) => {
-          context.commit(SET_AUTH, data.user);
-          resolve(data);
+        axios
+          .post("/api/auth/logout")
+          .then(response => {
+            commit(PURGE_AUTH);
+            resolve(true);
+          })
+          .catch(error => {
+            reject(error);
+          });
+    });
+
+    
+  },
+
+  [REGISTER](context, credentials) {
+    return new Promise((resolve, reject) => {
+      axios.post("/api/auth/register", credentials)
+        .then(({ data }) => {          
+          resolve(true);
         })
         .catch(({ response }) => {
           context.commit(SET_ERROR, response.data.errors);
           reject(response);
         });
     });
-  }*/
+  }
 
 };
 
 const mutations = {  
-  [SET_AUTH](state, user) {
-    state.isAuthenticated = true;
-    state.user = user; 
-    let currentUser = Object.assign({}, state.user, {token: state.access_token});            
-    localStorage.setItem("user", JSON.stringify(currentUser));   
+
+  [SET_ERROR](state, error) {
+    state.errors = error;
   },
-  [PURGE_AUTH](state) {
+
+  [SET_AUTH](state, payload) {    
+    state.isAuthenticated = true;        
+    state.user = payload.user;
+    JwtService.saveToken(payload.access_token);   
+  },
+  [PURGE_AUTH](state) {    
     state.isAuthenticated = false;
-    state.user = {};    
+    state.currentUser = null;
+    JwtService.destroyToken();
   }
+
 };
 
 export default {

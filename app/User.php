@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
@@ -45,7 +45,7 @@ class User extends Authenticatable
      */
     public function getAvatarPathAttribute($avatar)
     {
-        return asset($avatar ?: 'images/avatar_default.jpg');
+        return asset($avatar ?: 'images/avatar_default.png');
     }
 
     /**
@@ -55,7 +55,7 @@ class User extends Authenticatable
     */
     public function getJWTIdentifier()
     {
-    return $this->getKey();
+        return $this->getKey();
     }
     /**
     * Return a key value array, containing any custom claims to be added to the JWT.
@@ -64,7 +64,7 @@ class User extends Authenticatable
     */
     public function getJWTCustomClaims()
     {
-    return [];
+        return [];
     }
   
 }
