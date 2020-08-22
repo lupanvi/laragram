@@ -114,7 +114,7 @@ export default {
                 .then(response => {
                     this.$router.push('/');                                       
                 })
-                .catch(error=>{
+                .catch(error=>{                    
                     this.feedback = error.response.data.message;
                     this.loading = false;
                 });

@@ -37,23 +37,27 @@ const actions = {
 
   },
 
-  [CHECK_AUTH]({commit}) {    
-    if (JwtService.getToken()) {        
-        axios.defaults.headers.common["Authorization"] = `Bearer ${JwtService.getToken()}`;
-        axios.post('/api/auth/me')
-          .then(({data})=>{
-            
-            commit(SET_AUTH, data);
+  [CHECK_AUTH]({commit}) {            
+    
+        if (JwtService.getToken()) {
+        
+            axios.defaults.headers.common["Authorization"] = `Bearer ${JwtService.getToken()}`;
 
-        }).catch(response=>{
-
-            commit(SET_ERROR, response.data.errors);
-
-        });
+            axios.post('/api/auth/me')
+                 .then(({data})=>{                                    
+                    commit(SET_AUTH, data);                    
+                 })
+                 .catch(error=>{                                                          
+                    commit(PURGE_AUTH);
+                    
+                  });
+              
+        } else {
           
-    } else {
-      commit(PURGE_AUTH);
-    }
+          commit(PURGE_AUTH);          
+          
+        }  
+
   },
 
   [LOGOUT]({commit}) {
@@ -91,7 +95,7 @@ const actions = {
 const mutations = {  
 
   [SET_ERROR](state, error) {
-    state.errors = error;
+    state.errors = error;    
   },
 
   [SET_AUTH](state, payload) {    
@@ -100,8 +104,7 @@ const mutations = {
     JwtService.saveToken(payload.access_token);   
   },
   [PURGE_AUTH](state) {    
-    state.isAuthenticated = false;
-    state.currentUser = null;
+    state.isAuthenticated = false;    
     JwtService.destroyToken();
   }
 

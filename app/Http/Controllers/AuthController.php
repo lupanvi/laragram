@@ -18,8 +18,8 @@ class AuthController extends Controller
     }
 
     public function register()
-    {
-        
+    {               
+
         request()->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -99,9 +99,7 @@ class AuthController extends Controller
     {
         return response()->json([
             'user'=>auth()->user(),
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'access_token' => $token            
         ]);
     }
 }

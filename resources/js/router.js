@@ -10,9 +10,9 @@ import store from './store'
 
 const requireLogin = (to, from, next) =>{  
 
-  if (store.getters.isAuthenticated) {
+  if (store.getters.isAuthenticated) {        
         next();        
-  } else {
+  } else {      
       next({
           name: 'login'            
       })

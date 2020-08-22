@@ -22,10 +22,11 @@ class PostsTest extends TestCase
 
         $post = factory(Post::class)->create();
 
-        $this->get('/posts')->assertRedirect('login');   
+        $this->get('/posts')->assertStatus(401);   
 
-        $this->patch($post->path(), ['description'=>'edited'] )->assertRedirect('/login');                                     
-        $this->post('/posts', $post->toArray())->assertStatus(302)->assertRedirect('/login');
+        $this->patch($post->path(), ['description'=>'edited'] )->assertStatus(401);                                     
+        $this->post('/posts', $post->toArray())->assertStatus(401);
+
     } 
 
 
@@ -97,7 +98,7 @@ class PostsTest extends TestCase
 
         $post = factory(Post::class)->create();
 
-        $this->delete($post->path())->assertRedirect('/login');
+        $this->delete($post->path())->assertStatus(401);;
 
         $this->signIn();
         $this->delete($post->path())->assertStatus(403);
