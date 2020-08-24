@@ -1,6 +1,7 @@
+import Vue from 'vue';
 import { FETCH_POSTS, POST_DELETE } from "./actions.type";
-import { 
-  SET_POSTS,  
+import {   
+  SET_POSTS,
   UPDATE_POST_IN_LIST, 
   REMOVE_POST_IN_LIST 
 } from "./mutations.type";
@@ -27,18 +28,17 @@ const actions = {
 
 };
 
-const mutations = {
- 
+
+const mutations = {  
+
   [SET_POSTS](state, posts) {
     state.posts = posts;    
   },
-
 	[REMOVE_POST_IN_LIST](state, postId){
         state.posts = state.posts.filter((post)=>{
             return post.id !== postId
         });
   },
-
   [UPDATE_POST_IN_LIST](state, data){
     state.posts = state.posts.map(post => {
       if (post.id !== data.id) {

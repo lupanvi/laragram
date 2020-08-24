@@ -47,12 +47,11 @@ const actions = {
 		return axios.post('/posts', post);
 	},
 
-	[FETCH_POST]({commit}, postId){
+	[FETCH_POST]({commit}, postId){		
 		return axios.get('/posts/'+postId)
 			 .then(({data})=>{
 				commit(SET_POST, data);
-			 });		
-		
+			 });				
 	},
 
 	[POST_RESET_STATE]({commit}){
