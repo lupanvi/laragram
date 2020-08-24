@@ -30,10 +30,7 @@
 	            </ul>
 	        </div>
 	    </div>
-	</nav>
-	<div v-else>
-		no hay login
-	</div>
+	</nav>	
 
 	 <div class="container pb-2">
         <div class="row justify-content-center">

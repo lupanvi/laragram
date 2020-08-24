@@ -1,10 +1,15 @@
 <template>
-	<div class="new-comment d-flex justify-content-between align-items-center p-3 mb-3 border-top">
-		<textarea autocomplete="off" class="body flex-grow-1" type="text" v-model="body" placeholder="Add a comment..." />
-		<button class="publish font-weight-bold" :disabled="disabled" type="button" @click="addComment">Publish</button>
+	<div class="new-comment border-top border-bottom p-3">
+		<div class="bg-white d-flex justify-content-between align-items-center p-1 rounder-pill border">
+			<textarea autocomplete="off" class="pl-2 body flex-grow-1 rounded-left rounded-right" type="text" v-model="body" placeholder="Add a comment..." />
+			<button class="pr-2 publish font-weight-bold" :disabled="disabled" type="button" @click="addComment">Publish</button>
+		</div>
 	</div>
 </template>
 <script>
+
+	import {COMMENT_CREATE} from '../store/actions.type';
+
 	export default{
 		name: 'CommentsAddNew',
 		props: {
@@ -35,7 +40,7 @@
 			addComment(){
 
 				this.$store
-					.dispatch('createComment', {
+					.dispatch(COMMENT_CREATE, {
 													path: this.path,
 													postId: this.id, 
 													body: this.body 
@@ -50,12 +55,15 @@
 </script>
 <style scoped>
 .new-comment{	
-	/*min-height: 56px;	*/
+	background-color: #efefef !important;
+}
+
+.new-comment div{	
+	border-radius: 1rem;
 }
 
 .body{
-	height: 18px;
-	/*max-height: 80px;*/
+	height: 18px;	
 	border: none;
 	outline: 0;
 	padding: 0;
