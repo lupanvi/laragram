@@ -8,17 +8,18 @@ import CommentsList from './components/CommentsList';
 import Main from './components/Main';
 import store from './store'
 
-const requireLogin = (to, from, next) =>{  
+const requireLogin = (to, from, next) =>{ 
 
-  if (store.getters.isAuthenticated) {        
+  if (store.getters.isAuthenticated && to.path !== '/login' && to.path !== '/register') {        
         next();        
   } else {      
       next({
           name: 'login'            
       })
   }
-
 }
+
+
 
 const router = new VueRouter({
   mode: 'history',

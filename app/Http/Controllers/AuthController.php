@@ -14,11 +14,12 @@ class AuthController extends Controller
      */
     public function __construct()
     {
+        
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     public function register()
-    {               
+    {                  
 
         request()->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -41,11 +42,14 @@ class AuthController extends Controller
      */
     public function login()
     {
-        $credentials = request(['email', 'password']);
+        
+        request()->validate(['email', 'password']); 
 
-        if (! $token = auth('api')->attempt($credentials)) {
+        $credentials = request(['email', 'password']);        
+        
+        if (! $token = auth()->attempt($credentials)) {    
             return response()->json(['error' => 'Unauthorized'], 401);
-        }
+        }        
 
         return $this->respondWithToken($token);
     }
@@ -76,17 +80,7 @@ class AuthController extends Controller
         auth()->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
-    }
-
-    /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function refresh()
-    {
-        return $this->respondWithToken(auth()->refresh());
-    }
+    }    
 
     /**
      * Get the token array structure.

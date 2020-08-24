@@ -37,26 +37,24 @@ const actions = {
 
   },
 
-  [CHECK_AUTH]({commit}) {            
+  [CHECK_AUTH]({commit}) {     
     
-        if (JwtService.getToken()) {
-        
-            axios.defaults.headers.common["Authorization"] = `Bearer ${JwtService.getToken()}`;
+    if (JwtService.getToken()) {
+    
+        axios.defaults.headers.common["Authorization"] = `Bearer ${JwtService.getToken()}`;
 
-            axios.post('/api/auth/me')
-                 .then(({data})=>{                                    
-                    commit(SET_AUTH, data);                    
-                 })
-                 .catch(error=>{                                                          
-                    commit(PURGE_AUTH);
-                    
-                  });
-              
-        } else {
+        axios.post('/api/auth/me')
+             .then(({data})=>{                     
+                commit(SET_AUTH, data);                      
+             })
+             .catch(()=>{                       
+                commit(PURGE_AUTH);                    
+              });
           
-          commit(PURGE_AUTH);          
-          
-        }  
+    } else {          
+      commit(PURGE_AUTH);          
+      
+    }     
 
   },
 
