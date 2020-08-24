@@ -16,7 +16,8 @@ import {
   RESET_STATE,
   SET_COMMENTS, 
   UPDATE_POST_IN_LIST, 
-  REMOVE_POST_IN_LIST 
+  REMOVE_POST_IN_LIST,
+  ADD_COMMENT_TO_LIST
 } from "./mutations.type";
 
 const initialState = {
@@ -65,10 +66,10 @@ const actions = {
 					});
 	},
 
-	[COMMENT_CREATE]({dispatch}, payload){
+	[COMMENT_CREATE]({commit}, payload){
 		return axios.post(payload.path+'/comments', {body: payload.body})				     
-					 .then(({data})=>{
-					 	dispatch(FETCH_COMMENTS, payload.postId);					 	
+					 .then(({data})=>{					 	
+					 	commit(ADD_COMMENT_TO_LIST, data);
 					 });
 	},
 
@@ -105,6 +106,10 @@ const mutations = {
 
   	[SET_COMMENTS](state, comments){
   		state.comments = comments;
+  	},
+
+  	[ADD_COMMENT_TO_LIST](state, comment){
+  		state.comments.unshift(comment);
   	}
 
 

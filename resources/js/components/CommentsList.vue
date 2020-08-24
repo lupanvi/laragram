@@ -15,11 +15,11 @@
 
 						<comments-add-new :path="post.path" :id="post.id"></comments-add-new>		
 
-						 <div class="post flex-grow-1 pt-2">
-							<div class="box">
+						 <div class="post flex-grow-1 pt-2 mb-3">
+							<div class="box w-100">
 
-								 <div class="user d-flex mb-2">
-						            <div class="mb-2 ml-2 mr-2 mt-1 avatar">     
+								 <div class="user d-flex mb-2 p-2 border-bottom">
+						            <div class="mb-2 ml-2 mr-3 mt-1 avatar">     
 						                <img
 						                	   :src="post.user.avatar_path"
 						                	   class="img-fluid rounded-circle" 
@@ -39,13 +39,11 @@
 						            	</div>
 						        	</div>
 						        </div>
-
-
-						        <div v-for="comment in comments" >			
-									<comments-item :comment ="comment" :key="comment.id">
-										
-									</comments-item>			
-								</div>
+						        
+								<comments-item v-for="comment in comments" :comment ="comment" :key="comment.id">
+									
+								</comments-item>			
+								
 
 							</div>	
 				        </div>

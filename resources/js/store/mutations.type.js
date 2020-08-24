@@ -7,3 +7,4 @@ export const RESET_STATE = "resetModuleState";
 export const REMOVE_POST_IN_LIST = "removePostInList";
 export const PURGE_AUTH = "logOut";
 export const SET_AUTH = "setUser";
+export const ADD_COMMENT_TO_LIST = "addCommentToList";
