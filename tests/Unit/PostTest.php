@@ -15,7 +15,7 @@ class PostTest extends TestCase
     function it_has_a_path()
     {
         
-        $post = factory('App\Post')->create();
+        $post = factory(Post::class)->create();
 
         $this->assertEquals('/posts/'.$post->id, $post->path());
 

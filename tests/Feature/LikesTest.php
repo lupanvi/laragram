@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Post;
 
 class LikesTest extends TestCase
 {
@@ -23,7 +24,7 @@ class LikesTest extends TestCase
 
     	$this->signIn();
 
-        $post = factory('App\Post')->create();   
+        $post = factory(Post::class)->create();   
 
         $this->post($post->path() . '/likes');                
 
@@ -35,7 +36,7 @@ class LikesTest extends TestCase
     {
 
     	$this->signIn();
-        $post = factory('App\Post')->create();   
+        $post = factory(Post::class)->create();   
         $post->like();
 
         $this->post($post->path() . '/dislike');  
