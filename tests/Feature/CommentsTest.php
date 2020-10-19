@@ -41,8 +41,8 @@ class CommentsTest extends TestCase
         $this->signIn();
 
         $post = factory(Post::class)->create();
-        $comment = factory(Comment::class, ['body' => null])->raw();
-
+        $comment = factory(Comment::class)->raw(['body' => null]);        
+        
         $this->post($post->path() . '/comments', $comment)
              ->assertSessionHasErrors('body');
     }
