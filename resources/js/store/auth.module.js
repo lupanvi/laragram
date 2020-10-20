@@ -24,15 +24,23 @@ const actions = {
   [LOGIN]({commit}, credentials) {
 
   	return new Promise((resolve, reject) => {
-      	 axios
-      		.post("/api/auth/login", credentials)
-	        .then(({ data }) => {                        
-	          commit(SET_AUTH, data);            
-	          resolve(data);
-	        })
-	        .catch(error => {
-	          reject(error);
-	        });
+
+      axios.get('/sanctum/csrf-cookie').then(response => {        
+
+        axios
+          .post("/login", credentials)
+          .then(({ data }) => {      
+            console.log(data);
+            return false;                  
+            commit(SET_AUTH, data);            
+            resolve(data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+
+      });	        
+
     });
 
   },
@@ -43,7 +51,7 @@ const actions = {
     
         axios.defaults.headers.common["Authorization"] = `Bearer ${JwtService.getToken()}`;
 
-        axios.post('/api/auth/me')
+        axios.post('/auth/me')
              .then(({data})=>{                     
                 commit(SET_AUTH, data);                      
              })
@@ -62,7 +70,7 @@ const actions = {
 
     return new Promise((resolve, reject) => {
         axios
-          .post("/api/auth/logout")
+          .post("/auth/logout")
           .then(response => {
             commit(PURGE_AUTH);
             resolve(true);
@@ -77,7 +85,7 @@ const actions = {
 
   [REGISTER](context, credentials) {
     return new Promise((resolve, reject) => {
-      axios.post("/api/auth/register", credentials)
+      axios.post("/auth/register", credentials)
         .then(({ data }) => {          
           resolve(true);
         })
