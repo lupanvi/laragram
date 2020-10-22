@@ -41,15 +41,15 @@ const state = { ...initialState };
 const actions = {
 	
 	[POST_EDIT]({state}){
-		return axios.patch('/posts/'+state.post.id, {'description': state.post.description});          
+		return axios.patch('/api/posts/'+state.post.id, {'description': state.post.description});          
 	},
 
 	[POST_PUBLISH](context, post){
-		return axios.post('/posts', post);
+		return axios.post('/api/posts', post);
 	},
 
 	[FETCH_POST]({commit}, postId){		
-		return axios.get('/posts/'+postId)
+		return axios.get('/api/posts/'+postId)
 			 .then(({data})=>{
 				commit(SET_POST, data);
 			 });				
@@ -60,14 +60,14 @@ const actions = {
 	},
 
 	[FETCH_COMMENTS]({commit}, postId){
-		return axios.get('/posts/' + postId + '/comments/all')
+		return axios.get('/api/posts/' + postId + '/comments/all')
 					.then(({data}) => {					 
 					 	commit(SET_COMMENTS, data);					 						 						 	
 					});
 	},
 
 	[COMMENT_CREATE]({commit}, payload){
-		return axios.post(payload.path+'/comments', {body: payload.body})				     
+		return axios.post(`${payload.path}/comments`, {body: payload.body})				     
 					 .then(({data})=>{					 	
 					 	commit(ADD_COMMENT_TO_LIST, data);
 					 });

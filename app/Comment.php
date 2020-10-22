@@ -16,7 +16,7 @@ class Comment extends Model
     }
 
     public function path(){
-    	return "/posts/{$this->post->id}/comments/{$this->id}";
+    	return "/api/posts/{$this->post->id}/comments/{$this->id}";
     }
 
     public function owner(){

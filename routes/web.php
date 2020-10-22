@@ -12,6 +12,14 @@
 */
 
 
-Auth::routes();
 
-Route::get('/{any}', 'HomeController@index')->where('any', '.*');
+Route::get('/{any}', function(){
+	return view('layouts.app');
+})->where('any', '(.*)');
+
+Route::post('login', 'Auth\LoginController@login');
+Route::post('register', 'Auth\RegisterController@register');
+Route::post('logout', 'Auth\LoginController@logout');
+Route::post('password/confirm', 'Auth\ConfirmPasswordController@confirm');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');

@@ -17,7 +17,7 @@ class PostTest extends TestCase
         
         $post = factory(Post::class)->create();
 
-        $this->assertEquals('/posts/'.$post->id, $post->path());
+        $this->assertEquals('/api/posts/'.$post->id, $post->path());
 
     }       
 

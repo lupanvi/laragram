@@ -13,27 +13,21 @@ use Illuminate\Http\Request;
 |
 */
 
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-    //return $request->user();
-//});
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+   return $request->user();
+});
 
-/*Route::group(['prefix' => 'auth'], function ($router) {	
+Route::middleware('auth:sanctum')->group(function () {
 
-  Route::post('register', 'AuthController@register'); 
-  Route::post('login', 'AuthController@login');
-  Route::post('logout', 'AuthController@logout');
-  Route::post('refresh', 'AuthController@refresh');
-  Route::post('me', 'AuthController@me');  
+	Route::get('/posts/{post}','PostsController@show');
+	Route::get('/posts','PostsController@index');
+	Route::patch('/posts/{post}','PostsController@update');
+	Route::post('/posts','PostsController@store');
+	Route::delete('/posts/{post}','PostsController@destroy');
+	Route::post('/posts/{post}/likes','LikesController@store');
+	Route::post('/posts/{post}/dislike','LikesController@destroy');
+	Route::post('/posts/{post}/comments','CommentsController@store');
+	Route::get('/posts/{post}/comments/all','CommentsController@index');
 
-});*/
+});
 
-
-Route::get('/posts/{post}','PostsController@show');
-Route::get('/posts','PostsController@index');
-Route::patch('/posts/{post}','PostsController@update');
-Route::post('/posts','PostsController@store');
-Route::delete('/posts/{post}','PostsController@destroy');
-Route::post('/posts/{post}/likes','LikesController@store');
-Route::post('/posts/{post}/dislike','LikesController@destroy');
-Route::post('/posts/{post}/comments','CommentsController@store');
-Route::get('/posts/{post}/comments/all','CommentsController@index');

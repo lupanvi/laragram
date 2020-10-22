@@ -1,4 +1,4 @@
-<template>
+<template>  
     <div class="container pb-2">
         <div class="row justify-content-center">
             <div class="col-lg-8">

@@ -22,10 +22,10 @@ class PostsTest extends TestCase
 
         $post = factory(Post::class)->create();
 
-        $this->get('/posts')->assertStatus(401);   
+        $this->get('/api/posts')->assertStatus(401);   
 
         $this->patch($post->path(), ['description'=>'edited'] )->assertStatus(401);                                     
-        $this->post('/posts', $post->toArray())->assertStatus(401);
+        $this->post('/api/posts', $post->toArray())->assertStatus(401);
 
     } 
 
@@ -39,7 +39,7 @@ class PostsTest extends TestCase
 
         $attributes['image_path'] = UploadedFile::fake()->image('post.jpg');               
 
-        $response = $this->json('POST','/posts', $attributes )->json();        
+        $response = $this->json('POST','/api/posts', $attributes )->json();        
 
         $this->assertDatabaseHas('posts', [
             'filter'=>$attributes['filter'],
@@ -59,7 +59,7 @@ class PostsTest extends TestCase
 
         $this->signIn();
 
-        $this->json('POST', '/posts' , [
+        $this->json('POST', '/api/posts' , [
             'image_path' => 'not-an-image'
         ])->assertStatus(422);
 
@@ -143,7 +143,7 @@ class PostsTest extends TestCase
         $user = $this->signIn();
         $post = factory(Post::class)->create();         
 
-        $response = $this->json('GET','/posts/'.$post->id )->json();   
+        $response = $this->json('GET','/api/posts/'.$post->id )->json();   
 
         $this->assertEquals($post->id, $response['id']);
         $this->assertEquals($post->description, $response['description']);

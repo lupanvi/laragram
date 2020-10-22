@@ -1,11 +1,12 @@
 import Vue from 'vue';
 import {LOGIN, LOGOUT, REGISTER, CHECK_AUTH} from "./actions.type";
 import {SET_AUTH, PURGE_AUTH, SET_ERROR} from './mutations.type';
-import JwtService from "../jwt.service";
+/*import JwtService from "../jwt.service";*/
 
 const state = {  
   user: {},
-  isAuthenticated: !!JwtService.getToken(),    
+  /*isAuthenticated: !!JwtService.getToken(),    */
+  isAuthenticated: false,    
   errors: null
 };
 
@@ -29,9 +30,8 @@ const actions = {
 
         axios
           .post("/login", credentials)
-          .then(({ data }) => {      
-            console.log(data);
-            return false;                  
+          .then(({ data }) => { 
+
             commit(SET_AUTH, data);            
             resolve(data);
           })
@@ -47,11 +47,11 @@ const actions = {
 
   [CHECK_AUTH]({commit}) {     
     
-    if (JwtService.getToken()) {
+    /*if (JwtService.getToken()) {*/
     
-        axios.defaults.headers.common["Authorization"] = `Bearer ${JwtService.getToken()}`;
+        /*axios.defaults.headers.common["Authorization"] = `Bearer ${JwtService.getToken()}`;*/
 
-        axios.post('/auth/me')
+        axios.post('/api/user')
              .then(({data})=>{                     
                 commit(SET_AUTH, data);                      
              })
@@ -59,10 +59,10 @@ const actions = {
                 commit(PURGE_AUTH);                    
               });
           
-    } else {          
+    /*} else {          
       commit(PURGE_AUTH);          
       
-    }     
+    }*/     
 
   },
 
@@ -70,7 +70,7 @@ const actions = {
 
     return new Promise((resolve, reject) => {
         axios
-          .post("/auth/logout")
+          .post('/logout')
           .then(response => {
             commit(PURGE_AUTH);
             resolve(true);
@@ -85,7 +85,7 @@ const actions = {
 
   [REGISTER](context, credentials) {
     return new Promise((resolve, reject) => {
-      axios.post("/auth/register", credentials)
+      axios.post("/register", credentials)
         .then(({ data }) => {          
           resolve(true);
         })
@@ -107,11 +107,11 @@ const mutations = {
   [SET_AUTH](state, payload) {    
     state.isAuthenticated = true;        
     state.user = payload.user;
-    JwtService.saveToken(payload.access_token);   
+    /*JwtService.saveToken(payload.access_token);   */
   },
   [PURGE_AUTH](state) {    
     state.isAuthenticated = false;    
-    JwtService.destroyToken();
+    /*JwtService.destroyToken();*/
   }
 
 };

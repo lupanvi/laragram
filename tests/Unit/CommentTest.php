@@ -23,7 +23,7 @@ class CommentTest extends TestCase
     function it_has_a_path()
     {
         $comment = factory(Comment::class)->create();
-        $this->assertEquals("/posts/{$comment->post->id}/comments/{$comment->id}", $comment->path());
+        $this->assertEquals("/api/posts/{$comment->post->id}/comments/{$comment->id}", $comment->path());
     }
     
     /** @test */

@@ -13,7 +13,7 @@ const state = {
 const actions = {
 	
 	[FETCH_POSTS]({commit}){    
-		axios.get('/posts').then(({data})=>{
+		axios.get('/api/posts').then(({data})=>{
 			commit(SET_POSTS, data);                
     }).catch(error => {
       throw new Error(error);
@@ -21,7 +21,7 @@ const actions = {
 	},
 	
 	[POST_DELETE]({commit}, postId){
-		axios.delete('/posts/'+ postId).then(()=>{
+		axios.delete('/api/posts/'+ postId).then(()=>{
 			commit(REMOVE_POST_IN_LIST, postId );
     }); 
 	}	

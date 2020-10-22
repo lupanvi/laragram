@@ -15,7 +15,7 @@ class LikesTest extends TestCase
     function guests_may_not_likes_posts()
     {     
 
-        $this->post('/posts/1/likes')->assertStatus(401);
+        $this->post('/api/posts/1/likes')->assertStatus(401);
     }
 	
     /** @test */

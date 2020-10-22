@@ -14,9 +14,10 @@ class CommentsTest extends TestCase
     
     /** @test */
     function unauthenticated_users_may_not_add_comments()
-    {                	
+    {   
+
         $post = factory(Post::class)->create();        
-        $this->post($post->path().'/comments', [])        
+        $this->post($post->path().'/comments', ['body' => 'test'])       
              ->assertStatus(401);                             
     }
 
