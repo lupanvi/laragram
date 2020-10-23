@@ -6,27 +6,39 @@ import PostsEdit from './components/PostsEdit';
 import PostsAddNew from './components/PostsAddNew';
 import CommentsList from './components/CommentsList';
 import Main from './components/Main';
-import store from './store'
+import store from './store';
+import { CHECK_AUTH } from "./store/actions.type";
 
-const requireLogin = (to, from, next) =>{ 
+const checkAuth = (to, from, next) =>{ 
 
-  if (store.getters.isAuthenticated && to.path !== '/login' && to.path !== '/register') {        
-        next();        
-  } else {      
-      next({
-          name: 'login'            
-      })
+  if (to.matched.some(record => record.meta.requiresAuth)) {    
+    if (!store.getters.isAuthenticated) {
+      next({name: 'login' })
+    } else {
+      next()
+    }
+
+  } else if (to.matched.some(record => record.meta.requiresVisitor)) {
+    if (store.getters.isAuthenticated) {
+      next({name: 'home' })
+    } else {
+      next()
+    }
+
+  } else {
+    next()
   }
+
+
 }
-
-
 
 const router = new VueRouter({
   mode: 'history',
   routes: [
   	{ path: '/',   		
-      beforeEnter: requireLogin,
-      component: Main,      
+      beforeEnter: checkAuth,
+      component: Main,
+      meta: { requiresAuth: true },       
       children : [
         {
           path: "",
@@ -57,18 +69,35 @@ const router = new VueRouter({
   	},    
     { 
     	path: '/login', 
+      beforeEnter: checkAuth,
     	component: Login, 
-    	name:'login' 
+    	name:'login',
+      meta: { requiresVisitor: true } 
     },
     { 
     	path: '/register', 
+      beforeEnter: checkAuth,
     	component: Register, 
-    	name: 'register' 
+    	name: 'register',
+      meta: { requiresVisitor: true }  
     }    
 
   ]
 });
 
+router.beforeEach((to, from, next) => {  
+
+  if(!store.getters.checkUser 
+      && store.getters.isAuthenticated 
+      && to.path!=='/login'
+      && to.path!=='/register'){  
+
+    store.dispatch(CHECK_AUTH).then(next());
+
+  }else{ 
+    next();
+  }
+});
 
 
 

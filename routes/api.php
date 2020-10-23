@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-   return $request->user();
+   return ['user'=> $request->user()];
 });
 
 Route::middleware('auth:sanctum')->group(function () {

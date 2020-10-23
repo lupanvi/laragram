@@ -1,12 +1,11 @@
 import Vue from 'vue';
 import {LOGIN, LOGOUT, REGISTER, CHECK_AUTH} from "./actions.type";
 import {SET_AUTH, PURGE_AUTH, SET_ERROR} from './mutations.type';
-/*import JwtService from "../jwt.service";*/
+import JwtService from "../jwt.service";
 
 const state = {  
-  user: {},
-  /*isAuthenticated: !!JwtService.getToken(),    */
-  isAuthenticated: false,    
+  user: null,
+  isAuthenticated: !!JwtService.getToken(),  
   errors: null
 };
 
@@ -17,8 +16,12 @@ const getters = {
   },
   currentUser(state){
       return state.user;
-  }  
-  
+  },
+
+  checkUser(state){
+    return state.user !== null 
+  } 
+
 };
 
 const actions = {
@@ -45,24 +48,17 @@ const actions = {
 
   },
 
-  [CHECK_AUTH]({commit}) {     
-    
-    /*if (JwtService.getToken()) {*/
-    
-        /*axios.defaults.headers.common["Authorization"] = `Bearer ${JwtService.getToken()}`;*/
+  [CHECK_AUTH]({commit}) {   
 
-        axios.post('/api/user')
-             .then(({data})=>{                     
-                commit(SET_AUTH, data);                      
-             })
-             .catch(()=>{                       
-                commit(PURGE_AUTH);                    
-              });
-          
-    /*} else {          
-      commit(PURGE_AUTH);          
-      
-    }*/     
+    return new Promise((resolve, reject) => {      
+
+      axios.get('/api/user')
+           .then(({data})=>{                     
+              commit(SET_AUTH, data); 
+              resolve(data);                     
+           });           
+
+    });             
 
   },
 
@@ -107,11 +103,12 @@ const mutations = {
   [SET_AUTH](state, payload) {    
     state.isAuthenticated = true;        
     state.user = payload.user;
-    /*JwtService.saveToken(payload.access_token);   */
+    JwtService.saveToken("true"); 
   },
   [PURGE_AUTH](state) {    
     state.isAuthenticated = false;    
-    /*JwtService.destroyToken();*/
+    state.user = null; 
+    JwtService.destroyToken();
   }
 
 };
