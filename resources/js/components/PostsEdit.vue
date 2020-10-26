@@ -3,7 +3,7 @@
         <div class="container">           
 
             <div class="row justify-content-center">
-                <div class="col-lg-6">  
+                <div class="col-lg-6">                                         
 
                     <div class="header d-flex justify-content-between align-items-center">
                         <div>
@@ -13,67 +13,99 @@
                             <h1>Edit information</h1>
                         </div>
                         <div>                            
-                            <a href="#" @click.prevent="edit">Save</a>                            
+                            <a class="btn" :class="inProgress ? 'disabled' : ''" href="#" @click.prevent="edit">Save</a>                            
                         </div>
 
                     </div> 
 
                     <div class="main-image"
-                         :class="editPost.filter"
-                         :style="{ backgroundImage: 'url(' + editPost.image_path + ')' }">
+                         :class="post.filter"
+                         :style="{ backgroundImage: 'url(' + post.image_path + ')' }">
                          	
                     </div>                                               
 
                     <div class="description-container">
 
-                        <textarea v-model="editPost.description" class="form-control" placeholder="Escribe una descripcion">
+                        <textarea v-model="post.description" class="form-control" placeholder="Write a description">
                             
                         </textarea>
                         
                     </div>
 
+                    <div 
+                        v-if="feedback" 
+                        class="alert alert-danger p-1 m-1" 
+                        v-text="feedback">                        
+                    </div>
+
+                     
+
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
 	
 </template>
-<script>
-	
-	import EventBus from '../event-bus.js';
+<script>	
+
+    import {mapGetters} from 'vuex';
+    import store from "../store";
+    import {         
+        FETCH_POST,
+        POST_RESET_STATE        
+    } from "../store/actions.type";
+
 
 	export default{	
 
         name: 'PostsEdit',
 
-        props:{
-            post:{
-                type: Object,
-                required: true
-            }
-        },        
+        beforeRouteEnter(to, from, next) { 
+
+            store.dispatch(FETCH_POST, to.params.id);                        
+            return next();
+        },
+
+        beforeRouteLeave(to, from, next) {
+            store.dispatch(POST_RESET_STATE);
+            return next();
+        },
+
+        computed:{
+
+            ...mapGetters(['post'])                
+
+        },     
+
 
 		data(){
-			return {
-                editPost: this.post                
+			return {                
+                feedback:'',
+                inProgress: false
 			}
 		},
 
-		methods:{			
+		methods:{            
 
-			edit(){	                          
+			edit(){ 
 
-				axios
-                    .patch('/posts/'+this.editPost.id, {'description':this.editPost.description})
-                    .then(()=>{	                    												   
-                       this.close();
-				    });				                
+                this.inProgress = true;              
+
+                this.$store
+                    .dispatch('editPost')
+                    .then(()=>{
+
+                        this.$router.push('/');
+                        this.inProgress = false;                        
+
+                    }).catch(({data})=>{
+                        this.inProgress = false;
+                        this.feedback = data;
+                    });                                
 				
 			},
-
             close(){
-                this.editPost = {}                                
                 this.$router.push('/');
             }
 

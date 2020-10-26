@@ -1,52 +1,33 @@
 <template>    
-    <div class="posts">        
-        <div v-for="post in posts" :key="post.id">
+    <div class="posts">
+        <div v-for="post in postsList" :key="post.id">
             <posts-item :post="post"></posts-item>
         </div>         
-        <div v-if="posts.length == 0">There are no images</div>        
+        <div v-if="postsList.length == 0">There are no images</div>        
     </div>           
 </template>
 <script>
 
-import PostsItem from './PostsItem'; 
-import EventBus from '../event-bus.js';   
+import PostsItem from './PostsItem';
+import {mapGetters, mapActions} from 'vuex';
+import { FETCH_POSTS } from "../store/actions.type";
+import store from "../store";
 
 export default {  
 
     name: 'PostsList',
 
-    data(){
-        return {
-            posts: []
-        }
+    components:{ PostsItem }, 
+
+    beforeRouteEnter(to, from, next) {
+       store.dispatch(FETCH_POSTS);                        
+       return next();
     },
+    
+    computed:{
 
-    components:{ PostsItem },
-
-    created(){
-        
-        this.getPosts()      
-
-        EventBus.$on('removePost', this.removePosts)       
-
-    },
-
-    methods:{
-
-        getPosts(){
-            axios.get('/posts').then(({data})=>{            
-                this.posts = data;            
-            });
-        },
-
-        removePosts(postId){
-            this.posts = this.posts.filter((post)=>{
-                return post.id !== postId
-            });
-        }
-
+        ...mapGetters(['postsList'])                
 
     }
-
 }
 </script>

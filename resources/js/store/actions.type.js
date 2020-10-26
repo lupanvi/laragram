@@ -1,0 +1,14 @@
+export const FETCH_COMMENTS = "fetchComments";
+export const FETCH_POST = "fetchPost";
+export const FETCH_POSTS = "fetchPosts";
+export const LIKE_ADD = "addLike";
+export const LIKE_REMOVE = "removeLike";
+export const POST_DELETE = "removePost";
+export const POST_EDIT = "editPost";
+export const POST_PUBLISH = "publishPost";
+export const POST_RESET_STATE = "resetPostState";
+export const COMMENT_CREATE = "createComment";
+export const LOGIN = "login";
+export const LOGOUT = "logout";
+export const REGISTER = "register";
+export const CHECK_AUTH = "checkAuth";

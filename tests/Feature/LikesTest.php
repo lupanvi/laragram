@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Post;
 
 class LikesTest extends TestCase
 {
@@ -14,7 +15,7 @@ class LikesTest extends TestCase
     function guests_may_not_likes_posts()
     {     
 
-        $this->post('/posts/1/likes')->assertStatus(302)->assertRedirect('/login');
+        $this->post('/api/posts/1/likes')->assertStatus(401);
     }
 	
     /** @test */
@@ -23,7 +24,7 @@ class LikesTest extends TestCase
 
     	$this->signIn();
 
-        $post = factory('App\Post')->create();   
+        $post = factory(Post::class)->create();   
 
         $this->post($post->path() . '/likes');                
 
@@ -35,7 +36,7 @@ class LikesTest extends TestCase
     {
 
     	$this->signIn();
-        $post = factory('App\Post')->create();   
+        $post = factory(Post::class)->create();   
         $post->like();
 
         $this->post($post->path() . '/dislike');  

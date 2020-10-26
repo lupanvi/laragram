@@ -13,12 +13,21 @@ class CommentsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:sanctum');
     }
 
     public function index(Post $post){
+        
+        $comments = Comment::where('post_id',$post->id)
+                            ->take(10)
+                            ->with('owner')
+                            ->get();
 
-    	return $post->comments()->get();
+        if (request()->wantsJson()){
+
+            return $comments;    
+
+        }        
 
     }
 

@@ -22,10 +22,11 @@ class PostsTest extends TestCase
 
         $post = factory(Post::class)->create();
 
-        $this->get('/posts')->assertRedirect('login');   
+        $this->get('/api/posts')->assertStatus(401);   
 
-        $this->patch($post->path(), ['description'=>'edited'] )->assertRedirect('/login');                                     
-        $this->post('/posts', $post->toArray())->assertStatus(302)->assertRedirect('/login');
+        $this->patch($post->path(), ['description'=>'edited'] )->assertStatus(401);                                     
+        $this->post('/api/posts', $post->toArray())->assertStatus(401);
+
     } 
 
 
@@ -38,7 +39,7 @@ class PostsTest extends TestCase
 
         $attributes['image_path'] = UploadedFile::fake()->image('post.jpg');               
 
-        $response = $this->json('POST','/posts', $attributes )->json();        
+        $response = $this->json('POST','/api/posts', $attributes )->json();        
 
         $this->assertDatabaseHas('posts', [
             'filter'=>$attributes['filter'],
@@ -58,59 +59,14 @@ class PostsTest extends TestCase
 
         $this->signIn();
 
-        $this->json('POST', '/posts' , [
+        $this->json('POST', '/api/posts' , [
             'image_path' => 'not-an-image'
         ])->assertStatus(422);
 
     }
 
 
-    /** @test */
-    function a_post_can_load_two_comments_in_home_page(){
-
-        $this->signIn();
-        
-        $post = factory(Post::class)->create();           
-
-        $comment1 = factory(Comment::class)->create([
-            'post_id'=>$post->id            
-        ]);
-        $comment2 = factory(Comment::class)->create([
-            'post_id'=>$post->id            
-        ]);                        
-
-        $response = $this->getJson('/posts')->json();        
-
-        $this->assertEquals(2, count($response[0]['comments']));        
-        $this->assertEquals($comment1->body, $response[0]['comments'][0]['body']);
-        $this->assertEquals($comment2->body, $response[0]['comments'][1]['body']);        
-
-    }
-
-    /** @test */
-    function a_post_can_load_two_comments_with_their_owners_in_home_page(){
-
-        $this->signIn();
-        
-        $post = factory(Post::class)->create();   
-        $user1 = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
-
-        $comment1 = factory(Comment::class)->create([
-            'post_id'=>$post->id, 
-            'user_id'=>$user1->id
-        ]);
-        $comment2 = factory(Comment::class)->create([
-            'post_id'=>$post->id, 
-            'user_id'=>$user2->id
-        ]);                        
-
-        $response = $this->getJson('/posts')->json();        
-
-        $this->assertEquals(2, count($response[0]['comments']));        
-        $this->assertEquals($comment1->owner->id, $response[0]['comments'][0]['owner']['id']);
-        $this->assertEquals($comment2->owner->id, $response[0]['comments'][1]['owner']['id']);               
-    }
+    
 
     /** @test */
     function a_user_can_edit_a_post(){
@@ -142,7 +98,7 @@ class PostsTest extends TestCase
 
         $post = factory(Post::class)->create();
 
-        $this->delete($post->path())->assertRedirect('/login');
+        $this->delete($post->path())->assertStatus(401);;
 
         $this->signIn();
         $this->delete($post->path())->assertStatus(403);
@@ -180,5 +136,19 @@ class PostsTest extends TestCase
         $this->assertDatabaseMissing('comments', ['id' => $comment2->id]);        
         
     }
+
+    /** @test*/
+    function a_user_can_see_a_given_post(){
+
+        $user = $this->signIn();
+        $post = factory(Post::class)->create();         
+
+        $response = $this->json('GET','/api/posts/'.$post->id )->json();   
+
+        $this->assertEquals($post->id, $response['id']);
+        $this->assertEquals($post->description, $response['description']);
+
+    }
+
 
 }

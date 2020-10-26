@@ -36,27 +36,10 @@ p{
     width: 100%;
 }
 
-.post{
-
-    background-color: #fff;
-    margin-bottom:2rem;
-
-    .username, .likes{
-        font-weight: bold;
-    }
-
-    .avatar{
-        width: 35px;
-        height: 35px;             
-        
-    }
-
-    .social i{
-        font-size: 20px; 
-        cursor: pointer;                       
-        
-    }    
-    
+.avatar{
+    width: 35px;
+    height: 35px;
+    min-width: 35px;    
 }
 
 .comment {
@@ -87,11 +70,24 @@ footer{
     z-index:800;
 }
 
-.post{
-
+.loading{
+    position: fixed;
+    left: 0;
+    top: 0;    
+    height: 100vh;
+    background: #fafafa;
+    z-index: 9999;   
 }
 
-.new-post, .edit-post{
+.loading i{
+    font-size: 3rem;
+}
+
+.return i{
+    font-size: 2rem;
+}
+
+.new-post, .edit-post, .comments{
 
     position: fixed;
     left: 0;
@@ -101,10 +97,13 @@ footer{
     background: #fafafa;
     z-index: 999;
 
+    .header{
+        padding: 1rem;
+    }
+
     .header a{
     
-        font-weight: bold;
-        padding:10px;
+        font-weight: bold;        
         font-size:1.1rem;
 
     }
@@ -180,7 +179,7 @@ footer{
     }
 
     input:focus ~ label, input:not(:placeholder-shown) ~ label {       
-          top: -10px;
+       top: -10px;
        font-size: 10px;
     }
 }
@@ -213,4 +212,22 @@ footer{
         border-bottom-left-radius: 12px;
         border-bottom-right-radius: 12px;
     }
+}
+
+.new-post, .edit-post{
+
+    .btn{
+        color: #3490dc;
+    }
+
+    .btn:hover{
+        color: #1d68a7;
+        text-decoration: underline;    
+    }
+
+    .btn:focus, .btn.focus {
+        outline: none;
+        box-shadow: none;
+    }
+
 }

@@ -16,7 +16,7 @@
 	                        </div>
 	                        <div>                            
 	                            <a href="#" v-if="step === 1" @click.prevent="step = 2 ">Next</a>
-	                            <a href="#" v-if="step === 2" @click.prevent="share">Share</a>
+	                            <a class="btn" :class="inProgress ? 'disabled' : ''" href="#" v-if="step === 2" @click.prevent="share">Share</a>
 	                        </div>
 
 	                    </div> 
@@ -61,7 +61,9 @@
 <script>
 
 	import filters from "../filters";
-	import EventBus from '../event-bus.js';		
+	import { 		
+		POST_PUBLISH		
+	} from "../store/actions.type";		
 
 	export default{	
 
@@ -73,7 +75,7 @@
 				required: true
 			},
 			imageFile: {
-				type: Object,
+				type: File,
 				required: true
 			}
 		},		
@@ -86,7 +88,8 @@
 				description:'',
 				imageSrc: this.image,
 				imageData: this.imageFile,
-				feedback:''				
+				feedback:'',
+				inProgress: false				
 			}
 		},
 
@@ -109,26 +112,30 @@
 			},
 
 			close(){
-				this.imageSrc = this.imageData = '';				
+				this.imageSrc = '';
+				this.imageData = '';				
 				this.$router.push('/');
 			},
 
 			share(){
+				this.inProgress = true;
 
 				let data = new FormData();
 
                 data.append('image_path', this.imageData);                
                 data.append('filter', this.selectedFilter);                
-                data.append('description', this.description);  
-                
-				axios.post('/posts', data).then( ({data}) => {					
-					
-					this.reset();	
-					this.close();
+                data.append('description', this.description);
 
-				}).catch( error =>{
-					this.feedback = error.response.data.message;
-				});				
+                this.$store
+                	.dispatch(POST_PUBLISH, data)
+                	.then(()=>{
+                		this.inProgress = false;
+                		this.reset();
+                		this.close();  
+                	}).catch(error=>{
+                		this.inProgress = false;
+                		this.feedback = error.response.data.message;
+                	});               
 				
 			}
 

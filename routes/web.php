@@ -12,16 +12,14 @@
 */
 
 
-Auth::routes();
 
-Route::get('/posts','PostsController@index');
-Route::post('/posts','PostsController@store');
-Route::patch('/posts/{post}','PostsController@update');
-Route::delete('/posts/{post}','PostsController@destroy');
-Route::post('/posts/{post}/likes','LikesController@store');
-Route::post('/posts/{post}/dislike','LikesController@destroy');
+Route::get('/{any}', function(){
+	return view('layouts.app');
+})->where('any', '(.*)');
 
-Route::post('/posts/{post}/comments','CommentsController@store');
-Route::get('/posts/{post}/comments','CommentsController@index');
-
-Route::get('/{any}', 'HomeController@index')->where('any', '.*');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('register', 'Auth\RegisterController@register');
+Route::post('logout', 'Auth\LoginController@logout');
+Route::post('password/confirm', 'Auth\ConfirmPasswordController@confirm');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');

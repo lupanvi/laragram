@@ -36,8 +36,8 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-    }
-
+    }      
+    
     /**
      * The user has been authenticated.
      *
@@ -47,8 +47,8 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        if ($request->wantsJson()) {
-            return response()->json(['redirect' => $this->redirectTo], 200);
+        if ($request->wantsJson()) {            
+            return response()->json(['user' => $user], 200);
         }
 
         redirect()->intended($this->redirectPath());
