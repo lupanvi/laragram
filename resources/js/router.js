@@ -7,19 +7,20 @@ import PostsAddNew from './components/PostsAddNew';
 import CommentsList from './components/CommentsList';
 import Main from './components/Main';
 import store from './store';
-import { CHECK_AUTH } from "./store/actions.type";
+//import jwt from './jwt.service.js';
 
-const checkAuth = (to, from, next) =>{ 
+const checkLogin = (to, from, next) =>{    
 
-  if (to.matched.some(record => record.meta.requiresAuth)) {    
-    if (!store.getters.isAuthenticated) {
+  if (to.matched.some(record => record.meta.requiresAuth)) { 
+
+    if (!store.getters.isAuthenticated){          
       next({name: 'login' })
     } else {
       next()
     }
 
   } else if (to.matched.some(record => record.meta.requiresVisitor)) {
-    if (store.getters.isAuthenticated) {
+    if (store.getters.isAuthenticated) {    
       next({name: 'home' })
     } else {
       next()
@@ -29,14 +30,13 @@ const checkAuth = (to, from, next) =>{
     next()
   }
 
-
 }
 
 const router = new VueRouter({
   mode: 'history',
   routes: [
   	{ path: '/',   		
-      beforeEnter: checkAuth,
+      beforeEnter: checkLogin,
       component: Main,
       meta: { requiresAuth: true },       
       children : [
@@ -69,14 +69,14 @@ const router = new VueRouter({
   	},    
     { 
     	path: '/login', 
-      beforeEnter: checkAuth,
+      beforeEnter: checkLogin,
     	component: Login, 
     	name:'login',
       meta: { requiresVisitor: true } 
     },
     { 
     	path: '/register', 
-      beforeEnter: checkAuth,
+      beforeEnter: checkLogin,
     	component: Register, 
     	name: 'register',
       meta: { requiresVisitor: true }  
@@ -85,19 +85,28 @@ const router = new VueRouter({
   ]
 });
 
-router.beforeEach((to, from, next) => {  
 
-  if(!store.getters.checkUser 
-      && store.getters.isAuthenticated 
-      && to.path!=='/login'
-      && to.path!=='/register'){  
+/*router.beforeEach((to, from, next) => {
 
-    store.dispatch(CHECK_AUTH).then(next());
+  if (to.matched.some(record => record.meta.requiresAuth)) {    
+    if (!store.getters.isAuthenticated) {    
+      next({name: 'login' })
+    } else {
+      next()
+    }
 
-  }else{ 
-    next();
+  } else if (to.matched.some(record => record.meta.requiresVisitor)) {
+    if (store.getters.isAuthenticated) {    
+      next({name: 'home' })
+    } else {
+      next()
+    }
+
+  } else {
+    next()
   }
-});
+
+});*/
 
 
 
