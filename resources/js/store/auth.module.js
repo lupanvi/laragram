@@ -29,23 +29,43 @@ const actions = {
 
     try{
       await axios.get('/sanctum/csrf-cookie')    
-      const {data} = await axios.post("/login", credentials)        
-      commit(SET_AUTH, data);
+      await axios.post("/login", credentials)        
+      //commit(SET_AUTH, data);
+      return dispatch(CHECK_AUTH);
     }catch(error){
       commit(SET_ERROR, error.response.data.message)
     }    
     
   },
 
-  async [CHECK_AUTH]({commit}) {       
-      
-      try{
-        const {data} = await axios.get('/api/user');                                
-        commit(SET_AUTH, data);                   
-        }catch(e){        
-        commit(SET_AUTH, null);               
-      } 
+  [CHECK_AUTH]({commit}) { 
+    console.log('CHECK_AUTH-1');
+    return axios.get('/api/user').then(({data}) => {
+        console.log('CHECK_AUTH-2');
+        commit(SET_AUTH, data)      
+        console.log('CHECK_AUTH-3');  
+      }).catch((error) => {
+        console.log('CHECK_AUTH-4');
+        commit(SET_AUTH, null);
+        console.log('CHECK_AUTH-5');
+      })
 
+      console.log('CHECK_AUTH-6');
+      
+      /*console.log('CHECK_AUTH-1');
+      try{        
+        console.log('CHECK_AUTH-2');
+        const response = await axios.get('/api/user');                                        
+        const data = response.data;
+        console.log('CHECK_AUTH-3');
+        commit(SET_AUTH, data);  
+        console.log('CHECK_AUTH-4');                         
+        }catch(e){               
+        console.log('CHECK_AUTH-5'); 
+        commit(SET_AUTH, null);  
+        console.log('CHECK_AUTH-6');                     
+      } 
+      console.log('CHECK_AUTH-7');*/
   },
 
   [LOGOUT]({commit}) {
