@@ -9,34 +9,11 @@ import Main from './components/Main';
 import store from './store';
 import { CHECK_AUTH } from "./store/actions.type";
 
-const checkAuth = (to, from, next) =>{ 
-
-  if (to.matched.some(record => record.meta.requiresAuth)) {    
-    if (!store.getters.isAuthenticated) {
-      next({name: 'login' })
-    } else {
-      next()
-    }
-
-  } else if (to.matched.some(record => record.meta.requiresVisitor)) {
-    if (store.getters.isAuthenticated) {
-      next({name: 'home' })
-    } else {
-      next()
-    }
-
-  } else {
-    next()
-  }
-
-
-}
 
 const router = new VueRouter({
   mode: 'history',
   routes: [
-  	{ path: '/',   		
-      beforeEnter: checkAuth,
+  	{ path: '/',   		      
       component: Main,
       meta: { requiresAuth: true },       
       children : [
@@ -68,15 +45,13 @@ const router = new VueRouter({
       ]	
   	},    
     { 
-    	path: '/login', 
-      beforeEnter: checkAuth,
+    	path: '/login',       
     	component: Login, 
     	name:'login',
       meta: { requiresVisitor: true } 
     },
     { 
-    	path: '/register', 
-      beforeEnter: checkAuth,
+    	path: '/register',       
     	component: Register, 
     	name: 'register',
       meta: { requiresVisitor: true }  
@@ -87,16 +62,24 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {  
 
-  if(!store.getters.checkUser 
-      && store.getters.isAuthenticated 
-      && to.path!=='/login'
-      && to.path!=='/register'){  
+  if (to.matched.some(record => record.meta.requiresAuth)) {    
+    if (!store.getters.isAuthenticated) {
+      next({name: 'login' })
+    } else {
+      next()
+    }
 
-    store.dispatch(CHECK_AUTH).then(next());
+  } else if (to.matched.some(record => record.meta.requiresVisitor)) {
+    if (store.getters.isAuthenticated) {
+      next({name: 'home' })
+    } else {
+      next()
+    }
 
-  }else{ 
-    next();
+  } else {
+    next()
   }
+
 });
 
 

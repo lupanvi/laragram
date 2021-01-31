@@ -25,40 +25,22 @@ const getters = {
 };
 
 const actions = {
-  [LOGIN]({commit}, credentials) {
+  async [LOGIN]({commit}, credentials) {  	
 
-  	return new Promise((resolve, reject) => {
-
-      axios.get('/sanctum/csrf-cookie').then(response => {        
-
-        axios
-          .post("/login", credentials)
-          .then(({ data }) => { 
-
-            commit(SET_AUTH, data);            
-            resolve(data);
-          })
-          .catch(error => {
-            reject(error);
-          });
-
-      });	        
-
-    });
+    await axios.get('/sanctum/csrf-cookie');       
+    const {data} = await axios.post("/login", credentials); 
+    commit(SET_AUTH, data);
 
   },
 
-  [CHECK_AUTH]({commit}) {   
+  [CHECK_AUTH]({commit}) {       
 
-    return new Promise((resolve, reject) => {      
+    return axios.get('/api/user')
+         .then(({data})=>{                     
+            commit(SET_AUTH, data);             
+         });           
 
-      axios.get('/api/user')
-           .then(({data})=>{                     
-              commit(SET_AUTH, data); 
-              resolve(data);                     
-           });           
-
-    });             
+               
 
   },
 
