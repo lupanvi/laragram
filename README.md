@@ -1,5 +1,7 @@
 ## Laragram
 
+### A web app like Instagram with Vuejs, Vuex, Vue-router and Laravel Sanctum
+
 ![alt text](docs/laragram1.jpg)
 ![alt text](docs/laragram2.jpg)
 
