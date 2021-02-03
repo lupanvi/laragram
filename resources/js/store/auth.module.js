@@ -1,11 +1,10 @@
 import Vue from 'vue';
 import {LOGIN, LOGOUT, REGISTER, CHECK_AUTH} from "./actions.type";
 import {SET_AUTH, PURGE_AUTH, SET_ERROR} from './mutations.type';
-import JwtService from "../jwt.service";
 
 const state = {  
-  user: null,
-  isAuthenticated: !!JwtService.getToken(),  
+  user: null,  
+  isAuthenticated: false,  
   errors: null
 };
 
@@ -17,61 +16,51 @@ const getters = {
   currentUser(state){
       return state.user;
   },
-
-  checkUser(state){
-    return state.user !== null 
-  } 
+  errors(state){
+    return state.errors
+  }  
 
 };
 
 const actions = {
-  async [LOGIN]({commit}, credentials) {  	
 
-    await axios.get('/sanctum/csrf-cookie');       
-    const {data} = await axios.post("/login", credentials); 
-    commit(SET_AUTH, data);
+  async [LOGIN]({commit, dispatch}, credentials) {  
 
+    try{
+      await axios.get('/sanctum/csrf-cookie')    
+      await axios.post("/login", credentials)              
+      return dispatch(CHECK_AUTH);
+    }catch(error){
+      commit(SET_ERROR, error.response.data.message)
+    }    
+    
   },
 
-  [CHECK_AUTH]({commit}) {       
-
-    return axios.get('/api/user')
-         .then(({data})=>{                     
-            commit(SET_AUTH, data);             
-         });           
-
-               
+  [CHECK_AUTH]({commit}) { 
+    
+    return axios.get('/api/user').then(({data}) => {    
+        commit(SET_AUTH, data)          
+      }).catch((error) => {    
+        commit(SET_AUTH, null);    
+      })
 
   },
 
   [LOGOUT]({commit}) {
-
-    return new Promise((resolve, reject) => {
-        axios
-          .post('/logout')
-          .then(response => {
-            commit(PURGE_AUTH);
-            resolve(true);
-          })
-          .catch(error => {
-            reject(error);
-          });
-    });
-
+    
+    return axios.post('/logout').then(response => {
+              commit(PURGE_AUTH);                
+            });              
     
   },
 
   [REGISTER](context, credentials) {
-    return new Promise((resolve, reject) => {
-      axios.post("/register", credentials)
-        .then(({ data }) => {          
-          resolve(true);
-        })
-        .catch(({ response }) => {
-          context.commit(SET_ERROR, response.data.errors);
-          reject(response);
-        });
-    });
+    
+    return axios.post("/register", credentials)        
+            .catch(({ response }) => {
+              context.commit(SET_ERROR, response.data.errors);              
+            });
+    
   }
 
 };
@@ -83,14 +72,12 @@ const mutations = {
   },
 
   [SET_AUTH](state, payload) {    
-    state.isAuthenticated = true;        
     state.user = payload.user;
-    JwtService.saveToken("true"); 
+    state.isAuthenticated = Boolean(payload.user);                
   },
   [PURGE_AUTH](state) {    
     state.isAuthenticated = false;    
-    state.user = null; 
-    JwtService.destroyToken();
+    state.user = null;     
   }
 
 };

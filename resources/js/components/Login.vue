@@ -64,14 +64,19 @@
 
                                  <div class="form-group row mt-0">
                                     <div class="col-md-12 text-center">
-                                        <button type="submit" class="btn btn-primary" :disabled="loading">
+                                        <button 
+                                            type="submit" 
+                                            class="btn btn-primary" 
+                                            :disabled="loading">
                                             Log In
                                         </button>                  
                                     </div>
                                 </div>
 
-                                <div class="form-group row mt-0" v-if="feedback">
-                                    <div class="text-danger text-center" v-text="feedback"></div>
+                                <div 
+                                    class="form-group row mt-0 text-danger text-center" 
+                                    v-if="errors" 
+                                    v-text="errors">                                    
                                 </div>
                             </form>
                         </div>
@@ -93,32 +98,31 @@
 </template>
 <script>
 
+import {mapGetters} from 'vuex';
 import {LOGIN} from '../store/actions.type.js';
 
 export default {
     name: 'Login',
     data() {
         return {
-            form: { email: "", password: "", remember: false },
-            feedback: "",
+            form: { email: "", password: "", remember: false },            
             loading: false
         };
     },
 
+    computed:{
+        ...mapGetters(['errors'])                
+    },
+
     methods: {
-        onSubmit() {
+        async onSubmit() {
+
             this.loading = true;
+            
+            await this.$store.dispatch(LOGIN, this.form);                   
+            this.$router.push('/');                                                       
 
-            this.$store
-                .dispatch(LOGIN, this.form)
-                .then(response => {
-                    this.$router.push('/');                                       
-                })
-                .catch(error=>{                    
-                    this.feedback = error.response.data.message;
-                    this.loading = false;
-                });
-
+            this.loading = false;
         
         }
     }
