@@ -11,29 +11,17 @@ Vue.use(VModal);
 Vue.component('upload-button', require('./components/UploadButton.vue').default);
 Vue.component('more-options-modal', require('./components/MoreOptionsModal.vue').default);
 
-store.dispatch(CHECK_AUTH);
+const VueInstance = ()=>{
+  new Vue({
+            el: '#app',
+            store ,
+            router
+        });
+}
 
-new Vue({
-	    el: '#app',
-	    router,
-	    store
-	});
-
-/*store.dispatch(CHECK_AUTH).then(()=>{
-
-	new Vue({
-	    el: '#app',
-	    router,
-	    store
-	});
-
+store.dispatch('checkAuth').then(()=>{
+    VueInstance();
 }).catch(()=>{
-
-	new Vue({
-	    el: '#app',
-	    router,
-	    store
-	});
-
-});*/
+    VueInstance();
+});
 
