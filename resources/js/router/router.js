@@ -1,12 +1,14 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import PostsList from '../components/PostsList';
-import Login from '../components/Login';
-import Register from '../components/Register';
-import PostsEdit from '../components/PostsEdit';
-import PostsAddNew from '../components/PostsAddNew';
-import CommentsList from '../components/CommentsList';
-import Main from '../components/Main';
+
+import App from '../components/App';
+import Home from '../pages/Home';
+import Login from '../pages/Login';
+import Register from '../pages/Register';
+import PostsEdit from '../pages/Posts/Edit';
+import PostsAddNew from '../pages/Posts/New';
+import CommentsList from '../pages/Comments';
+
 import store from '../store';
 import guest from './middleware/guest';
 import auth from './middleware/auth';
@@ -17,8 +19,8 @@ const router = new VueRouter({
   mode: 'history',
   routes: [
   	{ path: '/',   		      
-      component: Main,
-      name: "main",      
+      component: App,
+      name: "app",      
       meta: {
               middleware: [ auth ]
       },            
@@ -27,7 +29,7 @@ const router = new VueRouter({
         {
           path: "",
           name: "home",
-          component: PostsList          
+          component: Home          
         },
 
         { 
