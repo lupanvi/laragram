@@ -231,3 +231,13 @@ footer{
     }
 
 }
+
+.form-group .error{
+    display: none;    
+}
+
+.form-group--error .error{
+    font-size: 0.7rem;
+    display: block;
+
+}
