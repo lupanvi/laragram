@@ -2,7 +2,7 @@
 
 ### A web app like Instagram with Vuejs, Vuex, Vue-router, Bootstrap and Laravel Sanctum
 
-# There is also a frontend version [Laragram Frontend](https://github.com/lupanvi/laragram-frontend-vue-tailwind)
+* There is also a frontend version [Laragram Frontend](https://github.com/lupanvi/laragram-frontend-vue-tailwind)
 * It was built with Vue-cli and Tailwind
 
 ![alt text](docs/laragram1.jpg)
