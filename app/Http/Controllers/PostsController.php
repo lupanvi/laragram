@@ -15,7 +15,7 @@ class PostsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:sanctum');
+       
     }
 
     /**
@@ -38,15 +38,16 @@ class PostsController extends Controller
     *     
     * @return mixed
     */
-    public function store(){        
+    public function store(){
+        
 
     	request()->validate([
             'image_path' => ['required', 'image']
-        ]); 
+        ]);    
 
         $post = Post::create([
             'user_id' => auth()->id(),
-            'image_path' => request()->file('image_path')->store('posts', 'public'),  
+            'image_path' => request()->file('image_path')->store('posts', 'public'),
             'description' => request('description'),
             'filter' => request('filter')
         ])->load('user');    
@@ -97,10 +98,8 @@ class PostsController extends Controller
     */
     public function show(Post $post){        
 
-        if (request()->expectsJson()) {  
-                     
-             return $post->load('user');
-             
+        if (request()->expectsJson()) {                       
+             return $post->load('user');             
         }
 
     }
