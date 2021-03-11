@@ -15,8 +15,8 @@
         "jamesmills/laravel-timezone": "^1.9",
         "laravel/framework": "^7.0",
         "laravel/sanctum": "^2.6",
-        "laravel/tinker": "^2.4.2",
-        "laravel/ui": "^2.4"
+        "laravel/tinker": "^2.4.2",        
+        "laravel/ui": "^2.4"        
     },
     "require-dev": {        
         "beyondcode/laravel-dump-server": "^1.5",
