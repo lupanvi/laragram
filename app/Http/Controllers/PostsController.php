@@ -15,7 +15,7 @@ class PostsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:sanctum');
+       
     }
 
     /**
@@ -42,11 +42,11 @@ class PostsController extends Controller
 
     	request()->validate([
             'image_path' => ['required', 'image']
-        ]); 
+        ]);    
 
         $post = Post::create([
             'user_id' => auth()->id(),
-            'image_path' => request()->file('image_path')->store('posts', 'public'),  
+            'image_path' => request()->file('image_path')->store('posts', 'public'),
             'description' => request('description'),
             'filter' => request('filter')
         ])->load('user');    

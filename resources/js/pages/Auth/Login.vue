@@ -128,7 +128,7 @@ export default {
                       
             try{
                 await this.$store.dispatch(LOGIN, this.form)                   
-                this.$router.push('/')
+                this.$router.push({name:'home'})
             }catch(error){
                 this.loading = false
                 this.feedback = error.response.data.message

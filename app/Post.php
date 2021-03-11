@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use App\Comment;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class Post extends Model
 {    
@@ -37,8 +39,7 @@ class Post extends Model
      */
 
     public function getImagePathAttribute($image)
-    {        
-
+    {                
         return (strpos($image, 'picsum') ? $image : asset('storage/'.$image) );
     }
 
@@ -127,6 +128,18 @@ class Post extends Model
         if ($this->likes()->where($attributes)->exists()) {            
             return $this->likes()->detach(auth()->id());
         }
+    }
+
+    /**
+     * Convert the created_at attribute and convert it to user's correct one .
+     *
+     * @return string
+     */
+    public function getCreatedAtAttribute($value)
+    {        
+        
+        $date = $this->asDateTime($value);
+        return \Timezone::convertFromLocal($date);        
     }        
 
 }

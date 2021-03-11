@@ -12,10 +12,11 @@
         "facade/ignition": "^2.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
+        "jamesmills/laravel-timezone": "^1.9",
         "laravel/framework": "^7.0",
         "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.4.2",
-        "laravel/ui": "^2.4"
+        "laravel/ui": "^2.4"        
     },
     "require-dev": {        
         "beyondcode/laravel-dump-server": "^1.5",
